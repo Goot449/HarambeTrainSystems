@@ -1,10 +1,9 @@
+import java.util.*;
 import javax.swing.*;
-import javax.swing.text.DefaultFormatter;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.DecimalFormat;
 
 
@@ -22,18 +21,26 @@ public class TrainModel {
     private JSpinner spinner1;
     private JLabel feedbackSpeed;
     private JLabel acceleration;
+    private JLabel leftDoors;
+    private JLabel rightDoors;
+    private JLabel lights;
+    private JLabel temperature;
+    private JLabel maxAcceleration;
+    private JLabel maxDeceleration;
+    private JLabel speedLimit;
+    private JLabel commandSpeed;
+    private List<Train> trains;
     private Train train;
 
     public TrainModel() {
-        Timer timer = new Timer((int) (1), e -> {
-            updateProperties();
-        });
-        timer.setRepeats(true);
-        timer.start();
-
-        train = new Train(500);
+        trains = new LinkedList<>();
+        train = new Train(1, 1);
+        trains.add(train);
         emergencyBrake.addActionListener(e -> {
-            System.out.println(train.getFeedbackVelocity());
+            train.engageEmergencyBrakes(!train.getEmergencyBreakStatus());
+        });
+        serviceBreakButton.addActionListener(e -> {
+            train.engageServiceBrakes(!train.getServiceBreakStatus());
         });
         setPowerButton.addActionListener(new ActionListener() {
             @Override
@@ -41,19 +48,28 @@ public class TrainModel {
                 train.setPower((double) spinner1.getValue() * 1000);
             }
         });
+        Timer timer = new Timer((int) (1), e -> {
+            updateProperties();
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
 
     public void updateProperties() {
         DecimalFormat outputFormat = new DecimalFormat("#.00");
         feedbackSpeed.setText(outputFormat.format(train.getFeedbackVelocity()) + " mph");
         acceleration.setText(outputFormat.format(train.getAcceleration()) + " ft/s²");
+        leftDoors.setText(train.leftDoorsAreOpen() ? "Open" : "Closed");
+        rightDoors.setText(train.rightDoorsAreOpen() ? "Open" : "Closed");
+        lights.setText(train.lightsAreOn() ? "On" : "Off");
+        //temperature.setText(outputFormat.format(train.getTemperature()) + "° F");
     }
 
     public static void main(String[] args) throws Exception {
 
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         JFrame frame = new JFrame("TrainModel");
-            frame.setContentPane(new TrainModel().panel1);
+        frame.setContentPane(new TrainModel().panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

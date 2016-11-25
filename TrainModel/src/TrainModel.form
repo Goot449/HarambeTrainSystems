@@ -28,7 +28,7 @@
               <html.disable class="java.lang.Boolean" value="false"/>
             </clientProperties>
           </component>
-          <component id="9994a" class="javax.swing.JLabel">
+          <component id="9994a" class="javax.swing.JLabel" binding="leftDoors">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -46,7 +46,7 @@
               <text value="Right Doors"/>
             </properties>
           </component>
-          <component id="59f27" class="javax.swing.JLabel">
+          <component id="59f27" class="javax.swing.JLabel" binding="rightDoors">
             <constraints>
               <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -64,7 +64,7 @@
               <text value="Lights"/>
             </properties>
           </component>
-          <component id="d4caa" class="javax.swing.JLabel">
+          <component id="d4caa" class="javax.swing.JLabel" binding="lights">
             <constraints>
               <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -82,7 +82,7 @@
               <text value="Temperature"/>
             </properties>
           </component>
-          <component id="881ed" class="javax.swing.JLabel">
+          <component id="881ed" class="javax.swing.JLabel" binding="temperature">
             <constraints>
               <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -123,7 +123,7 @@
               <text value="Speed Limit"/>
             </properties>
           </component>
-          <component id="eb6ff" class="javax.swing.JLabel">
+          <component id="eb6ff" class="javax.swing.JLabel" binding="maxAcceleration">
             <constraints>
               <grid row="1" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -132,7 +132,7 @@
               <text value="12.3 ft/s²"/>
             </properties>
           </component>
-          <component id="a5ccc" class="javax.swing.JLabel">
+          <component id="a5ccc" class="javax.swing.JLabel" binding="speedLimit">
             <constraints>
               <grid row="3" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -182,7 +182,7 @@
               <text value="14.1 ft/s²"/>
             </properties>
           </component>
-          <component id="2a37c" class="javax.swing.JLabel">
+          <component id="2a37c" class="javax.swing.JLabel" binding="maxDeceleration">
             <constraints>
               <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -191,7 +191,7 @@
               <text value="14.1 ft/s²"/>
             </properties>
           </component>
-          <component id="c527c" class="javax.swing.JLabel">
+          <component id="c527c" class="javax.swing.JLabel" binding="commandSpeed">
             <constraints>
               <grid row="1" column="7" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
