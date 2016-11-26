@@ -64,9 +64,9 @@ public class Crossing {
     public String toString(){
         
         if(currentLineDown.equals("green")){
-            return "green" + "  " + greenLineBlock.getSelection() + "   " + greenLineBlock.getBlockNumber();
+            return "green" + "  " + greenLineBlock.getSection() + "   " + greenLineBlock.getBlockNumber();
         } else{
-            return "red" + "  " + redLineBlock.getSelection() + "   " + rednLineBlock.getBlockNumber();
+            return "red" + "  " + redLineBlock.getSection() + "   " + redLineBlock.getBlockNumber();
         }
     }
     

@@ -28,7 +28,7 @@ public interface BlockInterface {
     public double getFrictionCoefficient();
     
     //T working; F broken
-    public boolean isBlockWorking();
+    //public boolean isBlockWorking();
     
     //T if one of the following infrastructures; F if not
     public boolean isCrossing();

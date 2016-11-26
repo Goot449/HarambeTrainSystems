@@ -49,9 +49,8 @@ public interface TrackInterface {
     public void updateDistance(int TrainID, double distance);
     
     //---------------------OUT---------------------
-    //Retreives the block object for the given block or trainID
-    public BlockInterface getBlock(int blockNumber, String line);
-    public BlockInterface getBlock(int TrainID);
+    //Retreives the block object for the given block
+    //public BlockInterface getBlock(int TrainID);
     
     //---------------------GENERAL USAGE---------------------
     public void displayTrack();
