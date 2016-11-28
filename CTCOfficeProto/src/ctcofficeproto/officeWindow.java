@@ -8,8 +8,11 @@ package ctcofficeproto;
 import My.TrackModel.Track;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.AbstractButton;
+import javax.swing.JRadioButton;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -34,7 +37,8 @@ public class officeWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup3 = new javax.swing.ButtonGroup();
+        manualButtonGroup = new javax.swing.ButtonGroup();
+        DispatchLineButtonGroup = new javax.swing.ButtonGroup();
         officeTabbedPane = new javax.swing.JTabbedPane();
         officejPanel = new javax.swing.JPanel();
         controlsPanel = new javax.swing.JPanel();
@@ -61,6 +65,8 @@ public class officeWindow extends javax.swing.JFrame {
         dispatchBlockLabel = new javax.swing.JLabel();
         dispatchBlockInput = new javax.swing.JTextField();
         speedLimitInput = new javax.swing.JTextField();
+        dispatchGreenLine = new javax.swing.JRadioButton();
+        dispatchRedLine = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -71,7 +77,7 @@ public class officeWindow extends javax.swing.JFrame {
 
         manualModeLabel.setText("Manual Mode");
 
-        buttonGroup3.add(manualOnButton);
+        manualButtonGroup.add(manualOnButton);
         manualOnButton.setSelected(true);
         manualOnButton.setText("On");
         manualOnButton.addActionListener(new java.awt.event.ActionListener() {
@@ -80,7 +86,7 @@ public class officeWindow extends javax.swing.JFrame {
             }
         });
 
-        buttonGroup3.add(manualOffButton);
+        manualButtonGroup.add(manualOffButton);
         manualOffButton.setText("Off");
         manualOffButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -196,7 +202,7 @@ public class officeWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Train ID", "Line", "Destination", "Speed Limit"
+                "Line", "Destination", "Speed Limit"
             }
         ));
         trainTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -226,11 +232,11 @@ public class officeWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Block ID", "Block Number", "Line", "Speed Limit", "Infrastrucure", "Occupied", "Track Status"
+                "Block Number", "Line", "Speed Limit", "Infrastrucure", "Occupied", "Track Status"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                true, true, true, true, true, true, false
+                true, true, true, true, true, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -266,13 +272,24 @@ public class officeWindow extends javax.swing.JFrame {
             }
         });
 
-        dispatchBlockLabel.setText("Destination ID");
+        dispatchBlockLabel.setText("Destination Block");
 
         dispatchBlockInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dispatchBlockInputActionPerformed(evt);
             }
         });
+
+        DispatchLineButtonGroup.add(dispatchGreenLine);
+        dispatchGreenLine.setText("Green");
+        dispatchGreenLine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dispatchGreenLineActionPerformed(evt);
+            }
+        });
+
+        DispatchLineButtonGroup.add(dispatchRedLine);
+        dispatchRedLine.setText("Red");
 
         javax.swing.GroupLayout dispatchTrainPanelLayout = new javax.swing.GroupLayout(dispatchTrainPanel);
         dispatchTrainPanel.setLayout(dispatchTrainPanelLayout);
@@ -281,18 +298,25 @@ public class officeWindow extends javax.swing.JFrame {
             .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dispatchTrainPanelLayout.createSequentialGroup()
-                        .addComponent(speedLimitLabel)
-                        .addGap(18, 18, 18))
                     .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
-                        .addComponent(dispatchBlockLabel)
-                        .addGap(8, 8, 8)))
-                .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(dispatchBlockInput, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                    .addComponent(speedLimitInput))
-                .addGap(18, 18, 18)
-                .addComponent(dispatchTrainButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(47, 47, 47))
+                        .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dispatchTrainPanelLayout.createSequentialGroup()
+                                .addComponent(speedLimitLabel)
+                                .addGap(18, 18, 18))
+                            .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
+                                .addComponent(dispatchBlockLabel)
+                                .addGap(8, 8, 8)))
+                        .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(dispatchBlockInput, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                            .addComponent(speedLimitInput))
+                        .addGap(18, 18, 18)
+                        .addComponent(dispatchTrainButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
+                        .addComponent(dispatchGreenLine)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(dispatchRedLine)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         dispatchTrainPanelLayout.setVerticalGroup(
             dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,7 +331,11 @@ public class officeWindow extends javax.swing.JFrame {
                         .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(speedLimitLabel)
                             .addComponent(speedLimitInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(35, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dispatchGreenLine)
+                            .addComponent(dispatchRedLine))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
                         .addComponent(dispatchTrainButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
@@ -393,7 +421,7 @@ public class officeWindow extends javax.swing.JFrame {
             DecimalFormat df = new DecimalFormat("#.##");
             //System.out.print(df.format(d));
             do{
-                model.addRow(new Object[]{trackTester.getBlock(i).getBlockID(), trackTester.getBlock(i).getSection() + trackTester.getBlock(i).getBlockNumber(), trackTester.getBlock(i).getLine(), df.format(trackTester.getBlock(i).getSpeedLimit()), trackTester.getBlock(i).getInfrastrucure(), "No", "Enabled"});    
+                model.addRow(new Object[]{trackTester.getBlock(i).getSection() + trackTester.getBlock(i).getBlockNumber(), trackTester.getBlock(i).getLine(), df.format(trackTester.getBlock(i).getSpeedLimit()), trackTester.getBlock(i).getInfrastrucure(), "No", "Enabled"});    
                 i++;
             } while (trackTester.getBlock(i) != null);
 //            
@@ -406,23 +434,13 @@ public class officeWindow extends javax.swing.JFrame {
         
     }//GEN-LAST:event_loadTrackButtonActionPerformed
 
-    private void dispatchTrainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchTrainButtonActionPerformed
-        // TODO add your handling code here:
-        int destBlock = Integer.parseInt(dispatchBlockInput.getText());
-        int destSpeed = Integer.parseInt(speedLimitInput.getText());
-        //trainTable.setModel(Object[]{"yo", "yo", "yo", "yo");
-            DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
-            model.addRow(new Object[]{"1", "Green", destBlock, destSpeed});
-            dispatchBlockInput.setText("");
-            speedLimitInput.setText("");
-
-    }//GEN-LAST:event_dispatchTrainButtonActionPerformed
-
     private void manualOffButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualOffButtonActionPerformed
         // TODO add your handling code here:
         dispatchBlockInput.setEditable(false);
         speedLimitInput.setEditable(false);
         dispatchTrainButton.setEnabled(false);
+        dispatchGreenLine.setEnabled(false);
+        dispatchRedLine.setEnabled(false);
     }//GEN-LAST:event_manualOffButtonActionPerformed
 
     private void manualOnButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manualOnButtonActionPerformed
@@ -430,11 +448,38 @@ public class officeWindow extends javax.swing.JFrame {
         dispatchBlockInput.setEditable(true);
         speedLimitInput.setEditable(true);
         dispatchTrainButton.setEnabled(true);
+        dispatchGreenLine.setEnabled(true);
+        dispatchRedLine.setEnabled(true);
     }//GEN-LAST:event_manualOnButtonActionPerformed
+
+    private void dispatchGreenLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchGreenLineActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dispatchGreenLineActionPerformed
 
     private void dispatchBlockInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchBlockInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_dispatchBlockInputActionPerformed
+
+    private void dispatchTrainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchTrainButtonActionPerformed
+        // TODO add your handling code here:
+        String destBlock = dispatchBlockInput.getText();
+        int destSpeed = Integer.parseInt(speedLimitInput.getText());
+        String dispatchLine = "";
+        Enumeration<AbstractButton> allRadioButton=DispatchLineButtonGroup.getElements();
+        while(allRadioButton.hasMoreElements())
+        {
+            JRadioButton temp=(JRadioButton)allRadioButton.nextElement();
+            if(temp.isSelected())
+            {
+                dispatchLine = temp.getText();
+            }
+        }
+        DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
+        model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
+        dispatchBlockInput.setText("");
+        speedLimitInput.setText("");
+        DispatchLineButtonGroup.clearSelection();
+    }//GEN-LAST:event_dispatchTrainButtonActionPerformed
    
     /**
      * @param args the command line arguments
@@ -477,19 +522,22 @@ public class officeWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.ButtonGroup DispatchLineButtonGroup;
     public javax.swing.JPanel blockManagerPanel;
     public javax.swing.JScrollPane blockScrollPane5;
     public javax.swing.JTable blockTable;
-    public javax.swing.ButtonGroup buttonGroup3;
     public javax.swing.JLabel clockLabel;
     public javax.swing.JSlider clockSlider;
     public javax.swing.JPanel controlsPanel;
     public javax.swing.JTextField dispatchBlockInput;
     public javax.swing.JLabel dispatchBlockLabel;
+    public javax.swing.JRadioButton dispatchGreenLine;
+    public javax.swing.JRadioButton dispatchRedLine;
     public javax.swing.JButton dispatchTrainButton;
     public javax.swing.JPanel dispatchTrainPanel;
     public javax.swing.JTextField fileInput;
     public javax.swing.JButton loadTrackButton;
+    public javax.swing.ButtonGroup manualButtonGroup;
     public javax.swing.JLabel manualModeLabel;
     public javax.swing.JToggleButton manualOffButton;
     public javax.swing.JToggleButton manualOnButton;

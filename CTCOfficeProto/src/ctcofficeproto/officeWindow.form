@@ -2,7 +2,9 @@
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Component class="javax.swing.ButtonGroup" name="buttonGroup3">
+    <Component class="javax.swing.ButtonGroup" name="manualButtonGroup">
+    </Component>
+    <Component class="javax.swing.ButtonGroup" name="DispatchLineButtonGroup">
     </Component>
   </NonVisualComponents>
   <Properties>
@@ -207,7 +209,7 @@
                 <Component class="javax.swing.JToggleButton" name="manualOnButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="buttonGroup3"/>
+                      <ComponentRef name="manualButtonGroup"/>
                     </Property>
                     <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="On"/>
@@ -219,7 +221,7 @@
                 <Component class="javax.swing.JToggleButton" name="manualOffButton">
                   <Properties>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                      <ComponentRef name="buttonGroup3"/>
+                      <ComponentRef name="manualButtonGroup"/>
                     </Property>
                     <Property name="text" type="java.lang.String" value="Off"/>
                   </Properties>
@@ -392,8 +394,7 @@
                     <Component class="javax.swing.JTable" name="trainTable">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="4" rowCount="0">
-                            <Column editable="true" title="Train ID" type="java.lang.Object"/>
+                          <Table columnCount="3" rowCount="0">
                             <Column editable="true" title="Line" type="java.lang.Object"/>
                             <Column editable="true" title="Destination" type="java.lang.Object"/>
                             <Column editable="true" title="Speed Limit" type="java.lang.Object"/>
@@ -401,11 +402,6 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -474,8 +470,7 @@
                     <Component class="javax.swing.JTable" name="blockTable">
                       <Properties>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="7" rowCount="0">
-                            <Column editable="true" title="Block ID" type="java.lang.Object"/>
+                          <Table columnCount="6" rowCount="0">
                             <Column editable="true" title="Block Number" type="java.lang.Object"/>
                             <Column editable="true" title="Line" type="java.lang.Object"/>
                             <Column editable="true" title="Speed Limit" type="java.lang.Object"/>
@@ -486,11 +481,6 @@
                         </Property>
                         <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
                           <TableColumnModel selectionModel="0">
-                            <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
-                              <Title/>
-                              <Editor/>
-                              <Renderer/>
-                            </Column>
                             <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                               <Title/>
                               <Editor/>
@@ -548,22 +538,32 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="1" attributes="0">
-                                  <Component id="speedLimitLabel" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Group type="102" alignment="1" attributes="0">
+                                          <Component id="speedLimitLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      </Group>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="dispatchBlockLabel" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                      <Component id="dispatchBlockInput" pref="48" max="32767" attributes="0"/>
+                                      <Component id="speedLimitInput" max="32767" attributes="0"/>
+                                  </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="dispatchTrainButton" max="32767" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
-                                  <Component id="dispatchBlockLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                                  <Component id="dispatchGreenLine" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="dispatchRedLine" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                              <Component id="dispatchBlockInput" pref="48" max="32767" attributes="0"/>
-                              <Component id="speedLimitInput" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="dispatchTrainButton" max="32767" attributes="0"/>
-                          <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -582,7 +582,12 @@
                                       <Component id="speedLimitLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="speedLimitInput" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace pref="35" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="dispatchGreenLine" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="dispatchRedLine" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="32767" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="dispatchTrainButton" min="-2" pref="37" max="-2" attributes="0"/>
@@ -609,7 +614,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="dispatchBlockLabel">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Destination ID"/>
+                    <Property name="text" type="java.lang.String" value="Destination Block"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="dispatchBlockInput">
@@ -618,6 +623,25 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="speedLimitInput">
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="dispatchGreenLine">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="DispatchLineButtonGroup"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Green"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="dispatchGreenLineActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="dispatchRedLine">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="DispatchLineButtonGroup"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Red"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

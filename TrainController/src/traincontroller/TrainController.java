@@ -6,6 +6,7 @@
 package traincontroller;
 
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 /**
  *
@@ -17,6 +18,7 @@ public class TrainController {
     private boolean autoModeEnabled = false;
     private boolean startRunning = false;
     private boolean endRunning = false;
+    private double DT = 0.001;
     public vitalCalculator vitalCalc = new vitalCalculator();
     //public Train[] trainList;
     public ArrayList<Train> trainList = new ArrayList<Train>();
@@ -28,6 +30,11 @@ public class TrainController {
 //    }
     
     public TrainController(){
+        Timer timer = new Timer((int) (1000 * DT), e -> {
+            controlTrain();
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
     
     public void controlTrain(){
@@ -48,7 +55,6 @@ public class TrainController {
             double integration = calcOut[2];
             setTrainPower(trainList.get(i), trainStateList.get(i),calcOut[0]);
             setTrainPrevious(trainStateList.get(i), calcOut[1], calcOut[2]);
-            trainList.get(i).step();
         }
     }
     
