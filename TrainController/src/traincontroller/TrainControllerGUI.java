@@ -7,6 +7,7 @@ package traincontroller;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import javax.swing.Timer;
 
 /**
  *
@@ -17,6 +18,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     public ArrayList<Train> trainList = new ArrayList<Train>();
     public ArrayList<TrainState> trainStateList = new ArrayList<TrainState>();
     public int selectedTrain;
+    public double DT=.001;
     
     /**
      * Creates new form GUI
@@ -25,6 +27,11 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         this.trainList = trainList;
         this.trainStateList = trainStateList;
         initComponents(trainList);
+        Timer timer = new Timer((int) (1000 * DT), e -> {
+            refresh();
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
 
     /**
@@ -651,6 +658,15 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
         currentSpeedValueLabel.setText(Integer.toString((int)Math.ceil(currentSpeed)));
         setPowerOut((int)currentPower);
+        if (trainSelectorBox.getItemCount()!=trainList.size()){
+            trainSelectorBox.removeAllItems();
+            String[] trainIDs = new String[trainList.size()];
+            for (int i = 0; i<trainList.size(); i++){
+                Train thisTrain = (Train) trainList.get(i);
+                trainIDs[i] = "Train " + Integer.toString(thisTrain.id);
+            }
+            trainSelectorBox.setModel(new javax.swing.DefaultComboBoxModel(trainIDs));
+        }
     }
     
 

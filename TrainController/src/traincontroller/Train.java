@@ -156,11 +156,11 @@ public class Train {
         this.leftDoorsOpen = false;
         this.rightDoorsOpen = false;
 
-//        Timer timer = new Timer((int) (1000 * DT), e -> {
-//            step();
-//        });
-//        timer.setRepeats(true);
-//        timer.start();
+        Timer timer = new Timer((int) (1000 * DT), e -> {
+            step();
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
 
     /**
