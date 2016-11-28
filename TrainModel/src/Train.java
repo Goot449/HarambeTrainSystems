@@ -1,16 +1,31 @@
 /**
  * Created by Adam Mannheim on 10/11/2016.
+ * Unless otherwise noted, all Units are metric internally and output as Imperial
  */
 import javax.sound.midi.Track;
 import javax.swing.Timer;
 
 public class Train {
 
+    /** TODO
+     * Handle Passengers
+     * Add passengers to UI
+     * Add Train selector to UI
+     * Add number of cars to UI
+     * Finish Setters/Getters
+     * Add test module
+     * Set output to imperial units
+     * Finish outputting all data
+     */
+
     // DELETE AFTER INTEGRATION
     private class Block {
         private Block() {}
         private double getGrade() {
-           return -15;
+            return 0;
+        }
+        private int getSpeedLimit() {
+            return 50;
         }
     }
     private class TrackModel {
@@ -47,6 +62,7 @@ public class Train {
     private static final int MAX_PASSENGERS = 148;
 
     private TrackModel trackModel;
+    private TrainModel trainModel;
 
     private int id;
     private int passengerCount;
@@ -57,7 +73,7 @@ public class Train {
     private double acceleration;
     private double velocity;
     private double position;
-    private double temperature;
+    private double temperature; /* Degrees Fahrenheit */
 
     private boolean leftDoorsOpen;
     private boolean rightDoorsOpen;
@@ -66,6 +82,10 @@ public class Train {
     private boolean serviceBrakesEngaged;
     private boolean emergencyBrakesEngaged;
 
+
+    public int getId() {
+        return id;
+    }
     public boolean leftDoorsAreOpen() {
         return leftDoorsOpen;
     }
@@ -102,9 +122,45 @@ public class Train {
     public boolean getEmergencyBreakStatus() {
         return this.emergencyBrakesEngaged;
     }
+    public double getTemperature() {
+        return temperature;
+    }
+    public void setTemperature(double temperature) {
+        this.temperature = temperature;
+    }
+    public int getCarCount() {
+        return carCount;
+    }
+    public int getSpeedLimit() {
+        return trackModel.getBlock(this.id).getSpeedLimit();
+    }
+    public int getPassengerCount() {
+        return passengerCount;
+    }
+    public int getMaxPassengers() {
+        return MAX_PASSENGERS * carCount;
+    }
+
+    /**
+     * Attempts to add specified number of passengers. This will not increase the number of passengers
+     * over capacity.
+     * @param newPassengers The number of passengers that will attempt to board
+     * @return the actual number of passengers that boarded
+     */
+    public int addPassengers(int newPassengers) {
+        int availableSpace = getMaxPassengers() - newPassengers;
+        int passengersAdded = Math.min(availableSpace, newPassengers);
+        passengerCount += passengersAdded;
+        return passengersAdded;
+    }
 
     public Train() {
         this(0, 0);
+    }
+
+    public Train(int carCount, int id, TrainModel trainModel) {
+        this(carCount, id);
+        this.trainModel = trainModel;
     }
 
     public Train(int carCount, int id) {
@@ -119,6 +175,7 @@ public class Train {
         this.lights = true;
         this.leftDoorsOpen = false;
         this.rightDoorsOpen = false;
+        this.temperature = 70;
 
         Timer timer = new Timer((int) (1000 * DT), e -> {
             step();
@@ -127,19 +184,10 @@ public class Train {
         timer.start();
     }
 
-    /**
-     * Sets the power and updates the force and acceleration accordingly.
-     * If the velocity is less than the minimum, it will be updated.
-     * @param power the input power
-     */
     public void setPower(double power) {
         this.power = power;
     }
 
-    /**
-     * gets the feedback velocity
-     * @return feedback velocity
-     */
     public double getFeedbackVelocity() {
         return velocity;
     }
@@ -150,6 +198,10 @@ public class Train {
 
     public double getMass() {
         return EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON;
+    }
+
+    public String toString() {
+        return "Train " + this.id;
     }
 
     private void step() {
@@ -166,10 +218,12 @@ public class Train {
         }
         force += G * Math.sin(Math.toRadians(grade)) * mass;
         acceleration = force / mass;
-        if(emergencyBrakesEngaged) {
-            acceleration -= EMERGENCY_BRAKE_DECELERATION;
-        } else if(serviceBrakesEngaged) {
-            acceleration -= SERVICE_BRAKE_DECELERATION;
+        if(Math.abs(velocity) > 0) {
+            if(emergencyBrakesEngaged) {
+                acceleration -= EMERGENCY_BRAKE_DECELERATION;
+            } else if(serviceBrakesEngaged) {
+                acceleration -= SERVICE_BRAKE_DECELERATION;
+            }
         }
 
         velocity = velocity + acceleration * DT;
