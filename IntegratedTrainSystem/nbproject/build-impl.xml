@@ -76,7 +76,11 @@ is divided into following sections:
             <and>
                 <isset property="javac.profile"/>
                 <length length="0" string="${javac.profile}" when="greater"/>
+<<<<<<< HEAD
                 <matches pattern="((1\.[89])|9)(\..*)?" string="${javac.source}"/>
+=======
+                <matches pattern="1\.[89](\..*)?" string="${javac.source}"/>
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
             </and>
         </condition>
         <condition property="do.archive">
@@ -183,6 +187,7 @@ is divided into following sections:
         </condition>
         <condition else="" property="javac.profile.cmd.line.arg" value="-profile ${javac.profile}">
             <isset property="profile.available"/>
+<<<<<<< HEAD
         </condition>
         <condition else="false" property="jdkBug6558476">
             <and>
@@ -197,6 +202,8 @@ is divided into following sections:
                 <istrue value="${jdkBug6558476}"/>
                 <istrue value="${javac.external.vm}"/>
             </or>
+=======
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
         </condition>
         <property name="jar.index" value="false"/>
         <property name="jar.index.metainf" value="${jar.index}"/>
@@ -450,7 +457,11 @@ is divided into following sections:
                     </fileset>
                 </union>
                 <taskdef classname="org.testng.TestNGAntTask" classpath="${run.test.classpath}" name="testng"/>
+<<<<<<< HEAD
                 <testng classfilesetref="test.set" failureProperty="tests.failed" listeners="org.testng.reporters.VerboseReporter" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="IntegratedTrainSystem" testname="TestNG tests" workingDir="${work.dir}">
+=======
+                <testng classfilesetref="test.set" failureProperty="tests.failed" jvm="${platform.java}" listeners="org.testng.reporters.VerboseReporter" methods="${testng.methods.arg}" mode="${testng.mode}" outputdir="${build.test.results.dir}" suitename="IntegratedTrainSystem" testname="TestNG tests" workingDir="${work.dir}">
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
                     <xmlfileset dir="${build.test.classes.dir}" includes="@{testincludes}"/>
                     <propertyset>
                         <propertyref prefix="test-sys-prop."/>
@@ -841,7 +852,11 @@ is divided into following sections:
                     </chainedmapper>
                 </pathconvert>
                 <taskdef classname="org.netbeans.modules.java.j2seproject.copylibstask.CopyLibs" classpath="${libs.CopyLibs.classpath}" name="copylibs"/>
+<<<<<<< HEAD
                 <copylibs compress="${jar.compress}" excludeFromCopy="${copylibs.excludes}" index="${jar.index}" indexMetaInf="${jar.index.metainf}" jarfile="${dist.jar}" manifest="@{manifest}" manifestencoding="UTF-8" rebase="${copylibs.rebase}" runtimeclasspath="${run.classpath.without.build.classes.dir}">
+=======
+                <copylibs compress="${jar.compress}" excludeFromCopy="${copylibs.excludes}" index="${jar.index}" indexMetaInf="${jar.index.metainf}" jarfile="${dist.jar}" manifest="@{manifest}" rebase="${copylibs.rebase}" runtimeclasspath="${run.classpath.without.build.classes.dir}">
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
                     <fileset dir="${build.classes.dir}" excludes="${dist.archive.excludes}"/>
                     <manifest>
                         <attribute name="Class-Path" value="${jar.classpath}"/>
@@ -853,7 +868,11 @@ is divided into following sections:
     </target>
     <target name="-init-presetdef-jar">
         <presetdef name="jar" uri="http://www.netbeans.org/ns/j2se-project/1">
+<<<<<<< HEAD
             <jar compress="${jar.compress}" index="${jar.index}" jarfile="${dist.jar}" manifestencoding="UTF-8">
+=======
+            <jar compress="${jar.compress}" index="${jar.index}" jarfile="${dist.jar}">
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
                 <j2seproject1:fileset dir="${build.classes.dir}" excludes="${dist.archive.excludes}"/>
             </jar>
         </presetdef>
@@ -979,12 +998,20 @@ is divided into following sections:
         <copy encoding="${manifest.encoding}" file="${manifest.file}" outputencoding="UTF-8" tofile="${tmp.manifest.file}"/>
     </target>
     <target depends="init,-do-jar-create-manifest,-do-jar-copy-manifest" if="do.archive+main.class.available" name="-do-jar-set-mainclass">
+<<<<<<< HEAD
         <manifest encoding="UTF-8" file="${tmp.manifest.file}" mode="update">
+=======
+        <manifest file="${tmp.manifest.file}" mode="update">
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
             <attribute name="Main-Class" value="${main.class}"/>
         </manifest>
     </target>
     <target depends="init,-do-jar-create-manifest,-do-jar-copy-manifest" if="do.archive+profile.available" name="-do-jar-set-profile">
+<<<<<<< HEAD
         <manifest encoding="UTF-8" file="${tmp.manifest.file}" mode="update">
+=======
+        <manifest file="${tmp.manifest.file}" mode="update">
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
             <attribute name="Profile" value="${javac.profile}"/>
         </manifest>
     </target>
@@ -1018,6 +1045,25 @@ is divided into following sections:
         </condition>
         <echo level="${jar.usage.level}" message="${jar.usage.message}"/>
     </target>
+<<<<<<< HEAD
+=======
+    <target depends="init,compile,-pre-pre-jar,-pre-jar,-do-jar-create-manifest,-do-jar-copy-manifest,-do-jar-set-mainclass,-do-jar-set-profile,-do-jar-set-splashscreen" if="do.archive" name="-do-jar-jar" unless="do.mkdist">
+        <j2seproject1:jar manifest="${tmp.manifest.file}"/>
+        <property location="${build.classes.dir}" name="build.classes.dir.resolved"/>
+        <property location="${dist.jar}" name="dist.jar.resolved"/>
+        <pathconvert property="run.classpath.with.dist.jar">
+            <path path="${run.classpath}"/>
+            <map from="${build.classes.dir.resolved}" to="${dist.jar.resolved}"/>
+        </pathconvert>
+        <condition else="" property="jar.usage.message" value="To run this application from the command line without Ant, try:${line.separator}${platform.java} -cp ${run.classpath.with.dist.jar} ${main.class}">
+            <isset property="main.class.available"/>
+        </condition>
+        <condition else="debug" property="jar.usage.level" value="info">
+            <isset property="main.class.available"/>
+        </condition>
+        <echo level="${jar.usage.level}" message="${jar.usage.message}"/>
+    </target>
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
     <target depends="-do-jar-copylibs" if="do.archive" name="-do-jar-delete-manifest">
         <delete>
             <fileset file="${tmp.manifest.file}"/>
@@ -1209,10 +1255,20 @@ is divided into following sections:
                 </not>
             </and>
         </condition>
+<<<<<<< HEAD
         <condition else="" property="bug5101868workaround" value="*.java">
             <matches pattern="1\.[56](\..*)?" string="${java.version}"/>
         </condition>
         <javadoc additionalparam="-J-Dfile.encoding=${file.encoding} ${javadoc.additionalparam}" author="${javadoc.author}" charset="UTF-8" destdir="${dist.javadoc.dir}" docencoding="UTF-8" encoding="${javadoc.encoding.used}" failonerror="true" noindex="${javadoc.noindex}" nonavbar="${javadoc.nonavbar}" notree="${javadoc.notree}" private="${javadoc.private}" source="${javac.source}" splitindex="${javadoc.splitindex}" use="${javadoc.use}" useexternalfile="true" version="${javadoc.version}" windowtitle="${javadoc.windowtitle}">
+=======
+        <exec executable="${platform.java}" failonerror="false" outputproperty="platform.version.output">
+            <arg value="-version"/>
+        </exec>
+        <condition else="" property="bug5101868workaround" value="*.java">
+            <matches multiline="true" pattern="1\.[56](\..*)?" string="${platform.version.output}"/>
+        </condition>
+        <javadoc additionalparam="-J-Dfile.encoding=${file.encoding} ${javadoc.additionalparam}" author="${javadoc.author}" charset="UTF-8" destdir="${dist.javadoc.dir}" docencoding="UTF-8" encoding="${javadoc.encoding.used}" executable="${platform.javadoc}" failonerror="true" noindex="${javadoc.noindex}" nonavbar="${javadoc.nonavbar}" notree="${javadoc.notree}" private="${javadoc.private}" source="${javac.source}" splitindex="${javadoc.splitindex}" use="${javadoc.use}" useexternalfile="true" version="${javadoc.version}" windowtitle="${javadoc.windowtitle}">
+>>>>>>> c56bfc2e421e0a11e65af3b616d878f059d9d58f
             <classpath>
                 <path path="${javac.classpath}"/>
             </classpath>
