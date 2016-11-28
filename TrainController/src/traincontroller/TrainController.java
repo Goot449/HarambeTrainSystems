@@ -16,18 +16,11 @@ public class TrainController {
 
     private boolean testModeEnabled = true;
     private boolean autoModeEnabled = false;
-    private boolean startRunning = false;
-    private boolean endRunning = false;
     private double DT = 0.001;
     public vitalCalculator vitalCalc = new vitalCalculator();
     //public Train[] trainList;
     public ArrayList<Train> trainList = new ArrayList<Train>();
     public ArrayList<TrainState> trainStateList = new ArrayList<TrainState>();
-    
-    
-//    public static void main(String[] args) {
-//        new TrainController();
-//    }
     
     public TrainController(){
         Timer timer = new Timer((int) (1000 * DT), e -> {
@@ -58,15 +51,6 @@ public class TrainController {
         }
     }
     
-    public void setEndRunning(boolean endRunning) {
-        this.endRunning = endRunning;
-    }
-
-    public void setStartRunning(boolean startRunning) {
-        this.startRunning = startRunning;
-    }
-    
-    //Need to use this prior to running controller
     public void addTrain(Train newTrain){
         trainList.add(newTrain);
         TrainState trainState = new TrainState(newTrain);
