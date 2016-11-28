@@ -6,7 +6,8 @@
 package com.harambe.traincontroller;
 
 import java.util.ArrayList;
-import com.harambe.trainmodel.*;
+import com.harambe.trainmodel.Train;
+import javax.swing.Timer;
 
 /**
  *
@@ -16,19 +17,18 @@ public class TrainController {
 
     private boolean testModeEnabled = true;
     private boolean autoModeEnabled = false;
-    private boolean startRunning = false;
-    private boolean endRunning = false;
+    private double DT = 0.001;
     public vitalCalculator vitalCalc = new vitalCalculator();
     //public Train[] trainList;
     public ArrayList<Train> trainList = new ArrayList<Train>();
     public ArrayList<TrainState> trainStateList = new ArrayList<TrainState>();
     
-    
-//    public static void main(String[] args) {
-//        new TrainController();
-//    }
-    
     public TrainController(){
+        Timer timer = new Timer((int) (1000 * DT), e -> {
+            controlTrain();
+        });
+        timer.setRepeats(true);
+        timer.start();
     }
     
     public void controlTrain(){
@@ -49,19 +49,9 @@ public class TrainController {
             double integration = calcOut[2];
             setTrainPower(trainList.get(i), trainStateList.get(i),calcOut[0]);
             setTrainPrevious(trainStateList.get(i), calcOut[1], calcOut[2]);
-            trainList.get(i).step();
         }
     }
     
-    public void setEndRunning(boolean endRunning) {
-        this.endRunning = endRunning;
-    }
-
-    public void setStartRunning(boolean startRunning) {
-        this.startRunning = startRunning;
-    }
-    
-    //Need to use this prior to running controller
     public void addTrain(Train newTrain){
         trainList.add(newTrain);
         TrainState trainState = new TrainState(newTrain);
@@ -71,7 +61,7 @@ public class TrainController {
     public double[] getTrainInfo(Train train){
         double[] trainInfo = new double[3];
         trainInfo[0] = train.getFeedbackVelocity();
-        trainInfo[1] = train.getAuthority();
+        trainInfo[1] = 0; //train.getAuthority();
         trainInfo[2] = train.getSpeedLimit();
         
         return trainInfo;

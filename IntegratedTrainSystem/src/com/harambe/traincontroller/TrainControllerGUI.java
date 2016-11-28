@@ -7,7 +7,7 @@ package com.harambe.traincontroller;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import com.harambe.trainmodel.*;
+import com.harambe.trainmodel.Train;
 
 /**
  *
@@ -153,7 +153,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         String[] trainIDs = new String[trainList.size()];
         for (int i = 0; i<trainList.size(); i++){
             Train thisTrain = (Train) trainList.get(i);
-            trainIDs[i] = "Train " + Integer.toString(thisTrain.id);
+            trainIDs[i] = "Train " + Integer.toString(thisTrain.getId());
         }
         trainSelectorBox.setModel(new javax.swing.DefaultComboBoxModel(trainIDs));
         trainSelectorBox.addActionListener(new java.awt.event.ActionListener() {

@@ -6,7 +6,7 @@
 package com.harambe.traincontroller;
 
 
-import com.harambe.trainmodel.*;
+import com.harambe.trainmodel.Train;
 
 /**
  *
@@ -36,16 +36,16 @@ public class TrainState {
     private boolean serviceBrakeStatus;
     
     public TrainState(Train newTrain){
-        this.setTrainID(newTrain.id);
+        this.setTrainID(newTrain.getId());
         this.setLightsOn(newTrain.lightsAreOn());
         this.setLeftDoorsOpen(newTrain.leftDoorsAreOpen());
         this.setRightDoorsOpen(newTrain.rightDoorsAreOpen());
         //have adam change break to brake
-        this.setEmergencyBrakeStatus(newTrain.getEmegencyBrakeStatus());
-        this.setServiceBrakeStatus(newTrain.getServiceBrakeStatus());
+        this.setEmergencyBrakeStatus(newTrain.getEmergencyBreakStatus());
+        this.setServiceBrakeStatus(newTrain.getServiceBreakStatus());
         
         //have adam add a method to change cabin temp
-        this.setCabinTemp(newTrain.getCabinTemperature());
+        this.setCabinTemp((int)newTrain.getTemperature());
         this.setEngineFunctioning(true);
         this.setPreviousError(0);
         this.setPreviousIntegration(0);
