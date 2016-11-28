@@ -62,7 +62,7 @@ public class Train {
     private static final int MAX_PASSENGERS = 148;
 
     private TrackModel trackModel;
-    private TrainModel trainModel;
+    private OldTrainModel trainModel;
 
     private int id;
     private int passengerCount;
@@ -158,7 +158,7 @@ public class Train {
         this(0, 0);
     }
 
-    public Train(int carCount, int id, TrainModel trainModel) {
+    public Train(int carCount, int id, OldTrainModel trainModel) {
         this(carCount, id);
         this.trainModel = trainModel;
     }

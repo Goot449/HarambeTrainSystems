@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="TrainModel">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/TrainModel_jar/TrainModel.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
