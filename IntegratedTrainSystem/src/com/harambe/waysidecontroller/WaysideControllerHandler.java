@@ -3,6 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+package com.harambe.waysidecontroller;
+
 //import com.sun.xml.internal.ws.wsdl.writer.document.Message;
 import java.util.*;
 
