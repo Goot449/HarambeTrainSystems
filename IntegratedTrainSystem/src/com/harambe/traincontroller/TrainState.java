@@ -5,6 +5,9 @@
  */
 package com.harambe.traincontroller;
 
+
+import com.harambe.trainmodel.*;
+
 /**
  *
  * @author Alex

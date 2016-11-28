@@ -7,6 +7,7 @@ package com.harambe.traincontroller;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import com.harambe.trainmodel.*;
 
 /**
  *
