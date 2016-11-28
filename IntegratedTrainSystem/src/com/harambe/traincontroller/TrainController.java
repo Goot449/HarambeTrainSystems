@@ -1,25 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.harambe.traincontroller;
 
 import java.util.ArrayList;
 import com.harambe.trainmodel.Train;
 import javax.swing.Timer;
 
-/**
- *
- * @author Alex
- */
 public class TrainController {
 
     private boolean testModeEnabled = true;
     private boolean autoModeEnabled = false;
     private double DT = 0.001;
     public vitalCalculator vitalCalc = new vitalCalculator();
-    //public Train[] trainList;
     public ArrayList<Train> trainList = new ArrayList<Train>();
     public ArrayList<TrainState> trainStateList = new ArrayList<TrainState>();
     
