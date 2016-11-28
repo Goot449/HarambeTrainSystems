@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package my.waysidecontrol;
+
 
 import java.util.ArrayList;
 import java.util.*;
@@ -17,50 +17,49 @@ public class WaysideController {
     String username = "admin";
     String password = "admin";
     public HashMap<Integer,Block>  blocks;
-    public HashMap<Integer,SwitchBlock> switches;
-    public HashMap<Integer,Block> crossings;
+    public HashMap<Integer,Switch> switches;
+    public Block crossings;
     //TrackModel tm;
-    PLC plc;
+    PLCClass plc;
     
-    public WaysideController(){
-        id = new String();
-        switches = new HashMap<Integer, SwitchBlock>();
-        blocks = new HashMap<Integer, Block>();
-        crossings = new HashMap<Integer, Block>();
-        plc = null;
-    }
-    
-    public void init(String id, HashMap<Integer, Block> startBlocks, HashMap<Integer, SwitchBlock> startSwitches){
+    public WaysideController(String id){
         this.id = id;
-        blocks = startBlocks;
-        switches = startSwitches;
-        crossings = new HashMap<Integer, Block>();
-        
-        for(Block b: startBlocks.values()){
-            if(b.isCrossing){
-                crossings.put(b.blockNumber, b);
-            }
-        }
+        switches = new HashMap<Integer, Switch>();
+        blocks = new HashMap<Integer, Block>();
+        crossings = null;
+        plc = null;
+        //plc = new PLCClass("default.plc");
     }
     
     public void setPLC(String plcString){
-        if(plcString.equals("OneWayPLC")){
-            plc = new OneWayPLC();
-        } 
-        else if(plcString.equals("TwoWayPLC")){
-            plc = new TwoWayPLC();
+        plc = new PLCClass(plcString);
+    }
+    
+    public boolean changeSwitch(Switch sb){
+        Block block1 = sb.getswitchedBlockBlock();
+        Block block2 = sb.getunSwitchedBlockBlock();
+        if(plc.checkSwitch(block1, block2, sb.getSwitchBlock())){
+            return true;
+        }
+        else {
+            return false;
         }
     }
     
-    public boolean changeSwitch(SwitchBlock sb){
-        return plc.changeSwitch(sb);
+    public Switch isSwitchOption(Block b){
+        for(Switch s : switches.values()){
+            if(s.getswitchedBlockBlock().equals(b) || s.getunSwitchedBlockBlock().equals(b)){
+                return s;
+            }
+        }
+        return null;
     }
     
     public boolean toggleSwitchLight(){
         return true;
     }
     
-    public SwitchBlock getSwitch(int sbNum){
+    public Switch getSwitch(int sbNum){
         if(switches.containsKey(sbNum)){
             return switches.get(sbNum);
         }
@@ -81,5 +80,33 @@ public class WaysideController {
             return blocks.get(blockNum);
         }
         return null;
+    }
+    
+    public void addBlock(Block b){
+        blocks.put(b.getBlockNumber(), b);
+    }
+    
+    public void addSwitch(Switch s){
+        switches.put(Integer.parseInt(s.getSwitchNumber()), s);
+    }
+    
+    public void toggleCrossing(){
+        //If the crossing should be closed/down/red
+        if(plc.checkCrossing(crossings))
+        {
+            if(!crossings.getCrossing().getCrossingState(crossings.getLine())){
+                crossings.getCrossing().toggleCrossing();
+            }
+        }
+        //Crossing should be open/green/up
+        else{
+            if(crossings.getCrossing().getCrossingState(crossings.getLine())){
+                crossings.getCrossing().toggleCrossing();
+            }
+        }
+    }
+    
+    public String toString(){
+        return id;
     }
 }
