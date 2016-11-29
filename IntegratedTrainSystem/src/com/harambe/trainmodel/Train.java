@@ -4,9 +4,12 @@ package com.harambe.trainmodel;
  * Unless otherwise noted, all Units are metric internally and output as Imperial
  */
 import javax.swing.Timer;
+import com.harambe.trackmodel.Track;
+import com.harambe.trackmodel.Block;
 
 public class Train {
-
+    
+    public static boolean USE_TRACK_MODEL = false;
     /** TODO
      * Handle Passengers
      * Add passengers to UI
@@ -19,7 +22,7 @@ public class Train {
      */
 
     // DELETE AFTER INTEGRATION
-    private class Block {
+    /**private class Block {
         private Block() {}
         private double getGrade() {
             return 0;
@@ -33,7 +36,7 @@ public class Train {
         private Block getBlock(int id) {
             return new Block();
         }
-    }
+    }**/
 
     /**
     private static final double SEC_PER_HOUR = 3600;
@@ -51,7 +54,8 @@ public class Train {
     // conversion factors
     private static final double TONS_TO_KG = 907.185;
     private static final double KM_PER_H_TO_M_PER_S = 1/3.6;
-
+    private static final double MPS_TO_MPH = 2.23694;
+    private static final double M_TO_FT = 3.2808399;
 
     // train data
     private static final double SERVICE_BRAKE_DECELERATION = 1.2;
@@ -61,8 +65,8 @@ public class Train {
     private static final double EMPTY_CAR_MASS = 40.9 * TONS_TO_KG;
     private static final int MAX_PASSENGERS = 148;
 
-    private TrackModel trackModel;
-    private OldTrainModel trainModel;
+    private Track track;
+    private TrainModel trainModel;
 
     private int id;
     private int passengerCount;
@@ -132,7 +136,7 @@ public class Train {
         return carCount;
     }
     public int getSpeedLimit() {
-        return trackModel.getBlock(this.id).getSpeedLimit();
+        return USE_TRACK_MODEL ? track.getBlock(this.id).getSpeedLimit() : 15;
     }
     public int getPassengerCount() {
         return passengerCount;
@@ -154,17 +158,17 @@ public class Train {
         return passengersAdded;
     }
 
-    public Train() {
+    public Train() throws Exception {
         this(0, 0);
     }
 
-    public Train(int carCount, int id, OldTrainModel trainModel) {
+    public Train(int carCount, int id, TrainModel trainModel) throws Exception {
         this(carCount, id);
         this.trainModel = trainModel;
     }
 
-    public Train(int carCount, int id) {
-        this.trackModel = new TrackModel();
+    public Train(int carCount, int id) throws Exception{
+        this.track = USE_TRACK_MODEL ? new Track() : null;
         this.carCount = carCount;
         this.id = id;
         this.power = 0;
@@ -188,11 +192,11 @@ public class Train {
     }
 
     public double getFeedbackVelocity() {
-        return velocity;
+        return velocity * MPS_TO_MPH;
     }
 
     public double getAcceleration() {
-        return acceleration;
+        return acceleration * M_TO_FT;
     }
 
     public double getMass() {
@@ -204,7 +208,7 @@ public class Train {
     }
 
     private void step() {
-        double grade = trackModel.getBlock(this.id).getGrade();
+        double grade = USE_TRACK_MODEL ? track.getBlock(this.id).getGrade() : 0;
         double mass = this.getMass();
         if(velocity < MINIMUM_VELOCITY) {
             if(power > 0) {

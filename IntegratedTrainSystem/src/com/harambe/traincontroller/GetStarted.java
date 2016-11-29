@@ -29,10 +29,7 @@ public class GetStarted {
         trainController.addTrain(train2);
         TrainControllerGUI thisGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
         thisGUI.setVisible(true);
-        while(true){
-            trainController.controlTrain();
-            thisGUI.refresh();
-        }
+        
 //        NumberFormat formatter = new DecimalFormat("#0.00");
 //        int kp = 500000;
 //        int ki = 1000;
