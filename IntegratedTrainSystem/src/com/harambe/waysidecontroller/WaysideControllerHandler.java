@@ -13,40 +13,35 @@ import java.util.*;
 public class WaysideControllerHandler implements Runnable{
     //LinkedBlockingQueue<Message> messages;
     ArrayList<WaysideController> controllers;
-    ArrayList<Block> oldRedBlocks;
-    ArrayList<Block> oldGreenBlocks;
+    LinkedHashMap<Integer, Block> oldRedBlocks;
+    LinkedHashMap<Integer, Block> oldGreenBlocks;
     ArrayList<Switch> redSwitches;
     ArrayList<Switch> greenSwitches;
     Track myTrack;
+    WaysideControlUI UI;
     
     public WaysideControllerHandler(Track track){
         controllers = new ArrayList<WaysideController>();
         myTrack = track;
         
-        oldRedBlocks = new ArrayList<Block>();
+        oldRedBlocks = new LinkedHashMap<Integer, Block>();
         
         for(Block b: track.getRedBlocks()){
-            oldRedBlocks.add(new Block(b));
+            oldRedBlocks.put(b.getBlockNumber(), new Block(b));
         }
         
-        oldGreenBlocks = new ArrayList<Block>();
+        oldGreenBlocks = new LinkedHashMap<Integer, Block>();
+        
         for(Block b: track.getGreenBlocks()){
-            oldGreenBlocks.add(new Block(b));
+            oldGreenBlocks.put(b.getBlockNumber(), new Block(b));
         }
+        
         redSwitches = track.getRedSwitches();
         greenSwitches = track.getGreenSwitches();
         
-        LinkedHashMap<Integer, Block> redHashMap = new LinkedHashMap<Integer, Block>();
-        for(Block b : oldRedBlocks){
-            redHashMap.put(b.getBlockNumber(), b);
-        }
-        
-        LinkedHashMap<Integer, Block> greenHashMap = new LinkedHashMap<Integer, Block>();
-        for(Block b : oldGreenBlocks){
-            greenHashMap.put(b.getBlockNumber(), b);
-        }
-        
         LinkedHashMap<Integer, Switch> switches = new LinkedHashMap<Integer, Switch>();
+        
+        //Switches are directly manipulated by me
         for(Switch s : redSwitches){
             switches.put(Integer.parseInt(s.getSwitchNumber()), s);
         }
@@ -54,7 +49,7 @@ public class WaysideControllerHandler implements Runnable{
             switches.put(Integer.parseInt(s.getSwitchNumber()), s);
         }
         
-        initControllers(redHashMap, greenHashMap, switches);
+        initControllers(oldRedBlocks, oldGreenBlocks, switches);
     }
     
     public void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<Integer, Switch> newSwitches){
@@ -67,7 +62,7 @@ public class WaysideControllerHandler implements Runnable{
                 for(int b : newRedBlocks.keySet()){
                     if((b <= 36 || b == 77)){
                         wc.addBlock(newRedBlocks.get(b));
-                    }    
+                    } 
                 }
                 
                 wc.addSwitch(newSwitches.get(6));
@@ -77,11 +72,11 @@ public class WaysideControllerHandler implements Runnable{
             }
             else {
                 for(int b : newRedBlocks.keySet()){
-                    if(b > 36){
-                        wc.addBlock(oldRedBlocks.get(b));
+                    if(b > 36 && b != 77){
+                        wc.addBlock(newRedBlocks.get(b));
                     }    
                 }
-                wc.crossing = oldRedBlocks.get(46);
+                wc.crossing = newRedBlocks.get(47);
                 wc.addSwitch(newSwitches.get(9));
                 wc.addSwitch(newSwitches.get(10));
                 wc.addSwitch(newSwitches.get(11));
@@ -106,7 +101,7 @@ public class WaysideControllerHandler implements Runnable{
                         wc.addBlock(newGreenBlocks.get(b));
                     }    
                 }
-                wc.crossing = newGreenBlocks.get(18);
+                wc.crossing = newGreenBlocks.get(19);
                 
                 wc.addSwitch(newSwitches.get(3));
                 wc.addSwitch(newSwitches.get(4));
@@ -120,7 +115,7 @@ public class WaysideControllerHandler implements Runnable{
         try{
             while(true){
                 //Update the track every 500 ms
-                Thread.sleep(500);
+                Thread.sleep(250);
                 
                 //Get the new status of track
                 ArrayList<Block> redTempBlocks = myTrack.getRedBlocks();
@@ -130,9 +125,8 @@ public class WaysideControllerHandler implements Runnable{
                 //If change occurred, we will update the wayside controller and check if switch necessary
                 for(Block b: redTempBlocks){
                     //If a red block has changed, update within the wayside appropriate
-                    if(b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber()-1)).isBlockOccupied()){
+                    if(b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()){
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
-                        System.out.println(temp);
                         temp.addBlock(b);
                         
                         //If status of switch changes, we must see if changing switch is necessary
@@ -151,7 +145,7 @@ public class WaysideControllerHandler implements Runnable{
                 }
                 
                 for(Block b: greenTempBlocks){
-                    if(b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber()-1)).isBlockOccupied()){
+                    if(b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()){
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Green");
                         temp.addBlock(b);
                         //If status of switch changes, we must see if changing switch is necessary
@@ -175,8 +169,15 @@ public class WaysideControllerHandler implements Runnable{
         }
     }
     
-    public void sendAuthority(int blockNumber, int authority, double speed){
-        
+    public void sendAuthority(int blockNumber, int destinationNumber, double speed){
+        if(blockNumber == 0){
+            
+        }
+    }
+    
+    public void manualSwitch(int switchNumber){
+        WaysideController temp = findSwitch(switchNumber);
+        temp.changeSwitch(temp.getSwitch(switchNumber));
     }
     
     public WaysideController findCorrectWayside(int blockNumber, String line){
@@ -184,6 +185,15 @@ public class WaysideControllerHandler implements Runnable{
             if(wc.getBlock(blockNumber) != null){
                 if(wc.getBlock(blockNumber).getLine().equalsIgnoreCase(line))
                     return wc;
+            }
+        }
+        return null;
+    }
+    
+    public WaysideController findSwitch(int switchNumber){
+        for(WaysideController wc : controllers){
+            if(wc.getSwitch(switchNumber) != null){
+                return wc;
             }
         }
         return null;

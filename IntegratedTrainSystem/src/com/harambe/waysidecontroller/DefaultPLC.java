@@ -2,11 +2,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import org.apache.commons.jexl3.JexlBuilder;
-import org.apache.commons.jexl3.JexlContext;
-import org.apache.commons.jexl3.JexlEngine;
-import org.apache.commons.jexl3.JexlExpression;
-import org.apache.commons.jexl3.MapContext;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -39,6 +34,11 @@ public class DefaultPLC implements PLC {
             return true;
         }
         
+        //Empty
+        if(!switchBlock.isBlockOccupied() && !switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied() && !switchBlock.getSwitch().getswitchedBlockBlock().isBlockOccupied()){
+            return true;
+        }
+        
         return false;
     }
 
@@ -55,11 +55,6 @@ public class DefaultPLC implements PLC {
     }
 
     public boolean checkCrossing(Block crossing, Block next, Block prev) {
-
-        System.out.println("crossing: " + crossing.getBlockNumber());
-        System.out.println("next: " + next.getBlockNumber());
-        System.out.println("prev: " + prev.getBlockNumber());
-        
         if(next.isBlockOccupied() || prev.isBlockOccupied() || crossing.isBlockOccupied()){
             return true;
         }

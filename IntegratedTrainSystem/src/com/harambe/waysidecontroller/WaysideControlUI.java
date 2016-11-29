@@ -1,16 +1,23 @@
+
+import java.util.LinkedHashMap;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 
-package com.harambe.waysidecontroller;
+
 
 /**
  *
  * @author tak72_000
  */
 public class WaysideControlUI extends javax.swing.JFrame {
+    
+    static WaysideControllerHandler handler;
 
     /**
      * Creates new form WaysideControlUI
@@ -184,6 +191,11 @@ public class WaysideControlUI extends javax.swing.JFrame {
         });
 
         jButton2.setText("Login");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -356,6 +368,12 @@ public class WaysideControlUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        System.out.println("Good");
+        System.out.println(handler.findCorrectWayside(38, "Red"));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -365,6 +383,8 @@ public class WaysideControlUI extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
+        
+        
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -382,13 +402,27 @@ public class WaysideControlUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(WaysideControlUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new WaysideControlUI().setVisible(true);
+                
             }
         });
+        
+        LinkedHashMap<Integer, Block> redBlocks = new LinkedHashMap<Integer, Block>();
+        redBlocks.put(1, new Block("Red", 1, false));
+        redBlocks.put(2, new Block("Red", 2, false));
+        redBlocks.put(3, new Block("Red", 3, false));
+        redBlocks.put(38, new Block("Red", 38, false));
+        redBlocks.put(39, new Block("Red", 39, false));
+        redBlocks.put(40, new Block("Red", 40, false));
+        LinkedHashMap<Integer, Block> greenBlocks = new LinkedHashMap<Integer, Block>();
+        LinkedHashMap<Integer, Switch> switches = new LinkedHashMap<Integer, Switch>();
+        //handler = new WaysideControllerHandler(redBlocks, greenBlocks, switches);
+        //handler.run();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

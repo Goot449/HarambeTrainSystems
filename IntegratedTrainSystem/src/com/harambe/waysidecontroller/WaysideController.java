@@ -88,12 +88,17 @@ public class WaysideController {
     public void toggleCrossing(){
         //If the crossing should be closed/down/red
         System.out.println("Trying to toggle crossing");
+        System.out.println("Current crossing status = " + crossing.getCrossing().isClosed);
+        
+        //System.out.println(crossing.getBlockNumber());
         
         Block next = blocks.get(crossing.getBlockNumber()-1);
         Block prev = blocks.get(crossing.getBlockNumber()+1);
         
         if(plc.checkCrossing(crossing, next, prev))
         {
+            Crossing temp = crossing.getCrossing();
+            //System.out.println(temp.toString());
             if(!crossing.getCrossing().getCrossingState(crossing.getLine())){
                 crossing.getCrossing().toggleCrossing();
             }
