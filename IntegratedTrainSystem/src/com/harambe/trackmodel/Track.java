@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.harambe.trackmodel;
+package My.TrackModel;
 
 import java.io.*;
 import java.util.*;
@@ -317,10 +317,6 @@ public class Track {
             trainBlocks.add(trainBlock);
 	}
 	
-	/*public Block getBlock(int TrainID){
-            return getTrainBlock(TrainID);	
-	}*/
-	
 	public synchronized Block getBlock(int blockNumber, String line){
 
 		Block returnBlock = null;
@@ -436,4 +432,20 @@ public class Track {
 		powerFailure = true;
 		System.out.println("SYSTEM POWER FAILURE");
 	}
+        
+        public ArrayList<Block> getRedBlocks(){
+            return redBlocks;
+        }
+        
+        public ArrayList<Block> getGreenBlocks(){
+            return greenBlocks;
+        }
+        
+        public ArrayList<Switch> getRedSwitches(){
+            return redSwitches;
+        }
+        
+        public ArrayList<Switch> getGreenSwitches(){
+            return greenSwitches;
+        }
 }

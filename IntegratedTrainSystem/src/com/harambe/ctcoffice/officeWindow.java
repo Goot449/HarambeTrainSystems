@@ -415,6 +415,8 @@ public class officeWindow extends javax.swing.JFrame {
     void refresh() {
         //DefaultTableModel blockTableModelRefresh = (DefaultTableModel)this.blockTable.getModel();
         //blockTableModel.setValueAt("Yes", i, 4);
+        trackTester.getBlock(4, "red").toggleOccupied();
+        System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
         int i=1;
             do{
                  
