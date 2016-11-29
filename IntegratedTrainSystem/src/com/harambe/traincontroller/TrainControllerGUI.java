@@ -640,7 +640,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     void refresh() {
         double currentPower = trainStateList.get(selectedTrain).getPower();
         double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
-        currentSpeedValueLabel.setText(Integer.toString((int)Math.ceil(currentSpeed)));
+        currentSpeedValueLabel.setText(Integer.toString((int)Math.round(currentSpeed)));
         setPowerOut((int)currentPower);
         if (trainSelectorBox.getItemCount()!=trainList.size()){
             trainSelectorBox.removeAllItems();
