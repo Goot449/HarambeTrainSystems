@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
 import javax.swing.JRadioButton;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -24,8 +25,13 @@ public class officeWindow extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
+    private double DT = .001;
+    Track trackTester;
+    DefaultTableModel blockTableModel;
     public officeWindow() {
         initComponents();
+      
+
     }
 
     /**
@@ -375,7 +381,7 @@ public class officeWindow extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dispatchTrainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(stationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
+                        .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(blockManagerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(trackMapImageLabel))
                 .addGap(0, 0, 0))
@@ -405,32 +411,72 @@ public class officeWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadTrackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTrackButtonActionPerformed
-        // TODO add your handling code here:
-        String csv = fileInput.getText();
-        Track trackTester;
+    
+    void refresh() {
+        //DefaultTableModel blockTableModelRefresh = (DefaultTableModel)this.blockTable.getModel();
+        //blockTableModel.setValueAt("Yes", i, 4);
+        int i=1;
+            do{
+                 
+               if (trackTester.getBlock(i, "red").isBlockOccupied()){
+                   blockTableModel.setValueAt("Yes", i-1, 4);
+               }
+               else{
+                   blockTableModel.setValueAt("No", i-1, 4);
+  
+               }
+               i++;
+            } while (trackTester.getBlock(i,"red") != null);
+//        double currentPower = trainStateList.get(selectedTrain).getPower();
+//        double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
+//        currentSpeedValueLabel.setText(Integer.toString((int)Math.round(currentSpeed)));
+//        setPowerOut((int)currentPower);
+//        if (trainSelectorBox.getItemCount()!=trainList.size()){
+//            trainSelectorBox.removeAllItems();
+//            String[] trainIDs = new String[trainList.size()];
+//            for (int i = 0; i<trainList.size(); i++){
+//                Train thisTrain = (Train) trainList.get(i);
+//                trainIDs[i] = "Train " + Integer.toString(thisTrain.getId());
+//            }
+//            trainSelectorBox.setModel(new javax.swing.DefaultComboBoxModel(trainIDs));
+//        }
+    }
+    public void loadTrack(String csv){
+       
         try {
             trackTester = new Track();
             trackTester.loadTrack(csv);
-            DefaultTableModel model = (DefaultTableModel)blockTable.getModel();
+            blockTableModel= (DefaultTableModel)blockTable.getModel();
             //System.out.println(trackTester.getBlock(1, "green"));
             //model.addRow(new Object[]{1, trackTester.getBlock(1, "red").getBlockNumber(), trackTester.getBlock(1, "red").getSection(), trackTester.getBlock(1, "red"), trackTester.getBlock(1, "red").getLine(), trackTester.getBlock(1, "red").getInfrastructure(),false, true});    
                 
             int i=1;
-            trackTester.getBlock(i);
+            //trackTester.getBlock(i);
             DecimalFormat df = new DecimalFormat("#.##");
             //System.out.print(df.format(d));
             do{
-                model.addRow(new Object[]{trackTester.getBlock(i,"red").getSection() + trackTester.getBlock(i,"red").getBlockNumber(), trackTester.getBlock(i,"red").getLine(), df.format(trackTester.getBlock(i,"red").getSpeedLimit()), trackTester.getBlock(i,"red").getStation(), "No", "Enabled"});    
+                blockTableModel.addRow(new Object[]{trackTester.getBlock(i,"red").getSection() + trackTester.getBlock(i,"red").getBlockNumber(), trackTester.getBlock(i,"red").getLine(), df.format(trackTester.getBlock(i,"red").getSpeedLimit()), trackTester.getBlock(i,"red").getStation(), "No", "Enabled"});    
                 i++;
             } while (trackTester.getBlock(i,"red") != null);
 //            
            
             fileInput.setEditable(false);
             loadTrackButton.setEnabled(false);
+            trackTester.closeBlock("red", 3);
+            Timer timer = new Timer((int) (1000 * DT), e -> {
+            refresh();
+            });
+            timer.setRepeats(true);
+            timer.start();
         } catch (IOException ex) {
             Logger.getLogger(officeWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+         
+    private void loadTrackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTrackButtonActionPerformed
+        // TODO add your handling code here:
+        String csv = fileInput.getText();
+        loadTrack(csv);
         
     }//GEN-LAST:event_loadTrackButtonActionPerformed
 

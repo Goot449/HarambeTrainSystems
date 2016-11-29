@@ -5,8 +5,12 @@
  */
 package com.harambe.ctcoffice;
 
+import com.harambe.waysidecontroller.Block;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -19,11 +23,16 @@ public class CTCOfficeProto {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String[] args) {
         try {
             // TODO code application logic here
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
             new officeWindow().setVisible(true);
+            
+            
+            
+            
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CTCOfficeProto.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
@@ -33,6 +42,8 @@ public class CTCOfficeProto {
         } catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(CTCOfficeProto.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }    
     
 }
+    
+
