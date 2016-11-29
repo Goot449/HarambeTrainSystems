@@ -163,7 +163,7 @@ public class officeWindow extends javax.swing.JFrame {
                     .addContainerGap(107, Short.MAX_VALUE)))
         );
 
-        trackMapImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trackImage/trackimage.png"))); // NOI18N
+        trackMapImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trackimage.png")));
 
         stationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Station Monitor"));
 
@@ -421,9 +421,9 @@ public class officeWindow extends javax.swing.JFrame {
             DecimalFormat df = new DecimalFormat("#.##");
             //System.out.print(df.format(d));
             do{
-                model.addRow(new Object[]{trackTester.getBlock(i).getSection() + trackTester.getBlock(i).getBlockNumber(), trackTester.getBlock(i).getLine(), df.format(trackTester.getBlock(i).getSpeedLimit()), trackTester.getBlock(i).getInfrastrucure(), "No", "Enabled"});    
+                model.addRow(new Object[]{trackTester.getBlock(i,"red").getSection() + trackTester.getBlock(i,"red").getBlockNumber(), trackTester.getBlock(i,"red").getLine(), df.format(trackTester.getBlock(i,"red").getSpeedLimit()), trackTester.getBlock(i,"red").getStation(), "No", "Enabled"});    
                 i++;
-            } while (trackTester.getBlock(i) != null);
+            } while (trackTester.getBlock(i,"red") != null);
 //            
            
             fileInput.setEditable(false);
