@@ -11,6 +11,7 @@ package My.TrackModel;
  */
 public class Crossing {
     
+    boolean isClosed = false;
     String currentLineDown = null;
     Block greenLineBlock = null;
     Block redLineBlock = null;
@@ -30,12 +31,14 @@ public class Crossing {
     public void toggleCrossing(){
         
         System.out.println("Crossing toggled!");
-        if(currentLineDown.equals("green")){
+        if(isClosed){
+            isClosed = false;
             currentLineDown = "red";
-            System.out.println("RED");
+            //System.out.println("RED");
         } else{
+            isClosed = true;
             currentLineDown = "green";
-            System.out.println("GREEN");
+            //System.out.println("GREEN");
         }
     }
     
@@ -49,12 +52,12 @@ public class Crossing {
     }
     
     public boolean getCrossingState(String line){
-        
-        if(currentLineDown.equals(line)){
+        return isClosed;
+        /*if(currentLineDown.equals(line)){
             return true;
         } else{
             return false;
-        }
+        }*/
     }
     
     public boolean isBroken(){

@@ -62,6 +62,29 @@ public class Block implements BlockInterface{
     private double commandedAuthority = -1;
     private double distanceTraveled = 0;
     
+    public Block(Block b){
+        this.line = b.line;
+        this.section = b.section;
+        blockNumber = b.blockNumber;
+        blockLength = b.blockLength;
+	grade = b.grade;
+	speedLimit = b.speedLimit;
+	station = b.station;
+	switchBlock = b.switchBlock;
+	underground = b.underground;
+	elevation = b.elevation;
+	cumElevation = b.cumElevation;
+	switchNumber = b.switchNumber;
+	arrow=b.arrow; 
+	direction = b.direction;
+	crossing = b.crossing;
+	switchType = b.switchType;
+	commandedAuthority = -1;
+	commandedSpeed = speedLimit;
+        
+        railroadCrossing = b.getCrossing();
+    }
+    
     public Block(String[] splitStrings, Block lastCreated){
         
         line = splitStrings[0];
@@ -99,7 +122,7 @@ public class Block implements BlockInterface{
             
 		String[] stationStuff = station.split("-");
 		station = stationStuff[0];
-		stationSide = stationStuff[1];
+		//stationSide = stationStuff[1];
 	}
         if(lastCreated == null){
 
@@ -175,6 +198,10 @@ public class Block implements BlockInterface{
         return blockOccupied;
     }
 
+    public void toggleOccupied(){
+        blockOccupied = (!blockOccupied);
+    }
+    
     public void toggleBroken(){
         brokenBlock = (!brokenBlock);
     }
@@ -546,7 +573,6 @@ public class Block implements BlockInterface{
         return this.moveTrain(distanceMoved);	
     }
 
-    
     //This method simulates train movement.  Distance updates and is stored.  If it surpasses length of the block, train proceeds.  	
     public Block moveTrain(double moved){
 		
