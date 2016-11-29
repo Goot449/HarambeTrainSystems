@@ -4,9 +4,6 @@
  * and open the template in the editor.
  */
 
-package com.harambe.waysidecontroller;
-
-import java.util.ArrayList;
 import java.util.*;
 
 /**
@@ -19,17 +16,15 @@ public class WaysideController {
     String password = "admin";
     public HashMap<Integer,Block>  blocks;
     public HashMap<Integer,Switch> switches;
-    public Block crossings;
-    //TrackModel tm;
-    PLCClass plc;
+    public Block crossing;
+    PLC plc;
     
     public WaysideController(String id){
         this.id = id;
         switches = new HashMap<Integer, Switch>();
         blocks = new HashMap<Integer, Block>();
-        crossings = null;
-        plc = null;
-        //plc = new PLCClass("default.plc");
+        crossing = null;
+        plc = new DefaultPLC();
     }
     
     public void setPLC(String plcString){
@@ -40,6 +35,7 @@ public class WaysideController {
         Block block1 = sb.getswitchedBlockBlock();
         Block block2 = sb.getunSwitchedBlockBlock();
         if(plc.checkSwitch(block1, block2, sb.getSwitchBlock())){
+            sb.toggleSwitch();
             return true;
         }
         else {
@@ -67,8 +63,6 @@ public class WaysideController {
         return null;
     }
     
-    
-    
     public boolean containsSwitch(int sbNum){
         if(switches.containsKey(sbNum)){
             return true;
@@ -93,16 +87,21 @@ public class WaysideController {
     
     public void toggleCrossing(){
         //If the crossing should be closed/down/red
-        if(plc.checkCrossing(crossings))
+        System.out.println("Trying to toggle crossing");
+        
+        Block next = blocks.get(crossing.getBlockNumber()-1);
+        Block prev = blocks.get(crossing.getBlockNumber()+1);
+        
+        if(plc.checkCrossing(crossing, next, prev))
         {
-            if(!crossings.getCrossing().getCrossingState(crossings.getLine())){
-                crossings.getCrossing().toggleCrossing();
+            if(!crossing.getCrossing().getCrossingState(crossing.getLine())){
+                crossing.getCrossing().toggleCrossing();
             }
         }
         //Crossing should be open/green/up
         else{
-            if(crossings.getCrossing().getCrossingState(crossings.getLine())){
-                crossings.getCrossing().toggleCrossing();
+            if(crossing.getCrossing().getCrossingState(crossing.getLine())){
+                crossing.getCrossing().toggleCrossing();
             }
         }
     }
