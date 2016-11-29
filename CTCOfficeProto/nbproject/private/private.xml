@@ -2,6 +2,11 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Jake/Documents/NetBeansProjects/HarambeTrainSystems/CTCOfficeProto/src/ctcofficeproto/CTCOfficeProto.java</file>
+            <file>file:/C:/Users/Jake/Documents/NetBeansProjects/HarambeTrainSystems/CTCOfficeProto/src/My/TrackModel/Track.java</file>
+            <file>file:/C:/Users/Jake/Documents/NetBeansProjects/HarambeTrainSystems/CTCOfficeProto/src/My/TrackModel/Block.java</file>
+            <file>file:/C:/Users/Jake/Documents/NetBeansProjects/HarambeTrainSystems/CTCOfficeProto/src/My/TrackModel/TrackInterface.java</file>
+        </group>
     </open-files>
 </project-private>
