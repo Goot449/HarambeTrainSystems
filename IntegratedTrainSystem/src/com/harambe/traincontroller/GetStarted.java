@@ -9,6 +9,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import com.harambe.trainmodel.Train;
+import com.harambe.trainmodel.TrainModel;
 
 /**
  *
@@ -20,8 +21,9 @@ public class GetStarted {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         System.out.println("Start");
+        TrainModel trainModel = new TrainModel();
         TrainController trainController = new TrainController();
         Train train1 = new Train(1,1);
         trainController.addTrain(train1);

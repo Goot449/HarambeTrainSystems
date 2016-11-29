@@ -244,7 +244,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         currentSpeedUnitsLabel.setText("mph");
 
         emergencyBrakeToggleButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        emergencyBrakeToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/traincontroller/red-stop-icon-37737.png"))); // NOI18N
+        emergencyBrakeToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/red-stop-icon-37737.png"))); // NOI18N
         emergencyBrakeToggleButton.setText("Emergency Brake");
         emergencyBrakeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -647,6 +647,8 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         double currentPower = trainStateList.get(selectedTrain).getPower();
         double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
         currentSpeedValueLabel.setText(Integer.toString((int)Math.round(currentSpeed)));
+        double speedLimit = trainList.get(selectedTrain).getSpeedLimit();
+        this.changeTestSpeedLimitLabel((int)speedLimit);
         setPowerOut((int)currentPower);
         if (trainSelectorBox.getItemCount()!=trainList.size()){
             trainSelectorBox.removeAllItems();
@@ -775,6 +777,9 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         if(setSpeed>speedLimit){
             setSpeed = speedLimit;
             setSpeedSlider.setValue(setSpeed);
+        }
+        if (testSpeedLimitSlider.getValue() != speedLimit){
+            testSpeedLimitSlider.setValue(speedLimit);
         }
     }
     
