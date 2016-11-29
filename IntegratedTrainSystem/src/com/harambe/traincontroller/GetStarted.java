@@ -31,40 +31,6 @@ public class GetStarted {
         trainController.addTrain(train2);
         TrainControllerGUI thisGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
         thisGUI.setVisible(true);
-        
-//        NumberFormat formatter = new DecimalFormat("#0.00");
-//        int kp = 500000;
-//        int ki = 1000;
-//        double ts = .001;
-//        double ek_prev = 0.0;
-//        double uk_prev = 0.0;
-//        double currentSpeed = 0.0;
-//        double setPoint = 43.0;
-//        double maxPower = 120000;
-//        double power = 0.0;
-//        double uk;
-//        double ek;
-//        int breakCounter = 0;
-//        while(true){
-//            currentSpeed = train1.getFeedbackVelocity();
-//            System.out.println("Speed is " + formatter.format(currentSpeed));
-//            ek = setPoint-currentSpeed;
-//            uk = uk_prev+(ts/2.0)*(ek-ek_prev);
-//            power = kp*ek+ki*uk;
-//            if (power>=maxPower){
-//                power = maxPower;
-//                uk = uk_prev;
-//            }
-//            train1.setPower(power);
-//            System.out.println("Power is " + Integer.toString((int)power));
-//            if (breakCounter==1000){
-//                System.out.println("1000 in");
-//            }
-//            train1.step();
-//            ek_prev = ek;
-//            uk_prev = uk;
-//            breakCounter++;
-//        }
     }
     
 }
