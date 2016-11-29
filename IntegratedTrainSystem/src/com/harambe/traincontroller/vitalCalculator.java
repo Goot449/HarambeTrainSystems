@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.harambe.traincontroller;
 
 import com.harambe.trainmodel.*;
 
-/**
- *
- * @author Alex
- */
 public class vitalCalculator {
     
     private static int kp = 500000;
@@ -19,29 +10,40 @@ public class vitalCalculator {
     private static double sampleRate = 0.001;
     
     public double[] calculatePower(double setPoint, double currentSpeed, double ek_prev, double uk_prev, double speedLimit, double authority){
-        double ek = setPoint - currentSpeed;
-        double uk = uk_prev + (sampleRate/2.0)*(ek - ek_prev);
-//        double power1 = calculatePower1(setPoint, currentSpeed);
-//        double power2 = calculatePower2(setPoint, currentSpeed);
-//        double power3 = calculatePower3(setPoint, currentSpeed);
-        
-        double finalPower = kp*ek+ki*uk;
+        if (setPoint>speedLimit){
+            setPoint = speedLimit;
+        }
+        double power1[] = calculatePower1(setPoint, currentSpeed, ek_prev, uk_prev);
+        double power2[] = calculatePower2(setPoint, currentSpeed, ek_prev, uk_prev);
+        double power3[] = calculatePower3(setPoint, currentSpeed, ek_prev, uk_prev);
+       
+        double finalPower;
+        double ek;
+        double uk;
+        if (power1[0] == power2[0]){
+            finalPower = power1[0];
+            ek = power1[1];
+            uk = power1[2];
+        }
+        else if(power2[0] == power3[0]){
+            finalPower = power2[0];
+            ek = power2[1];
+            uk = power2[2];
+        }
+        else if (power1[0] == power3[0]){
+            finalPower = power1[0];
+            ek = power1[1];
+            uk = power1[2];
+        }
+        else{
+            finalPower = 0;
+            ek = ek_prev;
+            uk = uk_prev;
+        }
         if (finalPower>=maxEnginePower){
             finalPower = maxEnginePower;
             uk = uk_prev;
         }
-//        if (power1 == power2){
-//            finalPower = power1;
-//        }
-//        else if(power2 == power3){
-//            finalPower = power2;
-//        }
-//        else if (power1==power3){
-//            finalPower = power1;
-//        }
-//        else{
-//            finalPower = 0;
-//        }
         double[] calcOut = new double[3];
         calcOut[0] = finalPower;
         calcOut[1] = ek;
@@ -49,19 +51,34 @@ public class vitalCalculator {
         return calcOut;
     }
     
-    private double calculatePower1(double setPoint, double currentSpeed){
-        double power1 = 100;
-        return power1;
+    private double[] calculatePower1(double setPoint, double currentSpeed, double ek_prev, double uk_prev){
+        double[] returnInfo = new double[3];
+        double ek = setPoint - currentSpeed;
+        double uk = uk_prev + (sampleRate/2.0)*(ek - ek_prev);
+        returnInfo[0] = kp*ek+ki*uk;
+        returnInfo[1] = ek;
+        returnInfo[2] = uk;
+        return returnInfo;
     }
     
-    private double calculatePower2(double setPoint, double currentSpeed){
-        double power2 = 200;
-        return power2;
+    private double[] calculatePower2(double setPoint, double currentSpeed, double ek_prev, double uk_prev){
+        double[] returnInfo = new double[3];
+        double ek = -1.0*currentSpeed + setPoint;
+        double uk = uk_prev + (sampleRate/2.0)*(ek) - (sampleRate/2.0)*(ek_prev);
+        returnInfo[0] = kp*ek+ki*uk;
+        returnInfo[1] = ek;
+        returnInfo[2] = uk;
+        return returnInfo;
     }
     
-    private double calculatePower3(double setPoint, double currentSpeed){
-        double power3 = 300;
-        return power3;
+    private double[] calculatePower3(double setPoint, double currentSpeed, double ek_prev, double uk_prev){
+        double[] returnInfo = new double[3];
+        double ek = setPoint - currentSpeed;
+        double uk = uk_prev + (sampleRate/2.0)*(ek - ek_prev);
+        returnInfo[0] = kp*ek+ki*uk;
+        returnInfo[1] = ek;
+        returnInfo[2] = uk;
+        return returnInfo;
     }
     
 }
