@@ -26,9 +26,8 @@ public interface BlockInterface {
     public double getTrainAuthority();
     public double getTrainCommandedSpeed();
     public double getFrictionCoefficient();
-    
-    //T working; F broken
-    //public boolean isBlockWorking();
+   
+    public void toggleOccupied();
     
     //T if one of the following infrastructures; F if not
     public boolean isCrossing();
