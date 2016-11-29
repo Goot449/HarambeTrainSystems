@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import com.harambe.trainmodel.Train;
 import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
 
 public class TrainControllerGUI extends javax.swing.JFrame {
 
@@ -245,6 +246,11 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         emergencyBrakeToggleButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         emergencyBrakeToggleButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/traincontroller/red-stop-icon-37737.png"))); // NOI18N
         emergencyBrakeToggleButton.setText("Emergency Brake");
+        emergencyBrakeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                emergencyBrakeToggleStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -693,6 +699,10 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         changeTrainInGUI(trainSelectorBox.getSelectedIndex());
     }  
+    
+    private void emergencyBrakeToggleStateChanged(ChangeEvent evt) {
+        toggleEmergencyBrakes(emergencyBrakeToggleButton.isSelected());
+    }
 
     private void hvacFailToggleActionPerformed(java.awt.event.ActionEvent evt) {                                               
         // TODO add your handling code here:
@@ -772,6 +782,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         trainStateList.get(selectedTrain).setTestSpeedLimit((double)speedLimit);
     }
     
+    //Want to reload train state here
     void changeTrainInGUI(int selectedTrain){
         this.selectedTrain = selectedTrain;
         changeSetSpeedLabel((int)trainStateList.get(selectedTrain).getSetPoint());
@@ -847,6 +858,11 @@ public class TrainControllerGUI extends javax.swing.JFrame {
             Color labelColor = new Color(153, 255, 153);
             brakeStatusLabel.setBackground(labelColor);
         }
+    }
+    
+    //make sure to change everywhere
+    void toggleEmergencyBrakes(Boolean enabled){
+        trainList.get(selectedTrain).engageEmergencyBrakes(enabled);
     }
     
     void setBrakeStatus(Boolean enabled){

@@ -9,7 +9,7 @@ public class vitalCalculator {
     private static double maxEnginePower = 120000;
     private static double sampleRate = 0.001;
     
-    public double[] calculatePower(double setPoint, double currentSpeed, double ek_prev, double uk_prev, double speedLimit, double authority){
+    public double[] calculatePower(double setPoint, double currentSpeed, double ek_prev, double uk_prev, double speedLimit, double authority, double emergencyBrakeStatus){
         if (setPoint>speedLimit){
             setPoint = speedLimit;
         }
@@ -43,6 +43,13 @@ public class vitalCalculator {
         if (finalPower>=maxEnginePower){
             finalPower = maxEnginePower;
             uk = uk_prev;
+        }
+        else if (finalPower < -1*maxEnginePower){
+            finalPower = -1*maxEnginePower;
+            ek = uk_prev;
+        }
+        if (emergencyBrakeStatus != 0.0){
+            finalPower = 0;
         }
         double[] calcOut = new double[3];
         calcOut[0] = finalPower;
