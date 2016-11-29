@@ -27,10 +27,6 @@ public class WaysideController {
         plc = new DefaultPLC();
     }
     
-    public void setPLC(String plcString){
-        plc = new PLCClass(plcString);
-    }
-    
     public boolean changeSwitch(Switch sb){
         Block block1 = sb.getswitchedBlockBlock();
         Block block2 = sb.getunSwitchedBlockBlock();
