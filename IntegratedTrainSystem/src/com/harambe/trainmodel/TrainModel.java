@@ -65,7 +65,9 @@ public class TrainModel extends javax.swing.JFrame {
         addTrainButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addTrain(new Train(3, trains.size()));
+                try {
+                    addTrain(new Train(3, trains.size()));
+                } catch(Exception ex){};
             }
         });
         
