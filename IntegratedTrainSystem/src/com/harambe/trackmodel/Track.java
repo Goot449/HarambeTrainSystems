@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package My.TrackModel;
+package com.harambe.trackmodel.TrackModel;
 
 import java.io.*;
 import java.util.*;
