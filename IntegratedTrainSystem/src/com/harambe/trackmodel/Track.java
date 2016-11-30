@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.harambe.trackmodel;
+package My.TrackModel;
 
-import com.harambe.trackmodel.Switch;
 import java.io.*;
 import java.util.*;
 
@@ -265,7 +264,7 @@ public class Track {
             return false;
 	}
 
-	public void commandAuthority(String line, double commandedAuthority, int blockNumber){
+	public void commandAuthority(String line, int commandedAuthority, int blockNumber){
             getBlock(blockNumber, line).setAuthority(commandedAuthority);
 	}
 

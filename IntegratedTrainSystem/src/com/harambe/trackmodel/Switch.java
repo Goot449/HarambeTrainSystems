@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.harambe.trackmodel;
+package My.TrackModel;
 
 import java.util.*;
 
@@ -60,7 +60,7 @@ public class Switch implements SwitchInterface{
         brokenSwitch = (!brokenSwitch);
     }
     
-    //@Override
+    @Override
     public void toggleSwitch(){
         
 	System.out.println("Toggling " + switchNumber);
@@ -70,12 +70,12 @@ public class Switch implements SwitchInterface{
 	setup();
     }
     
-    //@Override
+    @Override
     public boolean isSwitchWorking(){
         return brokenSwitch;
     }
     
-    //@Override
+    @Override
     public boolean getSwitchPosition(){
 	return false;
     }
