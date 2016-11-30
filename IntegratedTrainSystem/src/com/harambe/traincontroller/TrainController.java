@@ -8,6 +8,7 @@ public class TrainController {
 
     private boolean testModeEnabled = true;
     private boolean autoModeEnabled = false;
+    private boolean startControl = false;
     private double maxEnginePower = 120000;
     private double DT = 0.001;
     public vitalCalculator vitalCalc = new vitalCalculator();
@@ -23,31 +24,37 @@ public class TrainController {
     }
     
     public void controlTrain(){
-        int iterateLength = trainList.size();
-        for (int i = 0; i<iterateLength; i++){
-            //Check for test mode here
-            double[] trainInfo = this.getTrainInfo(trainList.get(i));
-            double currSpeed = trainInfo[0];
-            double authority = trainInfo[1];
-            double speedLimit = trainInfo[2];
-            double emergencyBrakesEnabled = trainInfo[3];
-            double[] trainStateInfo = this.getTrainStateInfo(trainStateList.get(i));
-            double setPoint = trainStateInfo[0];
-            double previousError = trainStateInfo[1];
-            double previousIntegration = trainStateInfo[2];
-            double[] calcOut = vitalCalc.calculatePower(setPoint, currSpeed, previousError, previousIntegration, speedLimit, authority, emergencyBrakesEnabled);
-            double power = calcOut[0];
-            double velocityError = calcOut[1];
-            double integration = calcOut[2];
-            if (power<0){
-                trainList.get(i).engageServiceBrakes(true);
+        if (startControl){
+            int iterateLength = trainList.size();
+            for (int i = 0; i<iterateLength; i++){
+                //Check for test mode here
+                double[] trainInfo = this.getTrainInfo(trainList.get(i));
+                double currSpeed = trainInfo[0];
+                double authority = trainInfo[1];
+                double speedLimit = trainInfo[2];
+                double emergencyBrakesEnabled = trainInfo[3];
+                double[] trainStateInfo = this.getTrainStateInfo(trainStateList.get(i));
+                double setPoint = trainStateInfo[0];
+                double previousError = trainStateInfo[1];
+                double previousIntegration = trainStateInfo[2];
+                double[] calcOut = vitalCalc.calculatePower(setPoint, currSpeed, previousError, previousIntegration, speedLimit, authority, emergencyBrakesEnabled);
+                double power = calcOut[0];
+                double velocityError = calcOut[1];
+                double integration = calcOut[2];
+                if (power<0){
+                    trainList.get(i).engageServiceBrakes(true);
+                }
+                else {
+                    trainList.get(i).engageServiceBrakes(false);
+                }
+                setTrainPower(trainList.get(i), trainStateList.get(i),power);
+                setTrainPrevious(trainStateList.get(i), velocityError, integration);
             }
-            else {
-                trainList.get(i).engageServiceBrakes(false);
-            }
-            setTrainPower(trainList.get(i), trainStateList.get(i),power);
-            setTrainPrevious(trainStateList.get(i), velocityError, integration);
         }
+    }
+    
+    public void setStartControl(boolean startControl) {
+        this.startControl = startControl;
     }
     
     public void addTrain(Train newTrain){

@@ -51,6 +51,9 @@ public class vitalCalculator {
         if (emergencyBrakeStatus != 0.0){
             finalPower = 0;
         }
+//        if (authority == 0){
+//            finalPower=0;
+//        }
         double[] calcOut = new double[3];
         calcOut[0] = finalPower;
         calcOut[1] = ek;

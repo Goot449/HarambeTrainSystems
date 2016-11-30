@@ -5,8 +5,6 @@
  */
 package com.harambe.traincontroller;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import com.harambe.trainmodel.Train;
 import com.harambe.trainmodel.TrainModel;
