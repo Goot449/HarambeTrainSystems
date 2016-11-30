@@ -117,6 +117,7 @@ public class officeWindow extends javax.swing.JFrame {
 
         clockLabel.setText("Wall Clock Speed");
 
+        fileInput.setText("RedLine.csv");
         fileInput.setToolTipText("");
 
         javax.swing.GroupLayout controlsPanelLayout = new javax.swing.GroupLayout(controlsPanel);

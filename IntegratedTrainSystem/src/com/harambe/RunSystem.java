@@ -1,5 +1,6 @@
 package com.harambe;
 
+import com.harambe.ctcoffice.officeWindow;
 import java.io.*;
 import java.util.*;
 import com.harambe.trackmodel.Track;
@@ -19,10 +20,10 @@ public class RunSystem {
 		Track trackObj = new Track();
 		
 		//Test broken rail and broken circuit
-		Block brokenRailBlock = trackObj.getBlock(20, "red");
+		/*Block brokenRailBlock = trackObj.getBlock(100, "red");
 		brokenRailBlock.toggleBroken();
-		Block brokenCircuitBlock = trackObj.getBlock(10, "green");
-		brokenCircuitBlock.breakCircuit();
+		Block brokenCircuitBlock = trackObj.getBlock(100, "green");
+		brokenCircuitBlock.breakCircuit();*/
 		
 		//Test commanding authority and speed
 		/*trackObj.commandAuthority("red", 15, 27);
@@ -43,16 +44,30 @@ public class RunSystem {
             trainController.addTrain(train);
         }
 		
-		//Testing train traversal
-		trackObj.updateDistance(1, 100);
+        //Testing train traversal
+        trackObj.getRoute("green", "PIONEER");
+        trackObj.getRoute("green", "EDGEBROOK");
+        trackObj.getRoute("green", "BLANK");
+        trackObj.getRoute("green", "WHITED");
+        trackObj.getRoute("green", "SOUTH BANK");
+        trackObj.getRoute("red", "HERRON AVE");
+        trackObj.getRoute("red", "SWISSVALE");
+        for(int i=0; i<1000; i++){
+                trackObj.updateDistance(1, 100);
+                trackObj.updateDistance(2, 100);
+        }
+        trackObj.toggleSwitch("green", 153);
+        trackObj.toggleSwitch("green", 1);
 		
         TrackModelPrototypeUI trackGUI = new TrackModelPrototypeUI(trackObj);
-        trainGUI.setVisible(true);
+        trackGUI.setVisible(true);
 		
         trainController.setStartControl(true);
         TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
         trainGUI.setVisible(true);
-		
+        
+        officeWindow CTCOfficeUI = new officeWindow();
+        CTCOfficeUI.setVisible(true);
     }
     
 }
