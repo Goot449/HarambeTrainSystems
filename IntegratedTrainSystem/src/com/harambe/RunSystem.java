@@ -17,7 +17,7 @@ public class RunSystem {
 
     public static void main(String[] args) throws Exception {
 	
-		Track trackObj = new Track();
+	Track trackObj = new Track();
 		
 		//Test broken rail and broken circuit
 		/*Block brokenRailBlock = trackObj.getBlock(100, "red");
@@ -30,18 +30,18 @@ public class RunSystem {
 		trackObj.commandSpeed("red", 20, 27);*/
 		
         System.out.println("Start");
-        TrainModel trainModel = new TrainModel();
+        TrainModel trainModel = new TrainModel(trackObj);
         TrainController trainController = new TrainController();
 		
         for (int i = 0; i<400; i++){
             Train train = new Train(1,i);
-            //Place train in yard
-			if(i%2 == 0){ //Let's place even train IDs in red cause
-				trackObj.placeTrain("red", i);
-			} else{ //And odd number trains can get thrown in green
-				trackObj.placeTrain("green", i);
-			}
             trainController.addTrain(train);
+            //Place train in yard
+            if(i%2 == 0){ //Let's place even train IDs in red cause
+                    trackObj.placeTrain("red", i);
+            } else{ //And odd number trains can get thrown in green
+                    trackObj.placeTrain("green", i);
+            }
         }
 		
         //Testing train traversal

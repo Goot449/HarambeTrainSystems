@@ -9,7 +9,7 @@ import com.harambe.trackmodel.Block;
 
 public class Train {
     
-    public static boolean USE_TRACK_MODEL = false;
+    private boolean useTrackModel = false;
     /** TODO
      * Handle Passengers
      * Add passengers to UI
@@ -65,7 +65,6 @@ public class Train {
     private static final double EMPTY_CAR_MASS = 40.9 * TONS_TO_KG;
     private static final int MAX_PASSENGERS = 148;
 
-    private Track track;
     private TrainModel trainModel;
 
     private int id;
@@ -136,7 +135,10 @@ public class Train {
         return carCount;
     }
     public int getSpeedLimit() {
-        return USE_TRACK_MODEL ? track.getBlock(this.id).getSpeedLimit() : 15;
+        if(this.trainModel == null || this.trainModel.getTrack() == null) {
+            return 15;
+        }
+        return this.trainModel.getTrack().getBlock(this.id).getSpeedLimit();
     }
     public int getPassengerCount() {
         return passengerCount;
@@ -168,7 +170,6 @@ public class Train {
     }
 
     public Train(int carCount, int id) throws Exception{
-        this.track = USE_TRACK_MODEL ? new Track() : null;
         this.carCount = carCount;
         this.id = id;
         this.power = 0;
@@ -187,6 +188,10 @@ public class Train {
         timer.start();
     }
 
+    public void setTrainModel(TrainModel trainModel) {
+        this.trainModel = trainModel;
+    }
+    
     public void setPower(double power) {
         this.power = power;
     }
@@ -208,11 +213,12 @@ public class Train {
     }
 
     private void step() {
-        double grade = USE_TRACK_MODEL ? track.getBlock(this.id).getGrade() : 0;
+        Track track = this.trainModel == null ? null : this.trainModel.getTrack();
+        double grade = track != null ? track.getBlock(this.id).getGrade() : 0;
         double mass = this.getMass();
         if(Math.abs(velocity) < MINIMUM_VELOCITY) {
             if(power > 0) {
-                velocity = velocity > 0 ? MINIMUM_VELOCITY : -MINIMUM_VELOCITY;
+                velocity = velocity >= 0 ? MINIMUM_VELOCITY : -MINIMUM_VELOCITY;
             } else {
                 velocity = 0;
             }
