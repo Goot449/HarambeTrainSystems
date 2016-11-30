@@ -255,6 +255,7 @@
                 </Component>
                 <Component class="javax.swing.JTextField" name="fileInput">
                   <Properties>
+                    <Property name="text" type="java.lang.String" value="RedLine.csv"/>
                     <Property name="toolTipText" type="java.lang.String" value=""/>
                   </Properties>
                 </Component>
