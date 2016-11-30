@@ -2,7 +2,7 @@ package com.harambe.waysidecontroller;
 import java.util.LinkedHashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
-
+import com.harambe.trackmodel.*;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -417,12 +417,6 @@ public class WaysideControlUI extends javax.swing.JFrame {
         
         
         LinkedHashMap<Integer, Block> redBlocks = new LinkedHashMap<Integer, Block>();
-        redBlocks.put(1, new Block("Red", 1, false));
-        redBlocks.put(2, new Block("Red", 2, false));
-        redBlocks.put(3, new Block("Red", 3, false));
-        redBlocks.put(38, new Block("Red", 38, false));
-        redBlocks.put(39, new Block("Red", 39, false));
-        redBlocks.put(40, new Block("Red", 40, false));
         LinkedHashMap<Integer, Block> greenBlocks = new LinkedHashMap<Integer, Block>();
         LinkedHashMap<Integer, Switch> switches = new LinkedHashMap<Integer, Switch>();
         this.handler = handler;

@@ -1,12 +1,14 @@
+package com.harambe.waysidecontroller;
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 //import com.sun.xml.internal.ws.wsdl.writer.document.Message;
-package com.harambe.waysidecontroller;
+//package com.harambe.waysidecontroller;
 import com.harambe.trackmodel.*;
 import java.util.*;
+
 
 /**
  *

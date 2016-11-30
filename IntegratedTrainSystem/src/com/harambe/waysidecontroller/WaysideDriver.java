@@ -1,4 +1,5 @@
 package com.harambe.waysidecontroller;
+import com.harambe.trackmodel.*;
 import java.util.LinkedHashMap;
 
 public class WaysideDriver {
@@ -12,7 +13,7 @@ public class WaysideDriver {
         Thread thread = new Thread(handler);
         thread.start();
         
-        track.getBlock(5, "red").closeBlock();
+        track.getBlock(5, "red").toggleOccupied();
         
         Thread.sleep(1000);
         handler.dispatchTrain(track.getBlock(5, "red"), 0);
