@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.harambe.trackmodel;
+package My.TrackModel;
 
+//import com.sun.istack.internal.logging.Logger;
 import java.io.*;
 import java.util.*;
 import javax.swing.*;
@@ -121,14 +122,6 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         submitTrackButton = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         blockOutputTable = new javax.swing.JTable();
-        redLine = new javax.swing.JRadioButton();
-        greenLine = new javax.swing.JRadioButton();
-        powerFailButton = new javax.swing.JButton();
-        railFailButton = new javax.swing.JButton();
-        circuitFailButton = new javax.swing.JButton();
-        blockSelection = new javax.swing.JComboBox<>();
-        testFailureLabel = new javax.swing.JLabel();
-        blockSelectionLabel = new javax.swing.JLabel();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -831,88 +824,20 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             blockOutputTable.getColumnModel().getColumn(12).setResizable(false);
         }
 
-        lineSelection.add(redLine);
-        redLine.setForeground(new java.awt.Color(255, 0, 0));
-        redLine.setText("Red Line");
-        redLine.setActionCommand("redLine");
-        redLine.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                redLineActionPerformed(evt);
-            }
-        });
-
-        lineSelection.add(greenLine);
-        greenLine.setForeground(new java.awt.Color(0, 204, 51));
-        greenLine.setText("Green Line");
-        greenLine.setActionCommand("greenLine");
-        greenLine.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                greenLineActionPerformed(evt);
-            }
-        });
-
-        powerFailButton.setText("Power");
-        powerFailButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                powerFailButtonActionPerformed(evt);
-            }
-        });
-
-        railFailButton.setText("Broken Rail");
-        railFailButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                railFailButtonActionPerformed(evt);
-            }
-        });
-
-        circuitFailButton.setText("Track Circuit");
-        circuitFailButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                circuitFailButtonActionPerformed(evt);
-            }
-        });
-
-        blockSelection.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        blockSelection.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                blockSelectionActionPerformed(evt);
-            }
-        });
-
-        testFailureLabel.setText("Test Failures: ");
-
-        blockSelectionLabel.setText("Test Failures: ");
-
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1341, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(trackInputLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(submitTrackButton)
-                        .addGap(48, 48, 48)
-                        .addComponent(redLine)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(greenLine)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(blockSelectionLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(blockSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(119, 119, 119)
-                        .addComponent(testFailureLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(powerFailButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(railFailButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(circuitFailButton)))
+                        .addComponent(submitTrackButton)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -922,22 +847,11 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(trackInputLabel)
-                    .addComponent(submitTrackButton)
-                    .addComponent(redLine)
-                    .addComponent(greenLine)
-                    .addComponent(powerFailButton)
-                    .addComponent(circuitFailButton)
-                    .addComponent(blockSelection, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(testFailureLabel)
-                    .addComponent(railFailButton)
-                    .addComponent(blockSelectionLabel))
+                    .addComponent(submitTrackButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
                 .addContainerGap())
         );
-
-        redLine.getAccessibleContext().setAccessibleName("redLine");
-        greenLine.getAccessibleContext().setAccessibleName("greenLine");
 
         jTabbedPane1.addTab("Test", jPanel2);
 
@@ -1048,31 +962,6 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
       
     }//GEN-LAST:event_submitTrackButtonActionPerformed
 
-    private void railFailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_railFailButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_railFailButtonActionPerformed
-
-    private void redLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redLineActionPerformed
-        // TODO add your handling code here:
-        
-    }//GEN-LAST:event_redLineActionPerformed
-
-    private void powerFailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_powerFailButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_powerFailButtonActionPerformed
-
-    private void greenLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_greenLineActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_greenLineActionPerformed
-
-    private void circuitFailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuitFailButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_circuitFailButtonActionPerformed
-
-    private void blockSelectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blockSelectionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_blockSelectionActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -1110,13 +999,9 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable blockOutputTable;
-    private javax.swing.JComboBox<String> blockSelection;
-    private javax.swing.JLabel blockSelectionLabel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
-    private javax.swing.JButton circuitFailButton;
-    private javax.swing.JRadioButton greenLine;
     private javax.swing.JTextField inputTrackTextField;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
@@ -1194,11 +1079,7 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton7;
     private javax.swing.JToggleButton jToggleButton8;
     private javax.swing.ButtonGroup lineSelection;
-    private javax.swing.JButton powerFailButton;
-    private javax.swing.JButton railFailButton;
-    private javax.swing.JRadioButton redLine;
     private javax.swing.JButton submitTrackButton;
-    private javax.swing.JLabel testFailureLabel;
     private javax.swing.JLabel trackInputLabel;
     // End of variables declaration//GEN-END:variables
 }

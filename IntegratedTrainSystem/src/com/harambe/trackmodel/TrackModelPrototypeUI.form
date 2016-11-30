@@ -1335,7 +1335,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jScrollPane7" min="-2" pref="1341" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="trackInputLabel" min="-2" max="-2" attributes="0"/>
@@ -1343,22 +1343,6 @@
                               <Component id="inputTrackTextField" min="-2" pref="257" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="submitTrackButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
-                              <Component id="redLine" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="greenLine" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="blockSelectionLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="blockSelection" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
-                              <Component id="testFailureLabel" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="powerFailButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="railFailButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="circuitFailButton" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace pref="25" max="32767" attributes="0"/>
@@ -1373,14 +1357,6 @@
                           <Component id="inputTrackTextField" alignment="3" min="-2" pref="36" max="-2" attributes="0"/>
                           <Component id="trackInputLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="submitTrackButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="redLine" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="greenLine" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="powerFailButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="circuitFailButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="blockSelection" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="testFailureLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="railFailButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="blockSelectionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane7" pref="540" max="32767" attributes="0"/>
@@ -1510,94 +1486,6 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JRadioButton" name="redLine">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="lineSelection"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="0" red="ff" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Red Line"/>
-                <Property name="actionCommand" type="java.lang.String" value="redLine"/>
-              </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="redLine"/>
-              </AccessibilityProperties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="redLineActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JRadioButton" name="greenLine">
-              <Properties>
-                <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
-                  <ComponentRef name="lineSelection"/>
-                </Property>
-                <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="33" green="cc" red="0" type="rgb"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Green Line"/>
-                <Property name="actionCommand" type="java.lang.String" value="greenLine"/>
-              </Properties>
-              <AccessibilityProperties>
-                <Property name="AccessibleContext.accessibleName" type="java.lang.String" value="greenLine"/>
-              </AccessibilityProperties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="greenLineActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="powerFailButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Power"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="powerFailButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="railFailButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Broken Rail"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="railFailButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JButton" name="circuitFailButton">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Track Circuit"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="circuitFailButtonActionPerformed"/>
-              </Events>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="blockSelection">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="4">
-                    <StringItem index="0" value="Item 1"/>
-                    <StringItem index="1" value="Item 2"/>
-                    <StringItem index="2" value="Item 3"/>
-                    <StringItem index="3" value="Item 4"/>
-                  </StringArray>
-                </Property>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="blockSelectionActionPerformed"/>
-              </Events>
-              <AuxValues>
-                <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-              </AuxValues>
-            </Component>
-            <Component class="javax.swing.JLabel" name="testFailureLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Test Failures: "/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="blockSelectionLabel">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Test Failures: "/>
-              </Properties>
-            </Component>
           </SubComponents>
         </Container>
       </SubComponents>
