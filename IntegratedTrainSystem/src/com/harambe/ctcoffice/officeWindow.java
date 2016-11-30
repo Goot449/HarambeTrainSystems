@@ -412,11 +412,9 @@ public class officeWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void refresh() {
-        //DefaultTableModel blockTableModelRefresh = (DefaultTableModel)this.blockTable.getModel();
-        //blockTableModel.setValueAt("Yes", i, 4);
-        trackTester.getBlock(4, "red").toggleOccupied();
-        System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
+    void refreshOccupiedBlocks() {
+        //trackTester.getBlock(4, "red").toggleOccupied();
+        //System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
         int i=1;
             do{
                  
@@ -429,19 +427,7 @@ public class officeWindow extends javax.swing.JFrame {
                }
                i++;
             } while (trackTester.getBlock(i,"red") != null);
-//        double currentPower = trainStateList.get(selectedTrain).getPower();
-//        double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
-//        currentSpeedValueLabel.setText(Integer.toString((int)Math.round(currentSpeed)));
-//        setPowerOut((int)currentPower);
-//        if (trainSelectorBox.getItemCount()!=trainList.size()){
-//            trainSelectorBox.removeAllItems();
-//            String[] trainIDs = new String[trainList.size()];
-//            for (int i = 0; i<trainList.size(); i++){
-//                Train thisTrain = (Train) trainList.get(i);
-//                trainIDs[i] = "Train " + Integer.toString(thisTrain.getId());
-//            }
-//            trainSelectorBox.setModel(new javax.swing.DefaultComboBoxModel(trainIDs));
-//        }
+
     }
     public void loadTrack(String csv){
        
@@ -466,7 +452,7 @@ public class officeWindow extends javax.swing.JFrame {
             loadTrackButton.setEnabled(false);
             trackTester.closeBlock("red", 3);
             Timer timer = new Timer((int) (1000 * DT), e -> {
-            refresh();
+            refreshOccupiedBlocks();
             });
             timer.setRepeats(true);
             timer.start();

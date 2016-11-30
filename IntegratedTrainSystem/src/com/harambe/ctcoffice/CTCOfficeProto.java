@@ -5,7 +5,7 @@
  */
 package com.harambe.ctcoffice;
 
-import com.harambe.waysidecontroller.Block;
+import com.harambe.trackmodel.Block;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
