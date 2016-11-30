@@ -13,6 +13,7 @@ public class RunSystem {
         TrainController trainController = new TrainController();
         for (int i = 0; i<400; i++){
             Train train = new Train(1,i);
+            //add train to yard here
             trainController.addTrain(train);
         }
         trainController.setStartControl(true);

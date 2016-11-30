@@ -60,7 +60,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         engineStatusLabel = new javax.swing.JLabel();
         signalStatusLabel = new javax.swing.JLabel();
         brakeStatusLabel = new javax.swing.JLabel();
-        serviceBrakeButton = new javax.swing.JButton();
+        serviceBrakeToggleButton = new javax.swing.JToggleButton();
         speedLimitLabel = new javax.swing.JLabel();
         speedLimitValueLabel = new javax.swing.JLabel();
         speedLimitUnitsLabel = new javax.swing.JLabel();
@@ -173,7 +173,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         setSpeedSlider.setMajorTickSpacing(10);
         setSpeedSlider.setMinorTickSpacing(2);
         setSpeedSlider.setPaintTicks(true);
-        setSpeedSlider.setValue(25);
+        setSpeedSlider.setValue(0);
         setSpeedSlider.setPreferredSize(new java.awt.Dimension(31, 140));
         setSpeedSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -202,7 +202,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         setSpeedLabel.setText("Set Speed");
 
         setSpeedValueLabel.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        setSpeedValueLabel.setText("25");
+        setSpeedValueLabel.setText("0");
 
         setSpeedUnitsLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         setSpeedUnitsLabel.setText("mph");
@@ -222,8 +222,13 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         brakeStatusLabel.setText("Brake Status");
         brakeStatusLabel.setOpaque(true);
 
-        serviceBrakeButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        serviceBrakeButton.setText("Service Brake");
+        serviceBrakeToggleButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        serviceBrakeToggleButton.setText("Service Brake");
+        serviceBrakeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                serviceBrakeToggleStateChanged(evt);
+            }
+        });
 
         speedLimitLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         speedLimitLabel.setText("Speed Limit");
@@ -318,7 +323,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
                                 .addComponent(currentSpeedUnitsLabel)))
                         .addGap(84, 84, 84))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(serviceBrakeButton)
+                        .addComponent(serviceBrakeToggleButton)
                         .addGap(50, 50, 50))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -414,7 +419,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(brakeStatusLabel)
                         .addGap(35, 35, 35)
-                        .addComponent(serviceBrakeButton)
+                        .addComponent(serviceBrakeToggleButton)
                         .addGap(18, 18, 18)
                         .addComponent(emergencyBrakeToggleButton)
                         .addGap(41, 41, 41)
@@ -650,6 +655,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         double speedLimit = trainList.get(selectedTrain).getSpeedLimit();
         this.changeTestSpeedLimitLabel((int)speedLimit);
         setPowerOut((int)currentPower);
+        //if we decide to dynamically create trains, this will have to change
         if (trainSelectorBox.getItemCount()!=trainList.size()){
             trainSelectorBox.removeAllItems();
             String[] trainIDs = new String[trainList.size()];
@@ -659,6 +665,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
             }
             trainSelectorBox.setModel(new javax.swing.DefaultComboBoxModel(trainIDs));
         }
+        toggleServiceBrakes(trainList.get(selectedTrain).getServiceBreakStatus());
     }
     
 
@@ -704,6 +711,11 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     
     private void emergencyBrakeToggleStateChanged(ChangeEvent evt) {
         toggleEmergencyBrakes(emergencyBrakeToggleButton.isSelected());
+    }
+    
+    private void serviceBrakeToggleStateChanged(ChangeEvent evt) {
+        trainStateList.get(selectedTrain).setGuiSetServiceBrake(serviceBrakeToggleButton.isSelected());
+        toggleServiceBrakes(serviceBrakeToggleButton.isSelected());
     }
 
     private void hvacFailToggleActionPerformed(java.awt.event.ActionEvent evt) {                                               
@@ -870,6 +882,11 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         trainList.get(selectedTrain).engageEmergencyBrakes(enabled);
     }
     
+    void toggleServiceBrakes(Boolean enabled){
+        trainList.get(selectedTrain).engageServiceBrakes(enabled);
+        serviceBrakeToggleButton.setSelected(enabled);
+    }
+    
     void setBrakeStatus(Boolean enabled){
         trainStateList.get(selectedTrain).setBrakeStatus(!enabled);
     }
@@ -911,7 +928,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton rightDoorFailToggle;
     private javax.swing.JLabel rightDoorLabel;
     private javax.swing.JRadioButton rightDoorOpenButton;
-    private javax.swing.JButton serviceBrakeButton;
+    private javax.swing.JToggleButton serviceBrakeToggleButton;
     private javax.swing.JLabel setSpeedLabel;
     private javax.swing.JSlider setSpeedSlider;
     private javax.swing.JLabel setSpeedUnitsLabel;
