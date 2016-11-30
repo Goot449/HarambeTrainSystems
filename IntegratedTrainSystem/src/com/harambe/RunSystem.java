@@ -19,10 +19,10 @@ public class RunSystem {
 		Track trackObj = new Track();
 		
 		//Test broken rail and broken circuit
-		Block brokenRailBlock = trackObj.getBlock(20, "red");
+		/*Block brokenRailBlock = trackObj.getBlock(100, "red");
 		brokenRailBlock.toggleBroken();
-		Block brokenCircuitBlock = trackObj.getBlock(10, "green");
-		brokenCircuitBlock.breakCircuit();
+		Block brokenCircuitBlock = trackObj.getBlock(100, "green");
+		brokenCircuitBlock.breakCircuit();*/
 		
 		//Test commanding authority and speed
 		/*trackObj.commandAuthority("red", 15, 27);
@@ -44,7 +44,19 @@ public class RunSystem {
         }
 		
 		//Testing train traversal
-		trackObj.updateDistance(1, 100);
+		trackObj.getRoute("green", "PIONEER");
+		trackObj.getRoute("green", "EDGEBROOK");
+		trackObj.getRoute("green", "BLANK");
+		trackObj.getRoute("green", "WHITED");
+		trackObj.getRoute("green", "SOUTH BANK");
+		trackObj.getRoute("red", "HERRON AVE");
+		trackObj.getRoute("red", "SWISSVALE");
+		for(int i=0; i<1000; i++){
+			trackObj.updateDistance(1, 100);
+			trackObj.updateDistance(2, 100);
+		}
+		trackTester.toggleSwitch("green", 153);
+		trackTester.toggleSwitch("green", 1);
 		
         TrackModelPrototypeUI trackGUI = new TrackModelPrototypeUI(trackObj);
         trainGUI.setVisible(true);
