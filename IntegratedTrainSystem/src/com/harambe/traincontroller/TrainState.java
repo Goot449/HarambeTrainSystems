@@ -24,14 +24,16 @@ public class TrainState {
     private boolean brakeStatus;
     private boolean receivingSignal;
     private boolean emergencyBrakeStatus;
+    private boolean guiSetServiceBrake;
     private boolean serviceBrakeStatus;
     
     public TrainState(Train newTrain){
         this.setTrainID(newTrain.getId());
+        this.setSetPoint(0);
         this.setLightsOn(newTrain.lightsAreOn());
         this.setLeftDoorsOpen(newTrain.leftDoorsAreOpen());
         this.setRightDoorsOpen(newTrain.rightDoorsAreOpen());
-        //have adam change break to brake
+        this.setGuiSetServiceBrake(false);
         this.setEmergencyBrakeStatus(newTrain.getEmergencyBreakStatus());
         this.setServiceBrakeStatus(newTrain.getServiceBreakStatus());
         
@@ -144,6 +146,14 @@ public class TrainState {
 
     public void setServiceBrakeStatus(boolean serviceBrakeStatus) {
         this.serviceBrakeStatus = serviceBrakeStatus;
+    }
+    
+    public boolean didGuiSetServiceBrake() {
+        return guiSetServiceBrake;
+    }
+
+    public void setGuiSetServiceBrake(boolean guiSetEmergencyBrake) {
+        this.guiSetServiceBrake = guiSetEmergencyBrake;
     }
     
     public double getPreviousError() {
