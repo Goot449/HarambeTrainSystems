@@ -1,6 +1,5 @@
 package com.harambe.waysidecontroller;
 import com.harambe.trackmodel.*;
-import java.util.LinkedHashMap;
 
 public class WaysideDriver {
     
@@ -13,10 +12,24 @@ public class WaysideDriver {
         Thread thread = new Thread(handler);
         thread.start();
         
-        track.getBlock(5, "red").toggleOccupied();
+        //System.out.println(track.getRoute("red", "SHADYSIDE-R"));
+        
+        System.out.println("Switch status : " + track.getSwitch("Switch 3").getswitchedBlockBlock().getBlockNumber());
+        
+        handler.manualSwitch("Switch 3");
+        Thread.sleep(500);
+        System.out.println("Switch status : " + track.getSwitch("Switch 3").getswitchedBlockBlock().getBlockNumber());
+        /*
+        track.getBlock(38, "red").toggleOccupied();
         
         Thread.sleep(1000);
-        handler.dispatchTrain(track.getBlock(5, "red"), 0);
+        handler.dispatchTrain(track.getBlock(38, "red"), 0);
+        
+        Thread.sleep(100);
+        track.getBlock(38, "red").toggleOccupied();
+        Thread.sleep(400);
+        handler.dispatchTrain(track.getBlock(38, "red"), 0);
+    */
     }
     
 }

@@ -1,11 +1,5 @@
 package com.harambe.waysidecontroller;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-//import com.sun.xml.internal.ws.wsdl.writer.document.Message;
-//package com.harambe.waysidecontroller;
+
 import com.harambe.trackmodel.*;
 import java.util.*;
 
@@ -63,7 +57,7 @@ public class WaysideControllerHandler implements Runnable{
         //Initialize our 4 wayside controllers
         for(int i = 0; i < 2; i++){
             //Red line wayside controllers
-            WaysideController wc = new WaysideController("red" + i);
+            WaysideController wc = new WaysideController("red" + i, "red");
             if(i == 0){
                 for(int b : newRedBlocks.keySet()){
                     if((b <= 36 || b == 78)){
@@ -90,7 +84,7 @@ public class WaysideControllerHandler implements Runnable{
             controllers.add(wc);
             
             //Green wayside controllers
-            wc = new WaysideController("green" + i);
+            wc = new WaysideController("green" + i, "green");
             if(i == 0){
                 for(int b : newGreenBlocks.keySet()){
                     if((b >= 62 && b < 121) || b == 150 || b == 154 || b == 155){
@@ -175,12 +169,50 @@ public class WaysideControllerHandler implements Runnable{
         }
     }
     
-    public void sendAuthority(int blockNumber, Block destinationBlock, double speed){
-        
-        //We're trying to create a new train
-        if(blockNumber == 0){
-            
+    public void sendAuthority(int trainID, Block destinationBlock, double speed){
+        Block trainBlock = myTrack.getBlock(trainID);
+        Block nxtBlock = trainBlock.peek();
+        //On same wayside
+        if(findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine()).equals(findCorrectWayside(destinationBlock.getBlockNumber(), destinationBlock.getLine()))){
+            WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
+            if(wc.checkAuthority(nxtBlock.getBlockNumber(), destinationBlock.getBlockNumber())){
+                trainBlock.setAuthority(destinationBlock.getBlockNumber());
+            }
         }
+        else{
+            if(nxtBlock.getLine().equals(("red"))){
+                WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
+                int check = 0;
+                if(wc.getBlock(36) != null){
+                    check = 36;
+                }
+                else{
+                    check = 37;
+                }
+                if(wc.checkAuthority(nxtBlock.getBlockNumber(), check)){
+                    WaysideController temp = findCorrectWayside(destinationBlock.getBlockNumber(), destinationBlock.getLine());
+                    if(check == 36){
+                        check = 37;
+                    }
+                    else{
+                        check = 36;
+                    }
+                    if(temp.checkAuthority(check, destinationBlock.getBlockNumber())){
+                        trainBlock.setAuthority(destinationBlock.getBlockNumber());
+                    }
+                    
+                }
+            }
+        }
+    }
+    
+    private void updateUI(){
+        UI.updateUI();
+    }
+    
+    public void toggleSwitch(String switchNumber){
+        WaysideController wc = findSwitch(switchNumber);
+        wc.changeSwitch(wc.getSwitch(switchNumber));
     }
     
     public void dispatchTrain(Block destinationBlock, double speed){
@@ -211,6 +243,7 @@ public class WaysideControllerHandler implements Runnable{
                 if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
+                    
                 }
             }
             //Need to communicate between two wayside
@@ -226,7 +259,7 @@ public class WaysideControllerHandler implements Runnable{
         }
     }
     
-    public void manualSwitch(int switchNumber){
+    public void manualSwitch(String switchNumber){
         WaysideController temp = findSwitch(switchNumber);
         temp.changeSwitch(temp.getSwitch(switchNumber));
     }
@@ -241,7 +274,7 @@ public class WaysideControllerHandler implements Runnable{
         return null;
     }
     
-    public WaysideController findSwitch(int switchNumber){
+    public WaysideController findSwitch(String switchNumber){
         for(WaysideController wc : controllers){
             if(wc.getSwitch(switchNumber) != null){
                 return wc;

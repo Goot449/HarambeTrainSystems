@@ -3,18 +3,6 @@ import java.util.LinkedHashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import com.harambe.trackmodel.*;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
-/**
- *
- * @author tak72_000
- */
 public class WaysideControlUI extends javax.swing.JFrame {
     
     static WaysideControllerHandler handler;
@@ -25,6 +13,11 @@ public class WaysideControlUI extends javax.swing.JFrame {
     public WaysideControlUI() {
         initComponents();
     }
+    
+    public void updateUI(){
+        
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -378,7 +371,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-       
+        
     }
     
     public void init(WaysideControllerHandler handler){
@@ -407,6 +400,8 @@ public class WaysideControlUI extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -415,10 +410,6 @@ public class WaysideControlUI extends javax.swing.JFrame {
             }
         });
         
-        
-        LinkedHashMap<Integer, Block> redBlocks = new LinkedHashMap<Integer, Block>();
-        LinkedHashMap<Integer, Block> greenBlocks = new LinkedHashMap<Integer, Block>();
-        LinkedHashMap<Integer, Switch> switches = new LinkedHashMap<Integer, Switch>();
         this.handler = handler;
     }
 

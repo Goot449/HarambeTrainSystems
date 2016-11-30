@@ -13,6 +13,7 @@ import com.harambe.trackmodel.*;
  */
 public class WaysideController {
     String id;
+    String line;
     String username = "admin";
     String password = "admin";
     public HashMap<Integer,Block>  blocks;
@@ -20,12 +21,17 @@ public class WaysideController {
     public Block crossing;
     PLC plc;
     
-    public WaysideController(String id){
+    public WaysideController(String id, String line){
         this.id = id;
+        this.line = line;
         switches = new HashMap<String, Switch>();
         blocks = new HashMap<Integer, Block>();
         crossing = null;
         plc = new DefaultPLC();
+    }
+    
+    public String getLine(){
+        return line;
     }
     
     public boolean changeSwitch(Switch sb){
@@ -57,7 +63,7 @@ public class WaysideController {
         return plc.checkAuthority(blocks.get(srcNum), blocks.get(destNum));
     }
     
-    public Switch getSwitch(int sbNum){
+    public Switch getSwitch(String sbNum){
         if(switches.containsKey(sbNum)){
             return switches.get(sbNum);
         }
