@@ -301,8 +301,14 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void switchSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchSelectComboBoxActionPerformed
         // TODO add your handling code here:
-        handler.manualSwitch(switchSelectComboBox.getSelectedItem().toString());
-        handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
+        //System.out.println(switchSelectComboBox.getSelectedItem().toString());
+        if(switchSelectComboBox.getSelectedItem() != null){
+            //handler.manualSwitch(switchSelectComboBox.getSelectedItem().toString());
+            //int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
+            int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
+            switchPositionTextBox.setText("");
+            switchPositionTextBox.setText(blockNum + "");
+        }
     }//GEN-LAST:event_switchSelectComboBoxActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
@@ -312,7 +318,12 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void changeSwitchPositionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeSwitchPositionButtonActionPerformed
         // TODO add your handling code here:
-        //handler.findSwitch();
+        if(switchSelectComboBox.getSelectedItem() != null){
+            handler.manualSwitch(switchSelectComboBox.getSelectedItem().toString());
+            int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
+            switchPositionTextBox.setText("");
+            switchPositionTextBox.setText(blockNum + "");
+        }
     }//GEN-LAST:event_changeSwitchPositionButtonActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed

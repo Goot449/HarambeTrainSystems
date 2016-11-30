@@ -215,6 +215,12 @@ public class WaysideControllerHandler implements Runnable{
         wc.changeSwitch(wc.getSwitch(switchNumber));
     }
     
+    public List<Block> ctcBlockRequest(){
+        ArrayList<Block> allBlocks = new ArrayList<Block>(oldRedBlocks.values());
+        allBlocks.addAll(oldGreenBlocks.values());
+        return allBlocks;
+    }
+    
     public void dispatchTrain(Block destinationBlock, double speed){
         String line = destinationBlock.getLine();
         if(line.equals("red")){
