@@ -74,7 +74,14 @@ public class TrainController {
     public double[] getTrainInfo(Train train){
         double[] trainInfo = new double[5];
         trainInfo[0] = train.getFeedbackVelocity();
-        trainInfo[1] = 5; //train.getAuthority();
+        //trainInfo[1] = 5; 
+        boolean currBlockIsEndBlock = false; //train.getAuthority();
+        if (!currBlockIsEndBlock){
+            trainInfo[1] = 1.0;
+        }
+        else {
+            trainInfo[1] = 0.0;
+        }
         trainInfo[2] = train.getSpeedLimit();
         if (train.getEmergencyBreakStatus()){
             trainInfo[3] = 1.0;

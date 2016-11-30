@@ -91,6 +91,12 @@ public class TrainControllerGUI extends javax.swing.JFrame {
 
         modeToggleButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         modeToggleButton.setText("Automatic Mode");
+        modeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                modeToggleStateChanged(evt);
+            }
+        });
+        
 
         buttonGroup1.add(leftDoorOpenButton);
         leftDoorOpenButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -653,6 +659,19 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
         currentSpeedValueLabel.setText(Integer.toString((int)Math.round(currentSpeed)));
         double speedLimit = trainList.get(selectedTrain).getSpeedLimit();
+        if (trainStateList.get(selectedTrain).isManualModeEnabled()){
+            modeToggleButton.setSelected(false);
+            setSpeedSlider.setEnabled(true);
+            serviceBrakeToggleButton.setEnabled(true);
+        }
+        else{
+            modeToggleButton.setSelected(true);
+            setSpeedSlider.setEnabled(true);
+            setSpeedSlider.setValue((int)speedLimit);
+            setSpeedSlider.setEnabled(false);
+            toggleServiceBrakes(false);
+            serviceBrakeToggleButton.setEnabled(false);
+        }
         this.changeTestSpeedLimitLabel((int)speedLimit);
         setPowerOut((int)currentPower);
         //if we decide to dynamically create trains, this will have to change
@@ -708,6 +727,10 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         changeTrainInGUI(trainSelectorBox.getSelectedIndex());
     }  
+    
+    private void modeToggleStateChanged(ChangeEvent evt) {
+        toggleMode(modeToggleButton.isSelected());
+    }
     
     private void emergencyBrakeToggleStateChanged(ChangeEvent evt) {
         toggleEmergencyBrakes(emergencyBrakeToggleButton.isSelected());
@@ -767,6 +790,10 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     
     void changeSetSpeedLabel(int setSpeed){
         setSpeedValueLabel.setText(Integer.toString(setSpeed));
+    }
+    
+    void toggleMode(boolean enabled){
+        trainStateList.get(selectedTrain).setManualModeEnabled(!enabled);
     }
     
     void setTrainStateSetPoint(int setSpeed) {

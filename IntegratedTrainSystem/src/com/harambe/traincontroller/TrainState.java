@@ -26,6 +26,7 @@ public class TrainState {
     private boolean emergencyBrakeStatus;
     private boolean guiSetServiceBrake;
     private boolean serviceBrakeStatus;
+    private boolean manualModeEnabled;
     
     public TrainState(Train newTrain){
         this.setTrainID(newTrain.getId());
@@ -34,6 +35,8 @@ public class TrainState {
         this.setLeftDoorsOpen(newTrain.leftDoorsAreOpen());
         this.setRightDoorsOpen(newTrain.rightDoorsAreOpen());
         this.setGuiSetServiceBrake(false);
+        this.setManualModeEnabled(false);
+        
         this.setEmergencyBrakeStatus(newTrain.getEmergencyBreakStatus());
         this.setServiceBrakeStatus(newTrain.getServiceBreakStatus());
         
@@ -186,6 +189,14 @@ public class TrainState {
 
     public void setTestSpeed(double testSpeed) {
         this.testSpeed = testSpeed;
+    }
+    
+    public boolean isManualModeEnabled() {
+        return manualModeEnabled;
+    }
+
+    public void setManualModeEnabled(boolean manualModeEnabled) {
+        this.manualModeEnabled = manualModeEnabled;
     }
     
 }
