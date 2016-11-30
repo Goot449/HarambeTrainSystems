@@ -210,9 +210,11 @@ public class Train {
     private void step() {
         double grade = USE_TRACK_MODEL ? track.getBlock(this.id).getGrade() : 0;
         double mass = this.getMass();
-        if(velocity < MINIMUM_VELOCITY) {
+        if(Math.abs(velocity) < MINIMUM_VELOCITY) {
             if(power > 0) {
-                velocity = MINIMUM_VELOCITY;
+                velocity = velocity > 0 ? MINIMUM_VELOCITY : -MINIMUM_VELOCITY;
+            } else {
+                velocity = 0;
             }
             force = 0;
         } else {
