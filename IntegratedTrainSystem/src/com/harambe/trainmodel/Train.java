@@ -146,6 +146,13 @@ public class Train {
     public int getMaxPassengers() {
         return MAX_PASSENGERS * carCount;
     }
+    public int getAuthority() throws Exception {
+        if(this.trainModel == null || this.trainModel.getTrack() == null) {
+            throw new Exception("Cannot get authority unless the train has an associated track.");
+        }
+        return this.trainModel.getTrack().getBlock(this.id).getTrainAuthority();
+    }
+    
 
     /**
      * Attempts to add specified number of passengers. This will not increase the number of passengers
