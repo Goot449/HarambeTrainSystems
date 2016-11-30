@@ -20,10 +20,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class TrackModelPrototypeUI extends javax.swing.JFrame {
    
+    public Track trackTester;
+    
     /**
      * Creates new form TrackModelPrototypeUI
      */
-    public TrackModelPrototypeUI(){
+    public TrackModelPrototypeUI(Track trackObj){
+        this.trackTester = trackObj;
         initComponents();
     }
 
@@ -986,14 +989,7 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
 
         //Track file to be parsed and displayed
         String csvIn = inputTrackTextField.getText();
-        //Track trackTester;
-        Track trackTester;
-        
-        try {
-            
-            trackTester = new Track();
-            //trackTester = new Track();
-            
+
             if("RedLine.csv".equals(csvIn)){
                 DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
                 
@@ -1050,10 +1046,6 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                     i++;
                 } while (trackTester.getBlock(i, "green") != null);
             }
-        
-        } catch (IOException ex) {
-            //Logger.getLogger(TrackModelPrototypeUI.class.getName()).log(Level.SEVERE, null, ex);
-        }
       
     }//GEN-LAST:event_submitTrackButtonActionPerformed
 
@@ -1110,11 +1102,11 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        /*java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new TrackModelPrototypeUI().setVisible(true);    
             }
-        });
+        });*/
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
