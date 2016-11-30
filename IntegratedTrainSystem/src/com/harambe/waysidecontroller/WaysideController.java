@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package com.harambe.waysidecontroller;
 
 import java.util.*;
-
+import com.harambe.trackmodel.*;
 /**
  *
  * @author tak72_000
@@ -15,13 +16,13 @@ public class WaysideController {
     String username = "admin";
     String password = "admin";
     public HashMap<Integer,Block>  blocks;
-    public HashMap<Integer,Switch> switches;
+    public HashMap<String,Switch> switches;
     public Block crossing;
     PLC plc;
     
     public WaysideController(String id){
         this.id = id;
-        switches = new HashMap<Integer, Switch>();
+        switches = new HashMap<String, Switch>();
         blocks = new HashMap<Integer, Block>();
         crossing = null;
         plc = new DefaultPLC();
@@ -52,6 +53,10 @@ public class WaysideController {
         return true;
     }
     
+    public boolean checkAuthority(int srcNum, int destNum){
+        return plc.checkAuthority(blocks.get(srcNum), blocks.get(destNum));
+    }
+    
     public Switch getSwitch(int sbNum){
         if(switches.containsKey(sbNum)){
             return switches.get(sbNum);
@@ -78,7 +83,7 @@ public class WaysideController {
     }
     
     public void addSwitch(Switch s){
-        switches.put(Integer.parseInt(s.getSwitchNumber()), s);
+        switches.put(s.getSwitchNumber(), s);
     }
     
     public void toggleCrossing(){

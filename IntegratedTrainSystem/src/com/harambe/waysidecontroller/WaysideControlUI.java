@@ -1,4 +1,4 @@
-
+package com.harambe.waysidecontroller;
 import java.util.LinkedHashMap;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
@@ -371,14 +371,18 @@ public class WaysideControlUI extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         System.out.println("Good");
-        System.out.println(handler.findCorrectWayside(38, "Red"));
+        System.out.println(handler.findCorrectWayside(38, "red"));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
+       
+    }
+    
+    public void init(WaysideControllerHandler handler){
+         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
@@ -408,9 +412,9 @@ public class WaysideControlUI extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new WaysideControlUI().setVisible(true);
-                
             }
         });
+        
         
         LinkedHashMap<Integer, Block> redBlocks = new LinkedHashMap<Integer, Block>();
         redBlocks.put(1, new Block("Red", 1, false));
@@ -421,8 +425,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
         redBlocks.put(40, new Block("Red", 40, false));
         LinkedHashMap<Integer, Block> greenBlocks = new LinkedHashMap<Integer, Block>();
         LinkedHashMap<Integer, Switch> switches = new LinkedHashMap<Integer, Switch>();
-        //handler = new WaysideControllerHandler(redBlocks, greenBlocks, switches);
-        //handler.run();
+        this.handler = handler;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

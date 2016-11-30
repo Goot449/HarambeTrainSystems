@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 //import com.sun.xml.internal.ws.wsdl.writer.document.Message;
+package com.harambe.waysidecontroller;
+import com.harambe.trackmodel.*;
 import java.util.*;
 
 /**
@@ -39,20 +41,22 @@ public class WaysideControllerHandler implements Runnable{
         redSwitches = track.getRedSwitches();
         greenSwitches = track.getGreenSwitches();
         
-        LinkedHashMap<Integer, Switch> switches = new LinkedHashMap<Integer, Switch>();
+        LinkedHashMap<String, Switch> switches = new LinkedHashMap<String, Switch>();
         
         //Switches are directly manipulated by me
         for(Switch s : redSwitches){
-            switches.put(Integer.parseInt(s.getSwitchNumber()), s);
+            switches.put(s.getSwitchNumber(), s);
         }
         for(Switch s : greenSwitches){
-            switches.put(Integer.parseInt(s.getSwitchNumber()), s);
+            switches.put(s.getSwitchNumber(), s);
         }
         
         initControllers(oldRedBlocks, oldGreenBlocks, switches);
+        UI = new WaysideControlUI();
+        UI.init(this);   
     }
     
-    public void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<Integer, Switch> newSwitches){
+    public void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<String, Switch> newSwitches){
         //Need to create the controllers and assign the switches...
         //Initialize our 4 wayside controllers
         for(int i = 0; i < 2; i++){
@@ -60,26 +64,26 @@ public class WaysideControllerHandler implements Runnable{
             WaysideController wc = new WaysideController("red" + i);
             if(i == 0){
                 for(int b : newRedBlocks.keySet()){
-                    if((b <= 36 || b == 77)){
+                    if((b <= 36 || b == 78)){
                         wc.addBlock(newRedBlocks.get(b));
                     } 
                 }
                 
-                wc.addSwitch(newSwitches.get(6));
-                wc.addSwitch(newSwitches.get(7));
-                wc.addSwitch(newSwitches.get(8));
-                wc.addSwitch(newSwitches.get(12));
+                wc.addSwitch(newSwitches.get("Switch 6"));
+                wc.addSwitch(newSwitches.get("Switch 7"));
+                wc.addSwitch(newSwitches.get("Switch 8"));
+                wc.addSwitch(newSwitches.get("Switch 12"));
             }
             else {
                 for(int b : newRedBlocks.keySet()){
-                    if(b > 36 && b != 77){
+                    if(b > 36 && b != 78){
                         wc.addBlock(newRedBlocks.get(b));
                     }    
                 }
                 wc.crossing = newRedBlocks.get(47);
-                wc.addSwitch(newSwitches.get(9));
-                wc.addSwitch(newSwitches.get(10));
-                wc.addSwitch(newSwitches.get(11));
+                wc.addSwitch(newSwitches.get("Switch 9"));
+                wc.addSwitch(newSwitches.get("Switch 10"));
+                wc.addSwitch(newSwitches.get("Switch 11"));
             }
             controllers.add(wc);
             
@@ -91,9 +95,9 @@ public class WaysideControllerHandler implements Runnable{
                         wc.addBlock(newGreenBlocks.get(b));
                     }    
                 }
-                wc.addSwitch(newSwitches.get(0));
-                wc.addSwitch(newSwitches.get(1));
-                wc.addSwitch(newSwitches.get(2));
+                wc.addSwitch(newSwitches.get("Switch 0"));
+                wc.addSwitch(newSwitches.get("Switch 1"));
+                wc.addSwitch(newSwitches.get("Switch 2"));
             }
             else {
                 for(int b : newGreenBlocks.keySet()){
@@ -103,9 +107,9 @@ public class WaysideControllerHandler implements Runnable{
                 }
                 wc.crossing = newGreenBlocks.get(19);
                 
-                wc.addSwitch(newSwitches.get(3));
-                wc.addSwitch(newSwitches.get(4));
-                wc.addSwitch(newSwitches.get(5));
+                wc.addSwitch(newSwitches.get("Switch 3"));
+                wc.addSwitch(newSwitches.get("Switch 4"));
+                wc.addSwitch(newSwitches.get("Switch 5"));
             }
             controllers.add(wc);
         }
@@ -169,9 +173,54 @@ public class WaysideControllerHandler implements Runnable{
         }
     }
     
-    public void sendAuthority(int blockNumber, int destinationNumber, double speed){
+    public void sendAuthority(int blockNumber, Block destinationBlock, double speed){
+        
+        //We're trying to create a new train
         if(blockNumber == 0){
             
+        }
+    }
+    
+    public void dispatchTrain(Block destinationBlock, double speed){
+        String line = destinationBlock.getLine();
+        if(line.equals("red")){
+            WaysideController initialWayside = findCorrectWayside(78, line);
+            if(initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))){
+                if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
+                    //Dispatch train
+                    System.out.println("Go ahead and dispatch");
+                }
+            }
+            //Need to communicate between two wayside
+            else{
+                if(initialWayside.checkAuthority(78, 36)){
+                    WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
+                    if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
+                        //Dispatch train
+                        System.out.println("Go ahead and dispatch");
+                    }
+                }
+            }
+        }
+        //Green line
+        else{
+            WaysideController initialWayside = findCorrectWayside(155, line);
+            if(initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))){
+                if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
+                    //Dispatch train
+                    System.out.println("Go ahead and dispatch");
+                }
+            }
+            //Need to communicate between two wayside
+            else{
+                if(initialWayside.checkAuthority(78, 36)){
+                    WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
+                    if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
+                        //Dispatch train
+                        System.out.println("Go ahead and dispatch");
+                    }
+                }
+            }
         }
     }
     
