@@ -212,7 +212,7 @@ public class Train {
         double mass = this.getMass();
         if(Math.abs(velocity) < MINIMUM_VELOCITY) {
             if(power > 0) {
-                velocity = velocity > 0 ? MINIMUM_VELOCITY : -MINIMUM_VELOCITY;
+                velocity = velocity >= 0 ? MINIMUM_VELOCITY : -MINIMUM_VELOCITY;
             } else {
                 velocity = 0;
             }
