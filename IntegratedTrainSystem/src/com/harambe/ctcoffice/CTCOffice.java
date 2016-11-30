@@ -18,7 +18,7 @@ import javax.swing.UnsupportedLookAndFeelException;
  *
  * @author Jake
  */
-public class CTCOfficeProto {
+public class CTCOffice {
 
     /**
      * @param args the command line arguments
@@ -28,19 +28,15 @@ public class CTCOfficeProto {
         try {
             // TODO code application logic here
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            new officeWindow().setVisible(true);
-            
-            
-            
-            
+            new officeWindow().setVisible(true);   
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CTCOfficeProto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CTCOffice.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            Logger.getLogger(CTCOfficeProto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CTCOffice.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(CTCOfficeProto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CTCOffice.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnsupportedLookAndFeelException ex) {
-            Logger.getLogger(CTCOfficeProto.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CTCOffice.class.getName()).log(Level.SEVERE, null, ex);
         }
     }    
     
