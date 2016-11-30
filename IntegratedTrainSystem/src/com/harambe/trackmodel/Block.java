@@ -271,6 +271,7 @@ public class Block implements BlockInterface{
 
             if(this.getNext() == null){
                 returnBlock = this;
+                
             } else{
                 returnBlock = this.getNext();
             }

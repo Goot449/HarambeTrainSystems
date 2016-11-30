@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jake
  */
-public class officeWindow extends javax.swing.JFrame {
+public class OfficeWindow extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
@@ -28,7 +28,7 @@ public class officeWindow extends javax.swing.JFrame {
     private double DT = .1;
     Track officeTrackModel;
     DefaultTableModel blockTableModel;
-    public officeWindow() {
+    public OfficeWindow() {
         initComponents();
       
 
