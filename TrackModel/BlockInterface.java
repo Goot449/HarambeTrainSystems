@@ -23,7 +23,7 @@ public interface BlockInterface {
     public BlockInterface getNext();
     
     //Returns requested values
-    public double getTrainAuthority();
+    public int getTrainAuthority();
     public double getTrainCommandedSpeed();
     public double getFrictionCoefficient();
    

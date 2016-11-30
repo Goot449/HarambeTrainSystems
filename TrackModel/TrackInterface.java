@@ -33,7 +33,7 @@ public interface TrackInterface {
     public boolean commandCrossingDown(int blockNumber);
     
     //Set the authority for a block
-    public void commandAuthority(String line, double commandedAuthority, int blockNumber);
+    public void commandAuthority(String line, int commandedAuthority, int blockNumber);
     
     //Toggle controlled: T closed; F not closed
     public boolean closeBlock(String line, int blockNumber);

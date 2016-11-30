@@ -264,7 +264,7 @@ public class Track {
             return false;
 	}
 
-	public void commandAuthority(String line, double commandedAuthority, int blockNumber){
+	public void commandAuthority(String line, int commandedAuthority, int blockNumber){
             getBlock(blockNumber, line).setAuthority(commandedAuthority);
 	}
 
