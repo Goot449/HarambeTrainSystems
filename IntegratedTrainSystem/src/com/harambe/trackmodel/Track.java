@@ -5,6 +5,7 @@
  */
 package com.harambe.trackmodel;
 
+import com.harambe.trackmodel.Switch;
 import java.io.*;
 import java.util.*;
 
