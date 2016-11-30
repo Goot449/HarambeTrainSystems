@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.harambe.trackmodel;
+package My.TrackModel;
 
 /**
  *
@@ -23,12 +23,11 @@ public interface BlockInterface {
     public BlockInterface getNext();
     
     //Returns requested values
-    public double getTrainAuthority();
+    public int getTrainAuthority();
     public double getTrainCommandedSpeed();
     public double getFrictionCoefficient();
-    
-    //T working; F broken
-    //public boolean isBlockWorking();
+   
+    public void toggleOccupied();
     
     //T if one of the following infrastructures; F if not
     public boolean isCrossing();

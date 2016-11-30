@@ -25,8 +25,8 @@ public class officeWindow extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    private double DT = .001;
-    Track trackTester;
+    private double DT = .1;
+    Track officeTrackModel;
     DefaultTableModel blockTableModel;
     public officeWindow() {
         initComponents();
@@ -412,15 +412,15 @@ public class officeWindow extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     
-    void refresh() {
-        //DefaultTableModel blockTableModelRefresh = (DefaultTableModel)this.blockTable.getModel();
-        //blockTableModel.setValueAt("Yes", i, 4);
-        trackTester.getBlock(4, "red").toggleOccupied();
-        System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
+    void refreshOccupiedBlocks() {
+        officeTrackModel.getBlock(4, "red").toggleOccupied();
+        officeTrackModel.getBlock(30, "green").toggleOccupied();
+        //System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
         int i=1;
+        int j=1;
             do{
                  
-               if (trackTester.getBlock(i, "red").isBlockOccupied()){
+               if (officeTrackModel.getBlock(i, "red").isBlockOccupied()){
                    blockTableModel.setValueAt("Yes", i-1, 4);
                }
                else{
@@ -428,45 +428,51 @@ public class officeWindow extends javax.swing.JFrame {
   
                }
                i++;
-            } while (trackTester.getBlock(i,"red") != null);
-//        double currentPower = trainStateList.get(selectedTrain).getPower();
-//        double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
-//        currentSpeedValueLabel.setText(Integer.toString((int)Math.round(currentSpeed)));
-//        setPowerOut((int)currentPower);
-//        if (trainSelectorBox.getItemCount()!=trainList.size()){
-//            trainSelectorBox.removeAllItems();
-//            String[] trainIDs = new String[trainList.size()];
-//            for (int i = 0; i<trainList.size(); i++){
-//                Train thisTrain = (Train) trainList.get(i);
-//                trainIDs[i] = "Train " + Integer.toString(thisTrain.getId());
-//            }
-//            trainSelectorBox.setModel(new javax.swing.DefaultComboBoxModel(trainIDs));
-//        }
+            } while (officeTrackModel.getBlock(i,"red") != null);
+            
+            do{
+                 
+               if (officeTrackModel.getBlock(j, "green").isBlockOccupied()){
+                   blockTableModel.setValueAt("Yes", j+77, 4);
+               }
+               else{
+                   blockTableModel.setValueAt("No", j+77, 4);
+  
+               }
+               j++;
+            } while (officeTrackModel.getBlock(j,"green") != null);
+
     }
     public void loadTrack(String csv){
        
         try {
-            trackTester = new Track();
-            trackTester.loadTrack(csv);
+            officeTrackModel = new Track();
+            officeTrackModel.loadTrack(csv);
             blockTableModel= (DefaultTableModel)blockTable.getModel();
             //System.out.println(trackTester.getBlock(1, "green"));
             //model.addRow(new Object[]{1, trackTester.getBlock(1, "red").getBlockNumber(), trackTester.getBlock(1, "red").getSection(), trackTester.getBlock(1, "red"), trackTester.getBlock(1, "red").getLine(), trackTester.getBlock(1, "red").getInfrastructure(),false, true});    
                 
-            int i=1;
-            //trackTester.getBlock(i);
+            
+            
             DecimalFormat df = new DecimalFormat("#.##");
-            //System.out.print(df.format(d));
+            int i=1;
+            int j=1;
             do{
-                blockTableModel.addRow(new Object[]{trackTester.getBlock(i,"red").getSection() + trackTester.getBlock(i,"red").getBlockNumber(), trackTester.getBlock(i,"red").getLine(), df.format(trackTester.getBlock(i,"red").getSpeedLimit()), trackTester.getBlock(i,"red").getStation(), "No", "Enabled"});    
+                blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(i,"red").getSection() + officeTrackModel.getBlock(i,"red").getBlockNumber(), officeTrackModel.getBlock(i,"red").getLine(), df.format(officeTrackModel.getBlock(i,"red").getSpeedLimit()*0.621371), officeTrackModel.getBlock(i,"red").getStation(), "No", "Enabled"});    
                 i++;
-            } while (trackTester.getBlock(i,"red") != null);
+            } while (officeTrackModel.getBlock(i,"red") != null);
+            
+            do{
+                blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(j,"green").getSection() + officeTrackModel.getBlock(j,"green").getBlockNumber(), officeTrackModel.getBlock(j,"green").getLine(), df.format(officeTrackModel.getBlock(j,"green").getSpeedLimit()*0.621371), officeTrackModel.getBlock(j,"green").getStation(), "No", "Enabled"});    
+                j++;
+            } while (officeTrackModel.getBlock(j,"green") != null);
 //            
            
             fileInput.setEditable(false);
             loadTrackButton.setEnabled(false);
-            trackTester.closeBlock("red", 3);
+            
             Timer timer = new Timer((int) (1000 * DT), e -> {
-            refresh();
+            refreshOccupiedBlocks();
             });
             timer.setRepeats(true);
             timer.start();

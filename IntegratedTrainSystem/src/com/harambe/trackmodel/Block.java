@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.harambe.trackmodel;
+package My.TrackModel;
 
 import java.util.*;
 
@@ -59,7 +59,7 @@ public class Block implements BlockInterface{
     private boolean trackHeater = false;
     private boolean beaconCommanded = false;
     private double commandedSpeed = 0;
-    private double commandedAuthority = -1;
+    private int commandedAuthority = -1;
     private double distanceTraveled = 0;
     
     public Block(Block b){
@@ -168,8 +168,8 @@ public class Block implements BlockInterface{
     }
     
     //Returns the current commanded authority from the Wayside Controller 
-    public double getTrainAuthority(){
-        double temp = commandedAuthority;
+    public int getTrainAuthority(){
+        int temp = commandedAuthority;
         commandedAuthority = -1;
                 
         return temp;
@@ -393,7 +393,7 @@ public class Block implements BlockInterface{
 	}
 	
 	//Sets the current authority;
-	public void setAuthority(double authority){
+	public void setAuthority(int authority){
             commandedAuthority = authority;
 	}
 
