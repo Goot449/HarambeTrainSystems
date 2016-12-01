@@ -91,6 +91,12 @@ public class WaysideController {
     
     public void addBlock(Block b){
         blocks.put(b.getBlockNumber(), b);
+        if(b.getBlockNumber() == 47 && b.getLine().equals("red")){
+            crossing = b;
+        }
+        if(b.getBlockNumber() == 19 && b.getLine().equals("green")){
+            crossing = b;
+        }
     }
     
     public void addSwitch(Switch s){
@@ -99,26 +105,28 @@ public class WaysideController {
     
     public void toggleCrossing(){
         //If the crossing should be closed/down/red
-        System.out.println("Trying to toggle crossing");
         //System.out.println("Current crossing status = " + crossing.getCrossing().isClosed);
         
-        //System.out.println(crossing.getBlockNumber());
+        System.out.println(crossing.getBlockNumber() + " " + crossing.isBlockOccupied());
         
         Block next = blocks.get(crossing.getBlockNumber()-1);
         Block prev = blocks.get(crossing.getBlockNumber()+1);
+        System.out.println(next.getBlockNumber() + " " + next.isBlockOccupied());
+        System.out.println(prev.getBlockNumber() + " " + prev.isBlockOccupied());
         
         if(plc.checkCrossing(crossing, next, prev))
         {
             Crossing temp = crossing.getCrossing();
             //System.out.println(temp.toString());
-            if(!crossing.getCrossing().getCrossingState(crossing.getLine())){
-                crossing.getCrossing().toggleCrossing();
+            if(!temp.getCrossingState(crossing.getLine())){
+                temp.toggleCrossing();
             }
         }
         //Crossing should be open/green/up
         else{
             if(crossing.getCrossing().getCrossingState(crossing.getLine())){
-                crossing.getCrossing().toggleCrossing();
+                Crossing temp = crossing.getCrossing();
+                temp.toggleCrossing();
             }
         }
     }

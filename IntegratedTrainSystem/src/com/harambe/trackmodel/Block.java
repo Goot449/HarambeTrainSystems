@@ -82,6 +82,8 @@ public class Block implements BlockInterface{
 	commandedAuthority = -1;
 	commandedSpeed = speedLimit;
         
+        blockOccupied = b.isBlockOccupied();
+        
         railroadCrossing = b.getCrossing();
     }
     

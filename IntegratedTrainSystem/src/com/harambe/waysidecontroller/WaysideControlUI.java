@@ -62,6 +62,27 @@ public class WaysideControlUI extends javax.swing.JFrame {
             else{
                 blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "No"});
             }
+            
+            if(lineSelectComboBox.getSelectedItem().toString().equals("Red Line")){
+                railRoadCrossingTextBox.setText("");
+                boolean crossingStatus = handler.findCorrectWayside(47, "red").getBlock(47).getCrossing().getCrossingState("red");
+                if(crossingStatus){
+                    railRoadCrossingTextBox.setText("Closed");
+                }
+                else{
+                    railRoadCrossingTextBox.setText("Open");
+                }
+            }
+            else{
+                railRoadCrossingTextBox.setText("");
+                boolean crossingStatus = handler.findCorrectWayside(19, "green").getBlock(19).getCrossing().getCrossingState("green");
+                if(crossingStatus){
+                    railRoadCrossingTextBox.setText("Closed");
+                }
+                else{
+                    railRoadCrossingTextBox.setText("Open");
+                }
+            }
         }
         
         
@@ -157,6 +178,11 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
         railRoadCrossingTextBox.setText("Red/Yellow/Green");
         railRoadCrossingTextBox.setEnabled(false);
+        railRoadCrossingTextBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                railRoadCrossingTextBoxActionPerformed(evt);
+            }
+        });
 
         lineSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Red Line", "Green Line" }));
         lineSelectComboBox.addActionListener(new java.awt.event.ActionListener() {
@@ -340,7 +366,15 @@ public class WaysideControlUI extends javax.swing.JFrame {
             switchPositionTextBox.setText("");
             switchPositionTextBox.setText(blockNum + "");
             switchLightTextBox.setText("");
-            switchLightTextBox.setText(Boolean.toString(handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight()));
+            
+            boolean light = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight();
+            
+            if(light){
+                switchLightTextBox.setText("On");
+            }
+            else{
+                switchLightTextBox.setText("Off");
+            }
         }
     }//GEN-LAST:event_switchSelectComboBoxActionPerformed
 
@@ -451,17 +485,27 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
         // TODO add your handling code here:
-        if(switchSelectComboBox.getSelectedItem() != null){
+        if(switchSelectComboBox.getSelectedItem() != null && manual == true){
             WaysideController wc = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString());
             wc.getSwitch((switchSelectComboBox.getSelectedItem().toString())).toggleLight();
-            switchLightTextBox.setText("");
-            switchLightTextBox.setText(Boolean.toString(handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight()));
+            boolean light = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight();
+            
+            if(light){
+                switchLightTextBox.setText("On");
+            }
+            else{
+                switchLightTextBox.setText("Off");
+            }
         }
     }//GEN-LAST:event_jToggleButton3ActionPerformed
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void railRoadCrossingTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_railRoadCrossingTextBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_railRoadCrossingTextBoxActionPerformed
 
     
     public void init(WaysideControllerHandler handler){
