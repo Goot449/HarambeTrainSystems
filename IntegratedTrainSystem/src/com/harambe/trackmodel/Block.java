@@ -271,6 +271,9 @@ public class Block implements BlockInterface{
 
             if(this.getNext() == null){
                 returnBlock = this;
+                System.out.println(this.blockNumber);
+                System.out.println(this.line);
+                
             } else{
                 returnBlock = this.getNext();
             }
@@ -586,7 +589,7 @@ public class Block implements BlockInterface{
                     blockOccupied = false;
                     distanceTraveled = 0;
                     newDist = newDist - blockLength;
-                    //((Block) this.getNext()).placeTrain(trainID, newDist); <----------- traversal move 
+                    ((Block) this.getNext()).placeTrain(trainID, newDist); 
                     currentBlock = this.traverseTrain(trainID); 
                     
                     if(temp == currentBlock){

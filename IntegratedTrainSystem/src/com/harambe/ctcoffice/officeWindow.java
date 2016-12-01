@@ -6,6 +6,7 @@
 package com.harambe.ctcoffice;
 
 import com.harambe.trackmodel.Track;
+import com.harambe.waysidecontroller.WaysideControllerHandler;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
@@ -20,7 +21,7 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jake
  */
-public class officeWindow extends javax.swing.JFrame {
+public class OfficeWindow extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
@@ -28,7 +29,9 @@ public class officeWindow extends javax.swing.JFrame {
     private double DT = .1;
     Track officeTrackModel;
     DefaultTableModel blockTableModel;
-    public officeWindow() {
+    WaysideControllerHandler handler;
+    public OfficeWindow(WaysideControllerHandler handler) {
+        this.handler = handler;
         initComponents();
       
 
@@ -414,6 +417,7 @@ public class officeWindow extends javax.swing.JFrame {
 
     
     void refreshOccupiedBlocks() {
+        
         officeTrackModel.getBlock(4, "red").toggleOccupied();
         officeTrackModel.getBlock(30, "green").toggleOccupied();
         //System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
@@ -478,7 +482,7 @@ public class officeWindow extends javax.swing.JFrame {
             timer.setRepeats(true);
             timer.start();
         } catch (IOException ex) {
-            Logger.getLogger(officeWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OfficeWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
          
@@ -529,11 +533,15 @@ public class officeWindow extends javax.swing.JFrame {
                 dispatchLine = temp.getText();
             }
         }
+        int destBlockInt = Integer.parseInt(destBlock);
+        officeTrackModel.getBlock(destBlockInt, dispatchLine);
+        handler.dispatchTrain(officeTrackModel.getBlock(destBlockInt, dispatchLine), destSpeed);
         DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
         model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
         dispatchBlockInput.setText("");
         speedLimitInput.setText("");
         DispatchLineButtonGroup.clearSelection();
+        
     }//GEN-LAST:event_dispatchTrainButtonActionPerformed
    
     /**
@@ -553,13 +561,13 @@ public class officeWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -567,12 +575,12 @@ public class officeWindow extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new officeWindow().setVisible(true);
-                
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new OfficeWindow(WaysideControllerHandler ).setVisible(true);
+//                
+//            }
+//        });
         
     }
 
