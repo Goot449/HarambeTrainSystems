@@ -17,14 +17,14 @@ public class WaysideDriver {
         System.out.println("Switch status : " + track.getSwitch("Switch 3").getswitchedBlockBlock().getBlockNumber());
         
         handler.manualSwitch("Switch 3");
-        Thread.sleep(500);
+        Thread.sleep(5000);
         System.out.println("Switch status : " + track.getSwitch("Switch 3").getswitchedBlockBlock().getBlockNumber());
-        /*
-        track.getBlock(38, "red").toggleOccupied();
+        
+        track.getBlock(10, "red").toggleOccupied();
         
         Thread.sleep(1000);
-        handler.dispatchTrain(track.getBlock(38, "red"), 0);
-        
+        //handler.dispatchTrain(track.getBlock(38, "red"), 0);
+        /*
         Thread.sleep(100);
         track.getBlock(38, "red").toggleOccupied();
         Thread.sleep(400);

@@ -48,8 +48,8 @@ public class WaysideControllerHandler implements Runnable{
         }
         
         initControllers(oldRedBlocks, oldGreenBlocks, switches);
-        UI = new WaysideControlUI();
-        UI.init(this);   
+        UI = new WaysideControlUI(this);
+        
     }
     
     public void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<String, Switch> newSwitches){
@@ -60,7 +60,7 @@ public class WaysideControllerHandler implements Runnable{
             WaysideController wc = new WaysideController("red" + i, "red");
             if(i == 0){
                 for(int b : newRedBlocks.keySet()){
-                    if((b <= 36 || b == 78)){
+                    if((b <= 36 || b == 72 ||b == 77 || b == 78)){
                         wc.addBlock(newRedBlocks.get(b));
                     } 
                 }
@@ -72,7 +72,7 @@ public class WaysideControllerHandler implements Runnable{
             }
             else {
                 for(int b : newRedBlocks.keySet()){
-                    if(b > 36 && b != 78){
+                    if(b > 36 && b!=72 && b != 77 && b != 78){
                         wc.addBlock(newRedBlocks.get(b));
                     }    
                 }
@@ -115,7 +115,9 @@ public class WaysideControllerHandler implements Runnable{
         try{
             while(true){
                 //Update the track every 500 ms
-                Thread.sleep(250);
+                Thread.sleep(500);
+                
+                updateUI();
                 
                 //Get the new status of track
                 ArrayList<Block> redTempBlocks = myTrack.getRedBlocks();
@@ -230,7 +232,7 @@ public class WaysideControllerHandler implements Runnable{
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("red", 1);
-                    myTrack.commandAuthority("red", 100, 78);
+                    myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
                     return true;
                 }
             }
@@ -242,7 +244,7 @@ public class WaysideControllerHandler implements Runnable{
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
                         myTrack.placeTrain("red", 1);
-                        myTrack.commandAuthority("red", 100, 78);
+                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
                         return true;
                     }
                 }
@@ -256,7 +258,7 @@ public class WaysideControllerHandler implements Runnable{
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("green", 1);
-                    myTrack.commandAuthority("green", 100, 155);
+                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
                     return true;
                     
                 }
@@ -269,7 +271,7 @@ public class WaysideControllerHandler implements Runnable{
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
                         myTrack.placeTrain("green", 1);
-                        myTrack.commandAuthority("green", 100, 155);
+                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
                         return true;
                     }
                 }

@@ -24,7 +24,7 @@ public class DefaultPLC implements PLC {
         }
     }
 
-    public boolean checkSwitch(Block nextBlock, Block destinationBlock, Block switchBlock) {
+    public boolean checkSwitch(Block unswitched, Block switched, Block switchBlock) {
         //Train incoming and unswitched switch == unoccupied
         if(switchBlock.isBlockOccupied() && !switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied() && switchBlock.getSwitch().getswitchedBlockBlock().isBlockOccupied()){
             return true;
