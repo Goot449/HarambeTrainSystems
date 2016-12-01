@@ -161,10 +161,22 @@ public class Train {
      * @return the actual number of passengers that boarded
      */
     public int addPassengers(int newPassengers) {
-        int availableSpace = getMaxPassengers() - newPassengers;
+        int availableSpace = getMaxPassengers() - this.passengerCount;
         int passengersAdded = Math.min(availableSpace, newPassengers);
         this.passengerCount += passengersAdded;
         return passengersAdded;
+    }
+    
+    /**
+     * Attempts to add specified number of passengers. This will not remove the
+     * number of passengers below 0.
+     * @param newPassengers The number of passengers that will attempt to leave
+     * @return the actual number of passengers that left
+     */
+    public int removePassengers(int newPassengers) {
+        int passengersRemoved = Math.min(this.passengerCount, newPassengers);
+        this.passengerCount -= passengersRemoved;
+        return passengersRemoved;
     }
 
     public Train() throws Exception {
@@ -221,6 +233,10 @@ public class Train {
 
     public double getMass() {
         return EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON;
+    }
+    
+    public double getWeight() {
+        return (EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON) / TONS_TO_KG;
     }
 
     public String toString() {
