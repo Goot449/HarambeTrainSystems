@@ -27,7 +27,7 @@ public class TrainModel extends javax.swing.JFrame {
     private Track track;
     
     public TrainModel() throws Exception {
-        this(new LinkedList<>());
+        this(new LinkedList<Train>());
     }
     
     public TrainModel(Track track) throws Exception {
