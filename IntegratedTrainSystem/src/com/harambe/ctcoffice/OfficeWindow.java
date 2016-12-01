@@ -5,10 +5,12 @@
  */
 package com.harambe.ctcoffice;
 
+import com.harambe.trackmodel.Block;
 import com.harambe.trackmodel.Track;
 import com.harambe.waysidecontroller.WaysideControllerHandler;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +32,9 @@ public class OfficeWindow extends javax.swing.JFrame {
     Track officeTrackModel;
     DefaultTableModel blockTableModel;
     WaysideControllerHandler handler;
+    private ArrayList<Block> BlockRequest;
     public OfficeWindow(WaysideControllerHandler handler) {
+        this.BlockRequest = new ArrayList<Block>();
         this.handler = handler;
         initComponents();
       
@@ -417,7 +421,8 @@ public class OfficeWindow extends javax.swing.JFrame {
 
     
     void refreshOccupiedBlocks() {
-        
+       
+        BlockRequest = handler.ctcBlockRequest();
         officeTrackModel.getBlock(4, "red").toggleOccupied();
         officeTrackModel.getBlock(30, "green").toggleOccupied();
         //System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
