@@ -589,7 +589,7 @@ public class Block implements BlockInterface{
                     blockOccupied = false;
                     distanceTraveled = 0;
                     newDist = newDist - blockLength;
-                    ((Block) this.getNext()).placeTrain(trainID, newDist); 
+                    //((Block) this.getNext()).placeTrain(trainID, newDist); 
                     currentBlock = this.traverseTrain(trainID); 
                     
                     if(temp == currentBlock){

@@ -5,6 +5,7 @@
  */
 package com.harambe.trainmodel;
 
+import com.harambe.trackmodel.Track;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -23,9 +24,15 @@ public class TrainModel extends javax.swing.JFrame {
 
     private List<Train> trains;
     private Train train;
+    private Track track;
     
     public TrainModel() throws Exception {
         this(new LinkedList<>());
+    }
+    
+    public TrainModel(Track track) throws Exception {
+        this();
+        this.track = track;
     }
     /**
      * Creates new form TrainModel
@@ -79,11 +86,19 @@ public class TrainModel extends javax.swing.JFrame {
         System.out.println(this.trains);
     }
     
+    public Track getTrack() {
+        return this.track;
+    }
+    
+    public void setTrack() {
+        this.track = track;
+    }
+    
     public void addTrain(Train train) {
         if(this.train == null) {
             this.train = train;
         }
-        System.out.println(this.trains);
+        train.setTrainModel(this);
         this.trains.add(train);
         this.availableTrains.addItem(train);
     }
