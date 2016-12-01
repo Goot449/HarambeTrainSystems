@@ -114,8 +114,8 @@ public class Block implements BlockInterface{
 	if(station.equals("FROM YARD") || station.equals("TO YARD/FROM YARD")){
             
 		fromYard = true;
-		commandedAuthority = 100;
-		commandedSpeed = 10;
+		//commandedAuthority = 100;
+		//commandedSpeed = 10;
 		//station = "";
 	}
 	if(toYard == false && fromYard == false && station.length()>0){
