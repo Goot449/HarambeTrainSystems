@@ -3,6 +3,7 @@ import java.util.TreeSet;
 public class WaysideControlUI extends javax.swing.JFrame {
     
     static WaysideControllerHandler handler;
+    static boolean manual = false;
 
     /**
      * Creates new form WaysideControlUI
@@ -313,12 +314,12 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        
+        manual = true;
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void changeSwitchPositionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeSwitchPositionButtonActionPerformed
         // TODO add your handling code here:
-        if(switchSelectComboBox.getSelectedItem() != null){
+        if(switchSelectComboBox.getSelectedItem() != null && manual){
             handler.manualSwitch(switchSelectComboBox.getSelectedItem().toString());
             int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
             switchPositionTextBox.setText("");
@@ -328,6 +329,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
+        manual = false;
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void switchLightTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchLightTextBoxActionPerformed
@@ -412,6 +414,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
+        this.handler = handler;
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -419,7 +422,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
             }
         });
         
-        this.handler = handler;
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
