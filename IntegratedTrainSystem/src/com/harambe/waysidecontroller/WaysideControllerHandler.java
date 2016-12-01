@@ -2,6 +2,7 @@ package com.harambe.waysidecontroller;
 
 import com.harambe.trackmodel.*;
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 
 /**
@@ -9,7 +10,7 @@ import java.util.*;
  * @author tak72_000
  */
 public class WaysideControllerHandler implements Runnable{
-    //LinkedBlockingQueue<Message> messages;
+    public LinkedBlockingQueue<String> messages;
     ArrayList<WaysideController> controllers;
     LinkedHashMap<Integer, Block> oldRedBlocks;
     LinkedHashMap<Integer, Block> oldGreenBlocks;
@@ -20,6 +21,7 @@ public class WaysideControllerHandler implements Runnable{
     
     public WaysideControllerHandler(Track track){
         controllers = new ArrayList<WaysideController>();
+        messages = new LinkedBlockingQueue<String>();
         myTrack = track;
         
         oldRedBlocks = new LinkedHashMap<Integer, Block>();
@@ -119,6 +121,8 @@ public class WaysideControllerHandler implements Runnable{
                 
                 updateUI();
                 
+                messages.clear();
+                
                 //Get the new status of track
                 ArrayList<Block> redTempBlocks = myTrack.getRedBlocks();
                 ArrayList<Block> greenTempBlocks = myTrack.getGreenBlocks();
@@ -172,6 +176,7 @@ public class WaysideControllerHandler implements Runnable{
     }
     
     public void sendAuthority(int trainID, Block destinationBlock, double speed){
+        messages.add("CTC authority suggestion to train " +  trainID +" to block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
         Block trainBlock = myTrack.getBlock(trainID);
         Block nxtBlock = trainBlock.peek();
         //On same wayside
@@ -224,6 +229,7 @@ public class WaysideControllerHandler implements Runnable{
     }
     
     public boolean dispatchTrain(Block destinationBlock, double speed){
+        messages.add("CTC dispatch order to Block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
         String line = destinationBlock.getLine();
         if(line.equals("red")){
             WaysideController initialWayside = findCorrectWayside(78, line);
@@ -265,9 +271,9 @@ public class WaysideControllerHandler implements Runnable{
             }
             //Need to communicate between two wayside
             else{
-                if(initialWayside.checkAuthority(155, 36)){
+                if(initialWayside.checkAuthority(155, 62)){
                     WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
-                    if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
+                    if(other.checkAuthority(61, destinationBlock.getBlockNumber())){
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
                         myTrack.placeTrain("green", 1);

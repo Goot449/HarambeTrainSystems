@@ -34,6 +34,10 @@ public class WaysideController {
         return line;
     }
     
+    public void setPLC(){
+        plc = new DefaultPLC();
+    }
+    
     public boolean changeSwitch(Switch sb){
         Block block1 = sb.getswitchedBlockBlock();
         Block block2 = sb.getunSwitchedBlockBlock();
@@ -60,6 +64,7 @@ public class WaysideController {
     }
     
     public boolean checkAuthority(int srcNum, int destNum){
+        System.out.println(srcNum + " " + destNum);
         return plc.checkAuthority(blocks.get(srcNum), blocks.get(destNum));
     }
     

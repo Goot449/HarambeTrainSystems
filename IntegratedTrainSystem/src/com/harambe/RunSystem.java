@@ -38,12 +38,8 @@ public class RunSystem {
         thread.start();
         TrainModel trainModel = new TrainModel(trackObj);
         TrainController trainController = new TrainController();
-        
-//        System.out.println(trackObj.getSwitch("Switch 12").getSwitchBlock().getBlockNumber());
-//        System.out.println(trackObj.getSwitch("Switch 12").getswitchedBlockBlock().getBlockNumber());
-//        System.out.println(trackObj.getSwitch("Switch 12").getunSwitchedBlockBlock().getBlockNumber());
 		
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         for (int i = 0; i<1; i++){
             Train train = new Train(1,i);
             trainController.addTrain(train);
@@ -73,9 +69,6 @@ public class RunSystem {
         trainModel.setVisible(true);
     
         
-        System.out.println(trackObj.getSwitch("Switch 12").getSwitchBlock().getBlockNumber());
-        System.out.println(trackObj.getSwitch("Switch 12").getswitchedBlockBlock().getBlockNumber());
-        System.out.println(trackObj.getSwitch("Switch 12").getunSwitchedBlockBlock().getBlockNumber());
     }
     
 }
