@@ -220,7 +220,7 @@ public class Train {
     }
 
     private void step() {
-        System.out.println(emergencyBrakesEngaged);
+        //System.out.println(emergencyBrakesEngaged);
         Track track = this.trainModel == null ? null : this.trainModel.getTrack();
         double grade = track != null  && track.getBlock(this.id) != null ? track.getBlock(this.id).getGrade() : 0;
         double mass = this.getMass();

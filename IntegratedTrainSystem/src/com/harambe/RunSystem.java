@@ -42,11 +42,11 @@ public class RunSystem {
             if(i%2 == 0){ //Let's place even train IDs in red cause
 
                 trackObj.placeTrain("red", i);
-                trackObj.commandAuthority("red", 1000000, trackObj.getBlock(i).getBlockNumber());    
+                trackObj.commandAuthority("red", 3, trackObj.getBlock(i).getBlockNumber());    
             } else{ //And odd number trains can get thrown in green
 
                     trackObj.placeTrain("green", i);
-                    trackObj.commandAuthority("green", 1000000, trackObj.getBlock(i).getBlockNumber());
+                    trackObj.commandAuthority("green", 3, trackObj.getBlock(i).getBlockNumber());
             }
             trainController.addTrain(train);
 
