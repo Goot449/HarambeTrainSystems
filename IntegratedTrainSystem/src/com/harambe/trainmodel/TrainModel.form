@@ -475,6 +475,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="addTrain"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addTrainButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="addPassengersSpinner">
         </Component>

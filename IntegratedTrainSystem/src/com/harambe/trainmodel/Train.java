@@ -256,6 +256,11 @@ public class Train {
             }
             force = 0;
         } else {
+            double friction = MU_K;
+            if(this.trainModel != null && this.trainModel.getTrack() != null
+                    && this.trainModel.getTrack().getBlock(this.id) != null) {
+                friction = this.trainModel.getTrack().getBlock(this.id).getFrictionCoefficient();
+            }
             force = power / velocity;
             force -= MU_K * mass;
         }
