@@ -29,7 +29,9 @@ public class OfficeWindow extends javax.swing.JFrame {
     private double DT = .1;
     Track officeTrackModel;
     DefaultTableModel blockTableModel;
+    WaysideControllerHandler handler;
     public OfficeWindow(WaysideControllerHandler handler) {
+        this.handler = handler;
         initComponents();
       
 
@@ -531,11 +533,15 @@ public class OfficeWindow extends javax.swing.JFrame {
                 dispatchLine = temp.getText();
             }
         }
+        int destBlockInt = Integer.parseInt(destBlock);
+        officeTrackModel.getBlock(destBlockInt, dispatchLine);
+        handler.dispatchTrain(officeTrackModel.getBlock(destBlockInt, dispatchLine), destSpeed);
         DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
         model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
         dispatchBlockInput.setText("");
         speedLimitInput.setText("");
         DispatchLineButtonGroup.clearSelection();
+        
     }//GEN-LAST:event_dispatchTrainButtonActionPerformed
    
     /**
@@ -569,12 +575,12 @@ public class OfficeWindow extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new OfficeWindow().setVisible(true);
-                
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new OfficeWindow(WaysideControllerHandler ).setVisible(true);
+//                
+//            }
+//        });
         
     }
 
