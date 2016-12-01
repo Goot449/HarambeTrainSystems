@@ -174,9 +174,9 @@ public class Train {
      * @return the actual number of passengers that left
      */
     public int removePassengers(int newPassengers) {
-        int passengersAdded = Math.min(this.passengerCount, newPassengers);
-        this.passengerCount += passengersAdded;
-        return passengersAdded;
+        int passengersRemoved = Math.min(this.passengerCount, newPassengers);
+        this.passengerCount -= passengersRemoved;
+        return passengersRemoved;
     }
 
     public Train() throws Exception {
@@ -233,6 +233,10 @@ public class Train {
 
     public double getMass() {
         return EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON;
+    }
+    
+    public double getWeight() {
+        return (EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON) / TONS_TO_KG;
     }
 
     public String toString() {
