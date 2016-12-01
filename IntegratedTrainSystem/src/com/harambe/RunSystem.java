@@ -36,43 +36,20 @@ public class RunSystem {
         TrainModel trainModel = new TrainModel(trackObj);
         TrainController trainController = new TrainController();
 		
-        for (int i = 0; i<10; i++){
+        for (int i = 1; i<11; i++){
             Train train = new Train(1,i);
-            //Place train in yard
-            if(i%2 == 0){ //Let's place even train IDs in red cause
-
-                trackObj.placeTrain("red", i);
-                trackObj.commandAuthority("red", 3, trackObj.getBlock(i).getBlockNumber());    
-            } else{ //And odd number trains can get thrown in green
-
-                    trackObj.placeTrain("green", i);
-                    trackObj.commandAuthority("green", 3, trackObj.getBlock(i).getBlockNumber());
-            }
             trainController.addTrain(train);
-
             trainModel.addTrain(train);
+            
             //Place train in yard
-            if(i%2 == 0){ //Let's place even train IDs in red cause
+            if(i%2 == 0){ //Let's place even train IDs in red
                     trackObj.placeTrain("red", i);
+                    trackObj.updateDistance(2, 1000);
             } else{ //And odd number trains can get thrown in green
                     trackObj.placeTrain("green", i);
+                    trackObj.updateDistance(1, 1000);
             }
 
-        }
-		
-        //Testing train traversal
-//        trackObj.getRoute("green", "PIONEER");
-//        trackObj.getRoute("green", "EDGEBROOK");
-//        trackObj.getRoute("green", "BLANK");
-//        trackObj.getRoute("green", "WHITED");
-//        trackObj.getRoute("green", "SOUTH BANK");
-//        trackObj.getRoute("red", "HERRON AVE");
-//        trackObj.getRoute("red", "SWISSVALE");
-//        trackObj.toggleSwitch("green", 153);
-//        trackObj.toggleSwitch("green", 1);
-        for(int i=0; i<100; i++){
-                trackObj.updateDistance(1, 50);
-                trackObj.updateDistance(2, 50);
         }
         
         TrackModelPrototypeUI trackGUI = new TrackModelPrototypeUI(trackObj);
