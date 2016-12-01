@@ -160,6 +160,7 @@ public class TrainModel extends javax.swing.JFrame {
         addTrainButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Train Model UI");
 
         jLabel1.setFont(new java.awt.Font("Calibri", 1, 18)); // NOI18N
         jLabel1.setText("Left Doors");

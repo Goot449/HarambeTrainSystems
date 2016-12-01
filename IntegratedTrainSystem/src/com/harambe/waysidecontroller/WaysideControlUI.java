@@ -111,6 +111,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
         jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Wayside Controller UI");
 
         switchSelectComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Switch 0", "Switch 1", "Switch 2", "Switch 3", "Switch 4", "Switch 5", "Switch 6", "Switch 7", "Switch 8", "Switch 9", "Switch 10", "Switch 11", "Switch 12" }));
         switchSelectComboBox.addActionListener(new java.awt.event.ActionListener() {

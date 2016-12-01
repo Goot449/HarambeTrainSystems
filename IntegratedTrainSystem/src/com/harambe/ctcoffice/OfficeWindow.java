@@ -29,6 +29,7 @@ public class OfficeWindow extends javax.swing.JFrame {
     private double DT = .1;
     Track officeTrackModel;
     DefaultTableModel blockTableModel;
+    DefaultTableModel stationTableModel;
     WaysideControllerHandler handler;
     public OfficeWindow(WaysideControllerHandler handler) {
         this.handler = handler;
@@ -79,6 +80,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         dispatchRedLine = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("CTC Office");
 
         officejPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "System Controls", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         officejPanel.setToolTipText("Changes the Properties of the Overall Office System Dashboard\n");
@@ -180,9 +182,7 @@ public class OfficeWindow extends javax.swing.JFrame {
 
         stationTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Shadyside", "Red", "3.4", "Yes"},
-                {"Herron Ave", "Red", "1.2", "No"},
-                {"Swissvale", "Red", "2.3", "No"}
+
             },
             new String [] {
                 "Station", "Line", "Throughput", "Occupied"
@@ -419,6 +419,7 @@ public class OfficeWindow extends javax.swing.JFrame {
     
     void refreshOccupiedBlocks() {
         officeTrackModel = handler.ctcBlockRequest();
+        //stationTableModel.
 //        officeTrackModel.getBlock(4, "red").toggleOccupied();
 //        officeTrackModel.getBlock(30, "green").toggleOccupied();
         //System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
@@ -455,6 +456,7 @@ public class OfficeWindow extends javax.swing.JFrame {
             officeTrackModel = new Track();
             officeTrackModel.loadTrack(csv);
             blockTableModel= (DefaultTableModel)blockTable.getModel();
+            stationTableModel = (DefaultTableModel)stationTable.getModel();
             //System.out.println(trackTester.getBlock(1, "green"));
             //model.addRow(new Object[]{1, trackTester.getBlock(1, "red").getBlockNumber(), trackTester.getBlock(1, "red").getSection(), trackTester.getBlock(1, "red"), trackTester.getBlock(1, "red").getLine(), trackTester.getBlock(1, "red").getInfrastructure(),false, true});    
                 
@@ -465,11 +467,18 @@ public class OfficeWindow extends javax.swing.JFrame {
             int j=1;
             do{
                 blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(i,"red").getSection() + officeTrackModel.getBlock(i,"red").getBlockNumber(), officeTrackModel.getBlock(i,"red").getLine(), df.format(officeTrackModel.getBlock(i,"red").getSpeedLimit()*0.621371), officeTrackModel.getBlock(i,"red").getStation(), "No", "Enabled"});    
+                if (officeTrackModel.getBlock(i,"red").isStation()){
+                    stationTableModel.addRow(new Object[]{officeTrackModel.getBlock(i, "red").getStation(), officeTrackModel.getBlock(i, "red").getLine(), "0", "No"});
+                }
+                
                 i++;
             } while (officeTrackModel.getBlock(i,"red") != null);
             
             do{
                 blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(j,"green").getSection() + officeTrackModel.getBlock(j,"green").getBlockNumber(), officeTrackModel.getBlock(j,"green").getLine(), df.format(officeTrackModel.getBlock(j,"green").getSpeedLimit()*0.621371), officeTrackModel.getBlock(j,"green").getStation(), "No", "Enabled"});    
+                if (officeTrackModel.getBlock(j,"green").isStation()){
+                    stationTableModel.addRow(new Object[]{officeTrackModel.getBlock(j, "green").getStation(), officeTrackModel.getBlock(j, "green").getLine(), "0", "No"});
+                }
                 j++;
             } while (officeTrackModel.getBlock(j,"green") != null);
 //            
