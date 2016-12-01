@@ -28,7 +28,7 @@ public class CTCOffice {
         try {
             // TODO code application logic here
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-            new officeWindow().setVisible(true);   
+            new OfficeWindow().setVisible(true);   
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CTCOffice.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {

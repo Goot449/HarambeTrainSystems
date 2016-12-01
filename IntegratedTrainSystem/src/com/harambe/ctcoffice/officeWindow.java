@@ -6,6 +6,7 @@
 package com.harambe.ctcoffice;
 
 import com.harambe.trackmodel.Track;
+import com.harambe.waysidecontroller.WaysideControllerHandler;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Enumeration;
@@ -28,7 +29,7 @@ public class OfficeWindow extends javax.swing.JFrame {
     private double DT = .1;
     Track officeTrackModel;
     DefaultTableModel blockTableModel;
-    public OfficeWindow() {
+    public OfficeWindow(WaysideControllerHandler handler) {
         initComponents();
       
 
@@ -414,6 +415,7 @@ public class OfficeWindow extends javax.swing.JFrame {
 
     
     void refreshOccupiedBlocks() {
+        
         officeTrackModel.getBlock(4, "red").toggleOccupied();
         officeTrackModel.getBlock(30, "green").toggleOccupied();
         //System.out.println(trackTester.getBlock(4, "red").isBlockOccupied());
@@ -478,7 +480,7 @@ public class OfficeWindow extends javax.swing.JFrame {
             timer.setRepeats(true);
             timer.start();
         } catch (IOException ex) {
-            Logger.getLogger(officeWindow.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(OfficeWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
          
@@ -553,13 +555,13 @@ public class OfficeWindow extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(officeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -569,7 +571,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new officeWindow().setVisible(true);
+                new OfficeWindow().setVisible(true);
                 
             }
         });
