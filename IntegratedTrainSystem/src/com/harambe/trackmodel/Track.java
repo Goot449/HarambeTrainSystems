@@ -282,7 +282,7 @@ public class Track {
             getBlock(blockNumber, line).setCommandedSpeed(commandedSpeed);	
 	}
 
-	public synchronized void updateDistance(int trainID, double distance){
+	public void updateDistance(int trainID, double distance){
  		
             for(int i = 0; i<trainBlocks.size();i++){
 			

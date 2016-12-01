@@ -117,7 +117,7 @@ public class WaysideControllerHandler implements Runnable{
         try{
             while(true){
                 //Update the track every 500 ms
-                Thread.sleep(500);
+                Thread.sleep(250);
                 
                 updateUI();
                 
@@ -238,6 +238,14 @@ public class WaysideControllerHandler implements Runnable{
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("red", 1);
+                    Thread t1 = new Thread(new Runnable() {
+                    public void run() {
+                         // code goes here.
+                         myTrack.updateDistance(1, 1000);
+                    }
+                   });  
+                    t1.start();
+                    
                     myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
                     return true;
                 }
@@ -250,7 +258,13 @@ public class WaysideControllerHandler implements Runnable{
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
                         myTrack.placeTrain("red", 1);
-                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
+Thread t1 = new Thread(new Runnable() {
+                    public void run() {
+                         // code goes here.
+                         myTrack.updateDistance(1, 1000);
+                    }
+                   });  
+                    t1.start();                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
                         return true;
                     }
                 }
@@ -264,7 +278,13 @@ public class WaysideControllerHandler implements Runnable{
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("green", 1);
-                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+Thread t1 = new Thread(new Runnable() {
+                    public void run() {
+                         // code goes here.
+                         myTrack.updateDistance(1, 1000);
+                    }
+                   });  
+                    t1.start();                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
                     return true;
                     
                 }
@@ -277,7 +297,13 @@ public class WaysideControllerHandler implements Runnable{
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
                         myTrack.placeTrain("green", 1);
-                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+Thread t1 = new Thread(new Runnable() {
+                    public void run() {
+                         // code goes here.
+                         myTrack.updateDistance(1, 1000);
+                    }
+                   });  
+                    t1.start();                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
                         return true;
                     }
                 }
