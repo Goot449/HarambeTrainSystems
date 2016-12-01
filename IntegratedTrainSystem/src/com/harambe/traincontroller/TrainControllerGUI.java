@@ -13,9 +13,16 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     public int selectedTrain;
     private double DT = .001;
     
+
+    @Override
+    public void setTitle(String title) {
+        super.setTitle(title); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     public TrainControllerGUI(ArrayList trainList, ArrayList trainStateList) {
         this.trainList = trainList;
         this.trainStateList = trainStateList;
+        this.setTitle("Train Controller");
         initComponents(trainList);
         Timer timer = new Timer((int) (1000 * DT), e -> {
             refresh();

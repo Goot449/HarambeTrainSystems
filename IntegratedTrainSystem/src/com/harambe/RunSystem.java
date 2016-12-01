@@ -19,18 +19,6 @@ public class RunSystem {
     public static void main(String[] args) throws Exception {
 	
 	Track trackObj = new Track();
-        
-
-		
-		//Test broken rail and broken circuit
-		/*Block brokenRailBlock = trackObj.getBlock(100, "red");
-		brokenRailBlock.toggleBroken();
-		Block brokenCircuitBlock = trackObj.getBlock(100, "green");
-		brokenCircuitBlock.breakCircuit();*/
-		
-		//Test commanding authority and speed
-		/*trackObj.commandAuthority("red", 15, 27);
-		trackObj.commandSpeed("red", 20, 27);*/
 		
         System.out.println("Start");
         WaysideControllerHandler handler = new WaysideControllerHandler(trackObj);
@@ -45,15 +33,6 @@ public class RunSystem {
             trainController.addTrain(train);
             trainModel.addTrain(train);
             
-//            //Place train in yard
-//            if(i%2 == 0){ //Let's place even train IDs in red
-//                    trackObj.placeTrain("red", i);
-//                    trackObj.updateDistance(0, 300);
-//            } else{ //And odd number trains can get thrown in green
-//                    trackObj.placeTrain("green", i);
-//                    trackObj.updateDistance(1, 1000);
-//            }
-
         }
         
         TrackModelPrototypeUI trackGUI = new TrackModelPrototypeUI(trackObj);

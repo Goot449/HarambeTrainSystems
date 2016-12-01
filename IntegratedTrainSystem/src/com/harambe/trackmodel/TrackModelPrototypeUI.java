@@ -279,6 +279,7 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Track Model UI");
 
         jTextField14.setEditable(false);
         jTextField14.setBackground(new java.awt.Color(204, 204, 204));

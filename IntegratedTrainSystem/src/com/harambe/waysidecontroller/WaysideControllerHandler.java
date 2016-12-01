@@ -117,23 +117,26 @@ public class WaysideControllerHandler implements Runnable{
         try{
             while(true){
                 //Update the track every 500 ms
-                Thread.sleep(250);
-                
+                Thread.sleep(500);
                 updateUI();
-                
                 messages.clear();
                 
                 //Get the new status of track
                 ArrayList<Block> redTempBlocks = myTrack.getRedBlocks();
                 ArrayList<Block> greenTempBlocks = myTrack.getGreenBlocks();
                 
+                
+                
                 //Every 500 ms we look through all blocks for changes
                 //If change occurred, we will update the wayside controller and check if switch necessary
                 for(Block b: redTempBlocks){
                     //If a red block has changed, update within the wayside appropriate
                     if(b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()){
+                        System.out.println("Change detected in block " + b.getBlockNumber());
+                        
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
-                        temp.addBlock(b);
+                        temp.addBlock(new Block(b));
+                        oldRedBlocks.put(b.getBlockNumber(), new Block(b));
                         
                         //If status of switch changes, we must see if changing switch is necessary
                         if(b.isSwitch()){
@@ -144,6 +147,7 @@ public class WaysideControllerHandler implements Runnable{
                         }
                         //If status around crossing changes, see if changing crossing is necessary
                         else if(b.getBlockNumber() == 45 || b.getBlockNumber() == 46 || b.getBlockNumber() == 47 || b.getBlockNumber() == 48 || b.getBlockNumber() == 49){
+                            System.out.println("Trying to toggle crossing");
                             temp.toggleCrossing();
                         }
                         
@@ -154,6 +158,8 @@ public class WaysideControllerHandler implements Runnable{
                     if(b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()){
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Green");
                         temp.addBlock(b);
+                        oldGreenBlocks.put(b.getBlockNumber(), b);
+                        
                         //If status of switch changes, we must see if changing switch is necessary
                         if(b.isSwitch()){
                             temp.changeSwitch(b.getSwitch());
