@@ -221,7 +221,7 @@ public class WaysideControllerHandler implements Runnable{
         return allBlocks;
     }
     
-    public void dispatchTrain(Block destinationBlock, double speed){
+    public boolean dispatchTrain(Block destinationBlock, double speed){
         String line = destinationBlock.getLine();
         if(line.equals("red")){
             WaysideController initialWayside = findCorrectWayside(78, line);
@@ -229,6 +229,8 @@ public class WaysideControllerHandler implements Runnable{
                 if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
+                    myTrack.commandAuthority("red", 100, 5);
+                    return true;
                 }
             }
             //Need to communicate between two wayside
@@ -238,6 +240,8 @@ public class WaysideControllerHandler implements Runnable{
                     if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
+                        myTrack.commandAuthority("red", 100, 5);
+                        return true;
                     }
                 }
             }
@@ -246,23 +250,29 @@ public class WaysideControllerHandler implements Runnable{
         else{
             WaysideController initialWayside = findCorrectWayside(155, line);
             if(initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))){
-                if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
+                if(initialWayside.checkAuthority(155, destinationBlock.getBlockNumber())){
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
+                    myTrack.commandAuthority("green", 100, 5);
+                    return true;
                     
                 }
             }
             //Need to communicate between two wayside
             else{
-                if(initialWayside.checkAuthority(78, 36)){
+                if(initialWayside.checkAuthority(155, 36)){
                     WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
                     if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
+                        myTrack.commandAuthority("green", 100, 5);
+                        return true;
                     }
                 }
             }
         }
+        
+        return false;
     }
     
     public void manualSwitch(String switchNumber){
