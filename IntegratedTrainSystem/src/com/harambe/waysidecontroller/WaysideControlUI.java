@@ -393,7 +393,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
          */
         
         
-        try {
+        /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -408,7 +408,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(WaysideControlUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(WaysideControlUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        }*/
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>

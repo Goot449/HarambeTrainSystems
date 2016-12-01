@@ -229,7 +229,7 @@ public class WaysideControllerHandler implements Runnable{
                 if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
-                    myTrack.commandAuthority("red", 78, 5);
+                    myTrack.commandAuthority("red", 100, 5);
                     return true;
                 }
             }
@@ -240,7 +240,7 @@ public class WaysideControllerHandler implements Runnable{
                     if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
-                        myTrack.commandAuthority("red", 78, 5);
+                        myTrack.commandAuthority("red", 100, 5);
                         return true;
                     }
                 }
@@ -253,7 +253,7 @@ public class WaysideControllerHandler implements Runnable{
                 if(initialWayside.checkAuthority(155, destinationBlock.getBlockNumber())){
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
-                    myTrack.commandAuthority("green", 155, 5);
+                    myTrack.commandAuthority("green", 100, 5);
                     return true;
                     
                 }
@@ -265,7 +265,7 @@ public class WaysideControllerHandler implements Runnable{
                     if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
-                        myTrack.commandAuthority("green", 155, 5);
+                        myTrack.commandAuthority("green", 100, 5);
                         return true;
                     }
                 }
