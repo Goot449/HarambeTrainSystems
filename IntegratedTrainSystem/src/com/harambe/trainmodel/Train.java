@@ -194,6 +194,14 @@ public class Train {
         timer.setRepeats(true);
         timer.start();
     }
+    
+    public boolean isAtBlock(int blockNumber) {
+        try {
+            return this.trainModel.getTrack().getBlock(this.id).getBlockNumber() == blockNumber;
+        } catch(NullPointerException e) {
+            return false;
+        }
+    }
 
     public void setTrainModel(TrainModel trainModel) {
         this.trainModel = trainModel;
