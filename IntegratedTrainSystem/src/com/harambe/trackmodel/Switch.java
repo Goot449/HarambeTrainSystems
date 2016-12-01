@@ -20,11 +20,20 @@ public class Switch implements SwitchInterface{
     private Block unSwitchedBlock = null;
     private ArrayList<Block> switchBlocks;
     private boolean brokenSwitch = false;
+    private boolean lightStatus = false;
 	
     public Switch(Block blockIn){
         
         switchNumber = blockIn.getSwitchNumber();
         addBlock(blockIn);
+    }
+    
+    public boolean getLight(){
+        return lightStatus;
+    }
+    
+    public void toggleLight(){
+        lightStatus = !lightStatus;
     }
 	
     public String getSwitchNumber(){

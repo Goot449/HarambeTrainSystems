@@ -291,8 +291,8 @@ public class Track {
                     Block nextBlock = trainBlocks.get(i).moveTrain(distance);
                     if(nextBlock != trainBlocks.get(i)){
                         trainBlocks.set(i,nextBlock);
-			//trainBlocks.remove(i);
-			//trainBlocks.add(nextBlock);
+			trainBlocks.remove(i);
+			trainBlocks.add(nextBlock);
                     }
                     //printBlockList(trainBlocks);
                     return;

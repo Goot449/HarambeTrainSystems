@@ -580,7 +580,7 @@ public class Block implements BlockInterface{
     public Block moveTrain(double moved){
 		
 		double newDist = moved + distanceTraveled;
-		//System.out.println("In " + this.section + " " + this.blockNumber + " moved: " + newDist + "Length:"+ this.blockLength);
+		System.out.println("In " + this.section + " " + this.blockNumber + " moved: " + newDist + "Length:"+ this.blockLength);
 		Block currentBlock = this;
                 
 		if(newDist>blockLength){
@@ -637,8 +637,7 @@ public class Block implements BlockInterface{
                     returnBlock = this;
                 }
                 
-                System.out.println("got here");
-                System.out.println(returnBlock);
+                //System.out.println(returnBlock);
                     
             } else if(this.getNext() == null){
                 returnBlock = this;
