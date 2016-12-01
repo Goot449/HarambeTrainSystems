@@ -25,6 +25,7 @@ public class TrainModel extends javax.swing.JFrame {
     private List<Train> trains;
     private Train train;
     private Track track;
+    private double rate;
     
     public TrainModel() throws Exception {
         this(new LinkedList<Train>());
@@ -40,6 +41,7 @@ public class TrainModel extends javax.swing.JFrame {
     public TrainModel(List<Train> trains) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         initComponents();
+        this.rate = 1;
         if(this.trains == null) {
             this.trains = new LinkedList<>();
         }
@@ -84,6 +86,18 @@ public class TrainModel extends javax.swing.JFrame {
         timer.setRepeats(true);
         timer.start();
         System.out.println(this.trains);
+    }
+    
+    public double getRate() {
+        return this.rate;
+    }
+    
+    public boolean setRate(double rate) {
+        if(rate < 0 || rate > 10) {
+            return false;
+        }
+        this.rate = rate;
+        return true;
     }
     
     public Track getTrack() {

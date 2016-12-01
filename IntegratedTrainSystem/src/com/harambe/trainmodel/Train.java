@@ -268,8 +268,8 @@ public class Train {
                 acceleration -= SERVICE_BRAKE_DECELERATION;
             }
         }
-
-        velocity = velocity + acceleration * DT;
-        position = position + velocity * DT;
+        double rate = this.trainModel != null ? this.trainModel.getRate() : 1;
+        velocity = velocity + acceleration * DT * rate;
+        position = position + velocity * DT * rate;
     }
 }
