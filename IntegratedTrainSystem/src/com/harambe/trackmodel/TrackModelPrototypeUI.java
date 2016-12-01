@@ -122,6 +122,8 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         submitTrackButton = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         blockOutputTable = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -824,6 +826,20 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             blockOutputTable.getColumnModel().getColumn(12).setResizable(false);
         }
 
+        jButton1.setText("Break Rail");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Circuit Fail");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -831,23 +847,33 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(29, 29, 29)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(25, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(trackInputLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(submitTrackButton)))
-                .addContainerGap(25, Short.MAX_VALUE))
+                        .addComponent(submitTrackButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addGap(176, 176, 176))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(trackInputLabel)
-                    .addComponent(submitTrackButton))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(trackInputLabel)
+                        .addComponent(submitTrackButton))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton4)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
                 .addContainerGap())
@@ -962,6 +988,28 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
       
     }//GEN-LAST:event_submitTrackButtonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+                Block brokenRailBlockRed = trackTester.getBlock(51, "red");
+                Block brokenRailBlockGreen = trackTester.getBlock(51, "green");
+                System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
+		brokenRailBlockRed.toggleBroken();
+                System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
+                System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
+                brokenRailBlockGreen.toggleBroken();
+                System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+                Block brokenCircuitBlockGreen = trackTester.getBlock(50, "green");
+                Block brokenCircuitBlockRed = trackTester.getBlock(50, "red");
+                System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
+		brokenCircuitBlockGreen.breakCircuit();
+                System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
+                System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
+		brokenCircuitBlockRed.breakCircuit();
+                System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1003,8 +1051,10 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.JTextField inputTrackTextField;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox6;
