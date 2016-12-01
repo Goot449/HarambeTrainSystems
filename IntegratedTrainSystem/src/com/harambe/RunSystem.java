@@ -48,6 +48,7 @@ public class RunSystem {
                                 trackObj.commandAuthority("green", 1000000, trackObj.getBlock(i).getBlockNumber());
 			}
             trainController.addTrain(train);
+            
         }
 		
         //Testing train traversal
@@ -77,6 +78,13 @@ public class RunSystem {
         ctcOfficeUI.setVisible(true);
         
         trainModel.setVisible(true);
+        
+        while(true){
+            Block b = trackObj.getBlock(78, "red");
+            if(b.getTrainAuthority() > 1){
+                System.out.println("good");
+            }
+        }
     }
     
 }

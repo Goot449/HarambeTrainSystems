@@ -535,7 +535,8 @@ public class OfficeWindow extends javax.swing.JFrame {
         }
         int destBlockInt = Integer.parseInt(destBlock);
         officeTrackModel.getBlock(destBlockInt, dispatchLine);
-        handler.dispatchTrain(officeTrackModel.getBlock(destBlockInt, dispatchLine), destSpeed);
+        
+        handler.dispatchTrain(officeTrackModel.getBlock(destBlockInt, dispatchLine), (double)destSpeed);
         DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
         model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
         dispatchBlockInput.setText("");
