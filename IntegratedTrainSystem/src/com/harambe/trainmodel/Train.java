@@ -135,7 +135,7 @@ public class Train {
         return carCount;
     }
     public int getSpeedLimit() {
-        if(this.trainModel == null || this.trainModel.getTrack() == null) {
+        if(this.trainModel == null || this.trainModel.getTrack() == null || this.trainModel.getTrack().getBlock(this.id) == null) {
             return 15;
         }
         return this.trainModel.getTrack().getBlock(this.id).getSpeedLimit();
@@ -220,8 +220,9 @@ public class Train {
     }
 
     private void step() {
+        System.out.println(emergencyBrakesEngaged);
         Track track = this.trainModel == null ? null : this.trainModel.getTrack();
-        double grade = track != null ? track.getBlock(this.id).getGrade() : 0;
+        double grade = track != null  && track.getBlock(this.id) != null ? track.getBlock(this.id).getGrade() : 0;
         double mass = this.getMass();
         if(Math.abs(velocity) < MINIMUM_VELOCITY) {
             if(power > 0) {
