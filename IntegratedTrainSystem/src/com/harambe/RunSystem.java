@@ -52,13 +52,13 @@ public class RunSystem {
         trackObj.getRoute("green", "SOUTH BANK");
         trackObj.getRoute("red", "HERRON AVE");
         trackObj.getRoute("red", "SWISSVALE");
+        trackObj.toggleSwitch("green", 76);
         for(int i=0; i<1000; i++){
                 trackObj.updateDistance(1, 100);
                 trackObj.updateDistance(2, 100);
         }
         trackObj.toggleSwitch("green", 153);
         trackObj.toggleSwitch("green", 1);
-		
         TrackModelPrototypeUI trackGUI = new TrackModelPrototypeUI(trackObj);
         trackGUI.setVisible(true);
 		
