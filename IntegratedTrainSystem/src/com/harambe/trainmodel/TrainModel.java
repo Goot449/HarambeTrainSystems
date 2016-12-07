@@ -25,6 +25,7 @@ public class TrainModel extends javax.swing.JFrame {
     private List<Train> trains;
     private Train train;
     private Track track;
+    private double rate;
     
     public TrainModel() throws Exception {
         this(new LinkedList<Train>());
@@ -40,6 +41,7 @@ public class TrainModel extends javax.swing.JFrame {
     public TrainModel(List<Train> trains) throws Exception {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         initComponents();
+        this.rate = 1;
         if(this.trains == null) {
             this.trains = new LinkedList<>();
         }
@@ -69,14 +71,6 @@ public class TrainModel extends javax.swing.JFrame {
                 train = (Train) availableTrains.getSelectedItem();
             }
         });
-        addTrainButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    addTrain(new Train(3, trains.size()));
-                } catch(Exception ex){};
-            }
-        });
         
         Timer timer = new Timer(10, e -> {
             updateProperties();
@@ -84,6 +78,18 @@ public class TrainModel extends javax.swing.JFrame {
         timer.setRepeats(true);
         timer.start();
         System.out.println(this.trains);
+    }
+    
+    public double getRate() {
+        return this.rate;
+    }
+    
+    public boolean setRate(double rate) {
+        if(rate < 0 || rate > 10) {
+            return false;
+        }
+        this.rate = rate;
+        return true;
     }
     
     public Track getTrack() {
@@ -285,6 +291,11 @@ public class TrainModel extends javax.swing.JFrame {
         });
 
         addTrainButton.setText("addTrain");
+        addTrainButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addTrainButtonActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Test Pane");
@@ -493,6 +504,12 @@ public class TrainModel extends javax.swing.JFrame {
             this.train.addPassengers(value);
         }
     }//GEN-LAST:event_addPassengersButtonActionPerformed
+
+    private void addTrainButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTrainButtonActionPerformed
+        try {
+            addTrain(new Train(3, trains.size()));
+        } catch(Exception ex){};
+    }//GEN-LAST:event_addTrainButtonActionPerformed
 
     /**
      * @param args the command line arguments

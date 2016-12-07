@@ -37,35 +37,44 @@
                   <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel13" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel14" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="passengers" min="-2" max="-2" attributes="0"/>
-                  <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                      <Component id="temperature" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="lights" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                          <Component id="rightDoors" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="leftDoors" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="passengers" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="0" attributes="0">
+                              <Component id="temperature" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="lights" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                  <Component id="rightDoors" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="leftDoors" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="speedLimit" alignment="1" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="feedbackSpeed" min="-2" max="-2" attributes="0"/>
+                          <Component id="acceleration" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="numberOfCars" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="maxPassengers" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="speedLimit" alignment="1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace pref="147" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="signalFailureButton" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="emergencyBrake" max="32767" attributes="0"/>
+                              <Component id="availableTrains" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="trainEngineFailureButton" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
+                          <Component id="serviceBrake" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
+                          <Component id="brakeFailureButton" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="feedbackSpeed" min="-2" max="-2" attributes="0"/>
-                  <Component id="acceleration" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="numberOfCars" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="maxPassengers" alignment="0" min="-2" max="-2" attributes="0"/>
-              </Group>
-              <EmptySpace pref="98" max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="signalFailureButton" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
-                  <Group type="103" alignment="1" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="emergencyBrake" max="32767" attributes="0"/>
-                      <Component id="availableTrains" max="32767" attributes="0"/>
+                  <Group type="102" attributes="0">
+                      <Component id="weight" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="testPanel" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="trainEngineFailureButton" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
-                  <Component id="serviceBrake" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
-                  <Component id="brakeFailureButton" alignment="1" min="-2" pref="141" max="-2" attributes="0"/>
-                  <Component id="testPanel" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -132,7 +141,18 @@
                           <Component id="jLabel14" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="maxPassengers" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="weight" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
                   <Component id="testPanel" alignment="0" max="32767" attributes="0"/>
               </Group>
@@ -364,7 +384,11 @@
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
+        <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>
+      <AccessibilityProperties>
+        <Property name="AccessibleContext.accessibleName" type="java.lang.String" value=""/>
+      </AccessibilityProperties>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Train&gt;"/>
       </AuxValues>
@@ -413,7 +437,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="11" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="spinner1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="setPowerButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -451,6 +475,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="addTrain"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addTrainButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JSpinner" name="addPassengersSpinner">
         </Component>
@@ -472,5 +499,21 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JLabel" name="jLabel15">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Calibri" size="18" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Weight"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="weight">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Calibri" size="18" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="N/A"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

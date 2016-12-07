@@ -256,6 +256,11 @@ public class Train {
             }
             force = 0;
         } else {
+            double friction = MU_K;
+            if(this.trainModel != null && this.trainModel.getTrack() != null
+                    && this.trainModel.getTrack().getBlock(this.id) != null) {
+                friction = this.trainModel.getTrack().getBlock(this.id).getFrictionCoefficient();
+            }
             force = power / velocity;
             force -= MU_K * mass;
         }
@@ -268,8 +273,8 @@ public class Train {
                 acceleration -= SERVICE_BRAKE_DECELERATION;
             }
         }
-
-        velocity = velocity + acceleration * DT;
-        position = position + velocity * DT;
+        double rate = this.trainModel != null ? this.trainModel.getRate() : 1;
+        velocity = velocity + acceleration * DT * rate;
+        position = position + velocity * DT * rate;
     }
 }
