@@ -61,6 +61,7 @@ public class Block implements BlockInterface{
     private double commandedSpeed = 0;
     private int commandedAuthority = -1;
     private double distanceTraveled = 0;
+    private boolean finalBlock = false;
     
     public Block(Block b){
         this.line = b.line;
@@ -79,8 +80,8 @@ public class Block implements BlockInterface{
 	direction = b.direction;
 	crossing = b.crossing;
 	switchType = b.switchType;
-	commandedAuthority = -1;
-	commandedSpeed = speedLimit;
+	commandedAuthority = b.commandedAuthority;
+	commandedSpeed = b.commandedSpeed;
         
         blockOccupied = b.isBlockOccupied();
         
@@ -157,6 +158,14 @@ public class Block implements BlockInterface{
     //----------------TRAIN----------------
     public int getBlockSpeedLimit(){
         return speedLimit;
+    }
+    
+    public boolean getFinalBlock(){
+        return finalBlock;
+    }
+    
+    public void setFinalBlock(){
+        finalBlock = true;
     }
 
     //Returns the train friction coefficient
@@ -273,8 +282,8 @@ public class Block implements BlockInterface{
 
             if(this.getNext() == null){
                 returnBlock = this;
-                System.out.println(this.blockNumber);
-                System.out.println(this.line);
+                //System.out.println(this.blockNumber);
+                //System.out.println(this.line);
                 
             } else{
                 returnBlock = this.getNext();
@@ -706,4 +715,6 @@ public class Block implements BlockInterface{
     public int getBlockDirection(){
         return direction;
     }
+    
+    
 }

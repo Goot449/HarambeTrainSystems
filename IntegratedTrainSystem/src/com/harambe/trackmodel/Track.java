@@ -179,6 +179,61 @@ public class Track {
 		printBlockConnections(block);
             }
         }
+        
+        public int getNumberBlocks(String line, String destination){
+		Block currentBlock = null;
+                int authorityNum = 0;
+                
+		if(line.equals("red")){
+                    currentBlock = redYard;
+                } else{
+                    currentBlock = greenYard;
+                }
+                
+		while(!currentBlock.getStation().equals(destination)){
+                    
+			Block lastTraverse = currentBlock;
+                        //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
+
+			currentBlock = currentBlock.traverse();
+
+			if(lastTraverse == currentBlock){
+                            //currentBlock.toggleSwitch();
+                            currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
+                        } else{
+                            authorityNum++;
+			}
+		}
+
+		currentBlock.traverse();
+		currentBlock.setSeen(0);
+
+		return authorityNum;
+        }
+        
+        public int getNumberBlocks(String line, String destination, Block currentBlock){
+                int authorityNum = 0;
+                
+		while(!currentBlock.getStation().equals(destination)){
+                    
+			Block lastTraverse = currentBlock;
+                        //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
+
+			currentBlock = currentBlock.traverse();
+
+			if(lastTraverse == currentBlock){
+                            //currentBlock.toggleSwitch();
+                            currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
+                        } else{
+                            authorityNum++;
+			}
+		}
+
+		currentBlock.traverse();
+		currentBlock.setSeen(0);
+
+		return authorityNum;
+        }
 
 	public ArrayList<String> getRoute(String line, String destination){
             
@@ -202,7 +257,8 @@ public class Track {
 			currentBlock = currentBlock.traverse();
 
 			if(lastTraverse == currentBlock){
-                            currentBlock.toggleSwitch();
+                            //currentBlock.toggleSwitch();
+                            currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
                         } else{
                             pathBlocks.add(currentBlock);
 			}
@@ -214,8 +270,46 @@ public class Track {
 		String routeBlocks;
                 
 		for(Block path: pathBlocks){
-			routeBlocks = path.getBlockNumber() + "," + path.getSection() + "," + path.getBlockLength() + "," + path.getSpeedLimit();
-			pathBlockStrings.add(routeBlocks);
+                    routeBlocks = path.getBlockNumber() + "," + path.getSection() + "," + path.getBlockLength() + "," + path.getSpeedLimit();
+                    pathBlockStrings.add(routeBlocks);
+		}
+
+		//System.out.println(pathBlockStrings.toString());
+		return pathBlockStrings;
+
+		//"blockNumber, section, blockLength, speed limit" in each string, separated by commas.
+	}
+        
+        public ArrayList<String> getRoute(String line, String destination, Block currentBlock){
+            
+		ArrayList<Block> pathBlocks = new ArrayList<Block>();
+		ArrayList<String> pathBlockStrings = new ArrayList<String>();
+                
+		pathBlocks.add(currentBlock);
+                
+		while(!currentBlock.getStation().equals(destination)){
+                    
+			Block lastTraverse = currentBlock;
+                        //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
+
+			currentBlock = currentBlock.traverse();
+
+			if(lastTraverse == currentBlock){
+                            //currentBlock.toggleSwitch();
+                            currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
+                        } else{
+                            pathBlocks.add(currentBlock);
+			}
+		}
+
+		currentBlock.traverse();
+		currentBlock.setSeen(0);
+
+		String routeBlocks;
+                
+		for(Block path: pathBlocks){
+                    routeBlocks = path.getBlockNumber() + "," + path.getSection() + "," + path.getBlockLength() + "," + path.getSpeedLimit();
+                    pathBlockStrings.add(routeBlocks);
 		}
 
 		//System.out.println(pathBlockStrings.toString());

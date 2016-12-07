@@ -107,12 +107,8 @@ public class WaysideController {
         //If the crossing should be closed/down/red
         //System.out.println("Current crossing status = " + crossing.getCrossing().isClosed);
         
-        System.out.println(crossing.getBlockNumber() + " " + crossing.isBlockOccupied());
-        
         Block next = blocks.get(crossing.getBlockNumber()-1);
         Block prev = blocks.get(crossing.getBlockNumber()+1);
-        System.out.println(next.getBlockNumber() + " " + next.isBlockOccupied());
-        System.out.println(prev.getBlockNumber() + " " + prev.isBlockOccupied());
         
         if(plc.checkCrossing(crossing, next, prev))
         {

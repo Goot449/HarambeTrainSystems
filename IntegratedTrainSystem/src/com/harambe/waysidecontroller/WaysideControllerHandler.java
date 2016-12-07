@@ -117,7 +117,7 @@ public class WaysideControllerHandler implements Runnable{
         try{
             while(true){
                 //Update the track every 500 ms
-                Thread.sleep(500);
+                Thread.sleep(250);
                 updateUI();
                 messages.clear();
                 
@@ -125,14 +125,12 @@ public class WaysideControllerHandler implements Runnable{
                 ArrayList<Block> redTempBlocks = myTrack.getRedBlocks();
                 ArrayList<Block> greenTempBlocks = myTrack.getGreenBlocks();
                 
-                
-                
                 //Every 500 ms we look through all blocks for changes
                 //If change occurred, we will update the wayside controller and check if switch necessary
                 for(Block b: redTempBlocks){
                     //If a red block has changed, update within the wayside appropriate
                     if(b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()){
-                        System.out.println("Change detected in block " + b.getBlockNumber());
+                        //System.out.println("Change detected in block " + b.getBlockNumber());
                         
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
                         temp.addBlock(new Block(b));
@@ -150,15 +148,14 @@ public class WaysideControllerHandler implements Runnable{
                             System.out.println("Trying to toggle crossing");
                             temp.toggleCrossing();
                         }
-                        
                     }
                 }
                 
                 for(Block b: greenTempBlocks){
                     if(b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()){
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Green");
-                        temp.addBlock(b);
-                        oldGreenBlocks.put(b.getBlockNumber(), b);
+                        temp.addBlock(new Block(b));
+                        oldGreenBlocks.put(b.getBlockNumber(), new Block(b));
                         
                         //If status of switch changes, we must see if changing switch is necessary
                         if(b.isSwitch()){
@@ -242,18 +239,23 @@ public class WaysideControllerHandler implements Runnable{
             if(initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))){
                 if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
                     //Dispatch train
+                    
+                    //Currently setting the dispatch block with an authority that equals the block number we are trying to reach
+                    //Blocks speed is set as commanded by CTC
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("red", 1);
-                    Thread t1 = new Thread(new Runnable() {
-                    public void run() {
-                         // code goes here.
-                         myTrack.updateDistance(1, 1000);
-                    }
-                   });  
-                    t1.start();
-                    
                     myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
-                    return true;
+                    myTrack.getBlock(1).setCommandedSpeed(speed);
+//                    Thread t1 = new Thread(new Runnable() {
+//                    public void run() {
+//                         // code goes here.
+//                         
+//                    }
+//                   });  
+//                    t1.start();
+//                    
+//                    myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
+//                    return true;
                 }
             }
             //Need to communicate between two wayside
@@ -264,14 +266,16 @@ public class WaysideControllerHandler implements Runnable{
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
                         myTrack.placeTrain("red", 1);
-Thread t1 = new Thread(new Runnable() {
-                    public void run() {
-                         // code goes here.
-                         myTrack.updateDistance(1, 1000);
-                    }
-                   });  
-                    t1.start();                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
-                        return true;
+                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
+                        myTrack.getBlock(1).setCommandedSpeed(speed);
+//                    Thread t1 = new Thread(new Runnable() {
+//                    public void run() {
+//                         // code goes here.
+//                         myTrack.updateDistance(1, 5000);
+//                    }
+//                   });  
+//                    t1.start();                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
+//                        return true;
                     }
                 }
             }
@@ -284,14 +288,16 @@ Thread t1 = new Thread(new Runnable() {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("green", 1);
-Thread t1 = new Thread(new Runnable() {
-                    public void run() {
-                         // code goes here.
-                         myTrack.updateDistance(1, 1000);
-                    }
-                   });  
-                    t1.start();                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
-                    return true;
+                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+                    myTrack.getBlock(1).setCommandedSpeed(speed);
+//                    Thread t1 = new Thread(new Runnable() {
+//                    public void run() {
+//                         // code goes here.
+//                         myTrack.updateDistance(1, 5000);
+//                    }
+//                    });  
+//                    t1.start();                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+//                    return true;
                     
                 }
             }
@@ -303,14 +309,16 @@ Thread t1 = new Thread(new Runnable() {
                         //Dispatch train
                         System.out.println("Go ahead and dispatch");
                         myTrack.placeTrain("green", 1);
-Thread t1 = new Thread(new Runnable() {
-                    public void run() {
-                         // code goes here.
-                         myTrack.updateDistance(1, 1000);
-                    }
-                   });  
-                    t1.start();                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
-                        return true;
+                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+                    myTrack.getBlock(1).setCommandedSpeed(speed);
+//                    Thread t1 = new Thread(new Runnable() {
+//                    public void run() {
+//                         // code goes here.
+//                         myTrack.updateDistance(1, 5000);
+//                    }
+//                   });  
+//                    t1.start();                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+////                        return true;
                     }
                 }
             }

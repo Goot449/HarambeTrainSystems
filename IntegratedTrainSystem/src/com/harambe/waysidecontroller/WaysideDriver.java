@@ -10,7 +10,14 @@ public class WaysideDriver {
         
         WaysideControllerHandler handler = new WaysideControllerHandler(track);
         
-        Thread thread = new Thread(handler);
+        System.out.println("Get route ");
+        System.out.println(track.getRoute("green", "CENTRAL"));
+        System.out.println(track.getNumberBlocks("green", "CENTRAL"));
+        
+        Block startBlock = track.getBlock(67, "green");
+        System.out.println(track.getRoute("green", "CENTRAL", startBlock));
+        System.out.println(track.getNumberBlocks("green", "CENTRAL", startBlock));
+        /*Thread thread = new Thread(handler);
         thread.start();
         
         Thread.sleep(1000);
