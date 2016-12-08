@@ -72,7 +72,7 @@ public class Switch implements SwitchInterface{
     @Override
     public void toggleSwitch(){
         
-	System.out.println("Toggling " + switchNumber);
+	//System.out.println("Toggling " + switchNumber);
 	Block temp = switchedBlock;
 	switchedBlock = unSwitchedBlock;
 	unSwitchedBlock = temp;

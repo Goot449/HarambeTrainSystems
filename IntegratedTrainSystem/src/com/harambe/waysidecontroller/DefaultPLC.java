@@ -15,13 +15,16 @@ import com.harambe.trackmodel.*;
  */
 public class DefaultPLC implements PLC {
 
-    public boolean checkAuthority(Block nextBlock, Block destinationBlock) {
-        if(nextBlock.isBlockOccupied() || destinationBlock.isBlockOccupied()){
-            return false;
-        }
-        else {
-            return true;
-        }
+    public boolean checkAuthority(Block nextBlock, Block destinationBlock, Track myTrack) {
+        System.out.println("Checking authority");
+//        System.out.println("The authority of " + nextBlock.peek().getBlockNumber() + " and " + destinationBlock.getBlockNumber() + " is " + myTrack.checkRoute(destinationBlock, nextBlock));
+        return myTrack.checkRoute(destinationBlock, nextBlock);
+//        if(nextBlock.isBlockOccupied() || destinationBlock.isBlockOccupied()){
+//            return false;
+//        }
+//        else {
+//            return true;
+//        }
     }
 
     public boolean checkSwitch(Block unswitched, Block switched, Block switchBlock) {

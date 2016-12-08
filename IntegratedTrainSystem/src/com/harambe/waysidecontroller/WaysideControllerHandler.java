@@ -4,12 +4,13 @@ import com.harambe.trackmodel.*;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
-
 /**
  *
  * @author tak72_000
  */
-public class WaysideControllerHandler implements Runnable{
+public class WaysideControllerHandler implements Runnable {
+
+    public Thread t;
     public LinkedBlockingQueue<String> messages;
     ArrayList<WaysideController> controllers;
     LinkedHashMap<Integer, Block> oldRedBlocks;
@@ -18,65 +19,66 @@ public class WaysideControllerHandler implements Runnable{
     ArrayList<Switch> greenSwitches;
     Track myTrack;
     WaysideControlUI UI;
-    
-    public WaysideControllerHandler(Track track){
-        controllers = new ArrayList<WaysideController>();
-        messages = new LinkedBlockingQueue<String>();
+
+    public WaysideControllerHandler(Track track) {
+        if (t == null) {
+            t = new Thread(this, "thread");
+        }
+        controllers = new ArrayList<>();
+        messages = new LinkedBlockingQueue<>();
         myTrack = track;
-        
-        oldRedBlocks = new LinkedHashMap<Integer, Block>();
-        
-        for(Block b: track.getRedBlocks()){
+
+        oldRedBlocks = new LinkedHashMap<>();
+
+        for (Block b : track.getRedBlocks()) {
             oldRedBlocks.put(b.getBlockNumber(), new Block(b));
         }
-        
-        oldGreenBlocks = new LinkedHashMap<Integer, Block>();
-        
-        for(Block b: track.getGreenBlocks()){
+
+        oldGreenBlocks = new LinkedHashMap<>();
+
+        for (Block b : track.getGreenBlocks()) {
             oldGreenBlocks.put(b.getBlockNumber(), new Block(b));
         }
-        
+
         redSwitches = track.getRedSwitches();
         greenSwitches = track.getGreenSwitches();
-        
-        LinkedHashMap<String, Switch> switches = new LinkedHashMap<String, Switch>();
-        
+
+        LinkedHashMap<String, Switch> switches = new LinkedHashMap<>();
+
         //Switches are directly manipulated by me
-        for(Switch s : redSwitches){
+        for (Switch s : redSwitches) {
             switches.put(s.getSwitchNumber(), s);
         }
-        for(Switch s : greenSwitches){
+        for (Switch s : greenSwitches) {
             switches.put(s.getSwitchNumber(), s);
         }
-        
+
         initControllers(oldRedBlocks, oldGreenBlocks, switches);
-        UI = new WaysideControlUI(this);
-        
+
     }
-    
-    public void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<String, Switch> newSwitches){
+
+    public final void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<String, Switch> newSwitches) {
         //Need to create the controllers and assign the switches...
         //Initialize our 4 wayside controllers
-        for(int i = 0; i < 2; i++){
+        for (int i = 0; i < 2; i++) {
             //Red line wayside controllers
             WaysideController wc = new WaysideController("red" + i, "red");
-            if(i == 0){
-                for(int b : newRedBlocks.keySet()){
-                    if((b <= 36 || b == 72 ||b == 77 || b == 78)){
+            if (i == 0) {
+                for (int b : newRedBlocks.keySet()) {
+                    if ((b <= 36 || b == 72 || b == 77 || b == 78)) {
                         wc.addBlock(newRedBlocks.get(b));
-                    } 
+                    }
                 }
-                
+
                 wc.addSwitch(newSwitches.get("Switch 6"));
                 wc.addSwitch(newSwitches.get("Switch 7"));
                 wc.addSwitch(newSwitches.get("Switch 8"));
                 wc.addSwitch(newSwitches.get("Switch 12"));
-            }
-            else {
-                for(int b : newRedBlocks.keySet()){
-                    if(b > 36 && b!=72 && b != 77 && b != 78){
+            } else {
+                for (int b : newRedBlocks.keySet()) {
+                    if (b > 36 && b != 72 && b != 77 && b != 78) {
                         wc.addBlock(newRedBlocks.get(b));
-                    }    
+                    }
                 }
                 wc.crossing = newRedBlocks.get(47);
                 wc.addSwitch(newSwitches.get("Switch 9"));
@@ -84,271 +86,244 @@ public class WaysideControllerHandler implements Runnable{
                 wc.addSwitch(newSwitches.get("Switch 11"));
             }
             controllers.add(wc);
-            
+
             //Green wayside controllers
             wc = new WaysideController("green" + i, "green");
-            if(i == 0){
-                for(int b : newGreenBlocks.keySet()){
-                    if((b >= 62 && b < 121) || b == 150 || b == 154 || b == 155){
+            if (i == 0) {
+                for (int b : newGreenBlocks.keySet()) {
+                    if ((b >= 62 && b < 121) || b == 150 || b == 154 || b == 155) {
                         wc.addBlock(newGreenBlocks.get(b));
-                    }    
+                    }
                 }
                 wc.addSwitch(newSwitches.get("Switch 0"));
                 wc.addSwitch(newSwitches.get("Switch 1"));
                 wc.addSwitch(newSwitches.get("Switch 2"));
-            }
-            else {
-                for(int b : newGreenBlocks.keySet()){
-                    if((b < 62 || b >= 121) && b != 150 && b != 154 && b != 155){
+            } else {
+                for (int b : newGreenBlocks.keySet()) {
+                    if ((b < 62 || b >= 121) && b != 150 && b != 154 && b != 155) {
                         wc.addBlock(newGreenBlocks.get(b));
-                    }    
+                    }
                 }
                 wc.crossing = newGreenBlocks.get(19);
-                
+
                 wc.addSwitch(newSwitches.get("Switch 3"));
                 wc.addSwitch(newSwitches.get("Switch 4"));
                 wc.addSwitch(newSwitches.get("Switch 5"));
             }
             controllers.add(wc);
         }
+        UI = new WaysideControlUI(this);
+        t.start();
     }
-    
-    public void run(){
-        try{
-            while(true){
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
                 //Update the track every 500 ms
                 Thread.sleep(250);
                 updateUI();
                 messages.clear();
-                
+
                 //Get the new status of track
                 ArrayList<Block> redTempBlocks = myTrack.getRedBlocks();
                 ArrayList<Block> greenTempBlocks = myTrack.getGreenBlocks();
-                
+
                 //Every 500 ms we look through all blocks for changes
                 //If change occurred, we will update the wayside controller and check if switch necessary
-                for(Block b: redTempBlocks){
+                for (Block b : redTempBlocks) {
                     //If a red block has changed, update within the wayside appropriate
-                    if(b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()){
+                    if (b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
                         //System.out.println("Change detected in block " + b.getBlockNumber());
-                        
+
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
                         temp.addBlock(new Block(b));
                         oldRedBlocks.put(b.getBlockNumber(), new Block(b));
-                        
+
                         //If status of switch changes, we must see if changing switch is necessary
-                        if(b.isSwitch()){
+                        if (b.isSwitch()) {
                             temp.changeSwitch(b.getSwitch());
-                        }
-                        else if(temp.isSwitchOption(b) != null){
+                        } else if (temp.isSwitchOption(b) != null) {
                             temp.changeSwitch(temp.isSwitchOption(b));
-                        }
-                        //If status around crossing changes, see if changing crossing is necessary
-                        else if(b.getBlockNumber() == 45 || b.getBlockNumber() == 46 || b.getBlockNumber() == 47 || b.getBlockNumber() == 48 || b.getBlockNumber() == 49){
+                        } //If status around crossing changes, see if changing crossing is necessary
+                        else if (b.getBlockNumber() == 45 || b.getBlockNumber() == 46 || b.getBlockNumber() == 47 || b.getBlockNumber() == 48 || b.getBlockNumber() == 49) {
                             System.out.println("Trying to toggle crossing");
                             temp.toggleCrossing();
                         }
                     }
                 }
-                
-                for(Block b: greenTempBlocks){
-                    if(b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()){
+
+                for (Block b : greenTempBlocks) {
+                    if (b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Green");
                         temp.addBlock(new Block(b));
                         oldGreenBlocks.put(b.getBlockNumber(), new Block(b));
-                        
+
                         //If status of switch changes, we must see if changing switch is necessary
-                        if(b.isSwitch()){
+                        if (b.isSwitch()) {
                             temp.changeSwitch(b.getSwitch());
-                        }
-                        else if(temp.isSwitchOption(b) != null){
+                        } else if (temp.isSwitchOption(b) != null) {
                             temp.changeSwitch(temp.isSwitchOption(b));
-                        }
-                        //If status around crossing changes, see if changing crossing is necessary
-                        else if(b.getBlockNumber() == 17 || b.getBlockNumber() == 18 || b.getBlockNumber() == 19 || b.getBlockNumber() == 20 || b.getBlockNumber() == 21){
+                        } //If status around crossing changes, see if changing crossing is necessary
+                        else if (b.getBlockNumber() == 17 || b.getBlockNumber() == 18 || b.getBlockNumber() == 19 || b.getBlockNumber() == 20 || b.getBlockNumber() == 21) {
                             temp.toggleCrossing();
                         }
                     }
                 }
             }
-        } 
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public void sendAuthority(int trainID, Block destinationBlock, double speed){
-        messages.add("CTC authority suggestion to train " +  trainID +" to block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
+
+    public void sendAuthority(int trainID, Block destinationBlock, double speed) {
+        messages.add("CTC authority suggestion to train " + trainID + " to block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
         Block trainBlock = myTrack.getBlock(trainID);
-        Block nxtBlock = trainBlock.peek();
-        //On same wayside
-        if(findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine()).equals(findCorrectWayside(destinationBlock.getBlockNumber(), destinationBlock.getLine()))){
-            WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
-            if(wc.checkAuthority(nxtBlock.getBlockNumber(), destinationBlock.getBlockNumber())){
-                trainBlock.setAuthority(destinationBlock.getBlockNumber());
-            }
+        
+        if(trainBlock == null){
+            return;
         }
-        else{
-            if(nxtBlock.getLine().equals(("red"))){
-                WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
-                int check = 0;
-                if(wc.getBlock(36) != null){
+        
+        Block nxtBlock = trainBlock.peek();
+
+        //On same wayside
+        if (findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine()).equals(findCorrectWayside(destinationBlock.getBlockNumber(), destinationBlock.getLine()))) {
+            WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
+            myTrack.getBlock(trainID).setSeen(1);
+            if (wc.checkAuthority(nxtBlock.getBlockNumber(), destinationBlock.getBlockNumber(), myTrack)) {
+                int authority = myTrack.getNumberBlocks("red", destinationBlock, nxtBlock);
+                trainBlock.setAuthority(authority + 1);
+                trainBlock.setCommandedSpeed(speed);
+            }
+        } else if (nxtBlock.getLine().equals(("red"))) {
+            WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
+            int check = 0;
+            if (wc.getBlock(36) != null) {
+                check = 36;
+            } else {
+                check = 37;
+            }
+            myTrack.getBlock(trainID).setSeen(1);
+            if (wc.checkAuthority(nxtBlock.getBlockNumber(), check, myTrack)) {
+                WaysideController temp = findCorrectWayside(destinationBlock.getBlockNumber(), destinationBlock.getLine());
+                myTrack.getBlock(check, "red").setSeen(1);
+                if (check == 36) {
+                    check = 37;
+                } else {
                     check = 36;
                 }
-                else{
-                    check = 37;
+                if (temp.checkAuthority(check, destinationBlock.getBlockNumber(), myTrack)) {
+                    System.out.println(myTrack.getBlock(trainID).getBlockNumber());
+                    System.out.println(destinationBlock.getBlockNumber());
+                    int authority = myTrack.getNumberBlocks("red", destinationBlock, myTrack.getBlock(trainID));
+                    System.out.println(myTrack.getStringRoute("red", destinationBlock));
+                    System.out.println(authority);
+                    trainBlock.setAuthority(authority + 1);
+                    trainBlock.setCommandedSpeed(speed);
                 }
-                if(wc.checkAuthority(nxtBlock.getBlockNumber(), check)){
-                    WaysideController temp = findCorrectWayside(destinationBlock.getBlockNumber(), destinationBlock.getLine());
-                    if(check == 36){
-                        check = 37;
-                    }
-                    else{
-                        check = 36;
-                    }
-                    if(temp.checkAuthority(check, destinationBlock.getBlockNumber())){
-                        trainBlock.setAuthority(destinationBlock.getBlockNumber());
-                    }
-                    
-                }
+
             }
         }
     }
-    
-    private void updateUI(){
+
+    private void updateUI() {
         UI.updateUI();
     }
-    
-    public void toggleSwitch(String switchNumber){
+
+    public void toggleSwitch(String switchNumber) {
         WaysideController wc = findSwitch(switchNumber);
         wc.changeSwitch(wc.getSwitch(switchNumber));
     }
-    
 
-    public Track ctcBlockRequest(){
+    public Track ctcBlockRequest() {
         return myTrack;
 
     }
-    
-    public boolean dispatchTrain(Block destinationBlock, double speed){
+
+    public void dispatchTrain(int destinationBlockNumber, String line, double speed) {
+        Block destinationBlock = myTrack.getBlock(destinationBlockNumber, line);
+
+        System.out.println(myTrack.getBlock(78, "red").getNext().getBlockNumber());
+
+        // code goes here.
         messages.add("CTC dispatch order to Block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
-        String line = destinationBlock.getLine();
-        if(line.equals("red")){
+        if (line.equals("red")) {
             WaysideController initialWayside = findCorrectWayside(78, line);
-            if(initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))){
-                if(initialWayside.checkAuthority(78, destinationBlock.getBlockNumber())){
-                    //Dispatch train
-                    
-                    //Currently setting the dispatch block with an authority that equals the block number we are trying to reach
+            if (initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))) {
+                if (initialWayside.checkAuthority(78, destinationBlock.getBlockNumber(), myTrack)) {
+                    //Dispatch train and place in the yard
                     //Blocks speed is set as commanded by CTC
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("red", 1);
-                    myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
+                    int authority = myTrack.getNumberBlocks("red", destinationBlock, myTrack.getBlock(78, "red"));
+                    myTrack.commandAuthority("red", authority, 78);
                     myTrack.getBlock(1).setCommandedSpeed(speed);
-//                    Thread t1 = new Thread(new Runnable() {
-//                    public void run() {
-//                         // code goes here.
-//                         
-//                    }
-//                   });  
-//                    t1.start();
-//                    
-//                    myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
-//                    return true;
+                }
+            } //Need to communicate between two wayside
+            else if (initialWayside.checkAuthority(78, 36, myTrack)) {
+                WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
+                myTrack.getBlock(36, "red").setSeen(1);
+                if (other.checkAuthority(37, destinationBlock.getBlockNumber(), myTrack)) {
+                    //Dispatch train
+                    System.out.println("Go ahead and dispatch");
+                    myTrack.placeTrain("red", 1);
+                    int authority = myTrack.getNumberBlocks("red", destinationBlock, myTrack.getBlock(78, "red"));
+                    myTrack.commandAuthority("red", authority, 78);
+                    myTrack.getBlock(1).setCommandedSpeed(speed);
+
                 }
             }
-            //Need to communicate between two wayside
-            else{
-                if(initialWayside.checkAuthority(78, 36)){
-                    WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
-                    if(other.checkAuthority(37, destinationBlock.getBlockNumber())){
-                        //Dispatch train
-                        System.out.println("Go ahead and dispatch");
-                        myTrack.placeTrain("red", 1);
-                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
-                        myTrack.getBlock(1).setCommandedSpeed(speed);
-//                    Thread t1 = new Thread(new Runnable() {
-//                    public void run() {
-//                         // code goes here.
-//                         myTrack.updateDistance(1, 5000);
-//                    }
-//                   });  
-//                    t1.start();                        myTrack.commandAuthority("red", destinationBlock.getBlockNumber(), 78);
-//                        return true;
-                    }
-                }
-            }
-        }
-        //Green line
-        else{
+        } //Green line
+        else {
             WaysideController initialWayside = findCorrectWayside(155, line);
-            if(initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))){
-                if(initialWayside.checkAuthority(155, destinationBlock.getBlockNumber())){
+            if (initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))) {
+                if (initialWayside.checkAuthority(155, destinationBlock.getBlockNumber(), myTrack)) {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("green", 1);
-                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+                    int authority = myTrack.getNumberBlocks("green", destinationBlock, myTrack.getBlock(155, "green"));
+                    myTrack.commandAuthority("green", authority, 155);
                     myTrack.getBlock(1).setCommandedSpeed(speed);
-//                    Thread t1 = new Thread(new Runnable() {
-//                    public void run() {
-//                         // code goes here.
-//                         myTrack.updateDistance(1, 5000);
-//                    }
-//                    });  
-//                    t1.start();                    myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
-//                    return true;
-                    
                 }
-            }
-            //Need to communicate between two wayside
-            else{
-                if(initialWayside.checkAuthority(155, 62)){
-                    WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
-                    if(other.checkAuthority(61, destinationBlock.getBlockNumber())){
-                        //Dispatch train
-                        System.out.println("Go ahead and dispatch");
-                        myTrack.placeTrain("green", 1);
-                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
+            } //Need to communicate between two wayside
+            else if (initialWayside.checkAuthority(155, 62, myTrack)) {
+                WaysideController other = findCorrectWayside(destinationBlock.getBlockNumber(), line);
+                myTrack.getBlock(62, "green").setSeen(1);
+                if (other.checkAuthority(61, destinationBlock.getBlockNumber(), myTrack)) {
+                    //Dispatch train
+                    System.out.println("Go ahead and dispatch");
+                    myTrack.placeTrain("green", 1);
+                    int authority = myTrack.getNumberBlocks("green", destinationBlock, myTrack.getBlock(155, "green"));
+                    myTrack.commandAuthority("green", authority, 155);
                     myTrack.getBlock(1).setCommandedSpeed(speed);
-//                    Thread t1 = new Thread(new Runnable() {
-//                    public void run() {
-//                         // code goes here.
-//                         myTrack.updateDistance(1, 5000);
-//                    }
-//                   });  
-//                    t1.start();                        myTrack.commandAuthority("green", destinationBlock.getBlockNumber(), 155);
-////                        return true;
-                    }
                 }
             }
         }
-        
-        return false;
     }
-    
-    public void manualSwitch(String switchNumber){
+
+    public void manualSwitch(String switchNumber) {
         WaysideController temp = findSwitch(switchNumber);
         temp.changeSwitch(temp.getSwitch(switchNumber));
     }
-    
-    public WaysideController findCorrectWayside(int blockNumber, String line){
-        for(WaysideController wc : controllers){
-            if(wc.getBlock(blockNumber) != null){
-                if(wc.getBlock(blockNumber).getLine().equalsIgnoreCase(line))
+
+    public WaysideController findCorrectWayside(int blockNumber, String line) {
+        for (WaysideController wc : controllers) {
+            if (wc.getBlock(blockNumber) != null) {
+                if (wc.getBlock(blockNumber).getLine().equalsIgnoreCase(line)) {
                     return wc;
+                }
             }
         }
         return null;
     }
-    
-    public WaysideController findSwitch(String switchNumber){
-        for(WaysideController wc : controllers){
-            if(wc.getSwitch(switchNumber) != null){
+
+    public WaysideController findSwitch(String switchNumber) {
+        for (WaysideController wc : controllers) {
+            if (wc.getSwitch(switchNumber) != null) {
                 return wc;
             }
         }
         return null;
     }
-    
+
 }

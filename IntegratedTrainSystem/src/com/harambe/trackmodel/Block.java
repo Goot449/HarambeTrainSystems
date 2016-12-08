@@ -76,6 +76,20 @@ public class Block implements BlockInterface{
 	elevation = b.elevation;
 	cumElevation = b.cumElevation;
 	switchNumber = b.switchNumber;
+        seen = b.seen;
+        stationName = b.stationName;
+        switcher = b.switcher;
+        trainID = b.trainID;
+        railroadCrossing = b.railroadCrossing;
+        closedBlock = b.closedBlock;
+        signalWorking = b.signalWorking;
+        brokenBlock = b.brokenBlock;
+        brokenCircuit = b.brokenCircuit;
+        lightsGreenTrueRedFalse = b.lightsGreenTrueRedFalse;
+        trackHeater = b.trackHeater;
+        beaconCommanded = b.beaconCommanded;
+        distanceTraveled = b.distanceTraveled;
+        finalBlock = b.finalBlock;
 	arrow=b.arrow; 
 	direction = b.direction;
 	crossing = b.crossing;
@@ -83,6 +97,13 @@ public class Block implements BlockInterface{
 	commandedAuthority = b.commandedAuthority;
 	commandedSpeed = b.commandedSpeed;
         
+        toYard = b.toYard;
+        fromYard = b.fromYard;
+        station = b.station;
+        stationSide = b.stationSide;
+        next = b.next;
+        previous = b.previous;
+        stationPeople = b.stationPeople;
         blockOccupied = b.isBlockOccupied();
         
         railroadCrossing = b.getCrossing();
@@ -125,7 +146,7 @@ public class Block implements BlockInterface{
             
 		String[] stationStuff = station.split("-");
 		station = stationStuff[0];
-		//stationSide = stationStuff[1];
+		stationSide = stationStuff[1];
 	}
         if(lastCreated == null){
 

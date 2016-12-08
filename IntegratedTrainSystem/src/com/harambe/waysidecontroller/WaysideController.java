@@ -63,9 +63,10 @@ public class WaysideController {
         return true;
     }
     
-    public boolean checkAuthority(int srcNum, int destNum){
+    public boolean checkAuthority(int srcNum, int destNum, Track myTrack){
         System.out.println(srcNum + " " + destNum);
-        return plc.checkAuthority(blocks.get(srcNum), blocks.get(destNum));
+        
+        return plc.checkAuthority(myTrack.getBlock(srcNum, line), myTrack.getBlock(destNum, line), myTrack);
     }
     
     public Switch getSwitch(String sbNum){
