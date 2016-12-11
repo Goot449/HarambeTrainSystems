@@ -9,48 +9,14 @@ import com.harambe.trackmodel.Block;
 
 public class Train {
     
-    private boolean useTrackModel = false;
-    /** TODO
-     * Handle Passengers
-     * Add passengers to UI
-     * Add Train selector to UI
-     * Add number of cars to UI
-     * Finish Setters/Getters
-     * Add test module
-     * Set output to imperial units
-     * Finish outputting all data
-     */
-
-    // DELETE AFTER INTEGRATION
-    /**private class Block {
-        private Block() {}
-        private double getGrade() {
-            return 0;
-        }
-        private int getSpeedLimit() {
-            return 50;
-        }
-    }
-    private class TrackModel {
-        private TrackModel() {}
-        private Block getBlock(int id) {
-            return new Block();
-        }
-    }**/
-
-    /**
-    private static final double SEC_PER_HOUR = 3600;
-    private static final double FT_PER_MILE = 5280;
-    private static final double FPS_PER_MPH = FT_PER_MILE / SEC_PER_HOUR;
-    private static final double WATTS_PER_FOOT_POUND_PER_SECOND = 0.737562149333;
-
-     **/
-    // TODO: find real mu_k
+    private static final boolean useTrackModel = false;
+    
+    // physics constants
     private static final double MU_K = 0.1;
-    private static final double G = -9.8;
-    private static final double DT = 0.01;
-    private static final double MINIMUM_VELOCITY = 0.05;
-
+    private static final double G = -9.8;                   /* m/s^2 */
+    private static final double DT = 0.01;                  /* s */
+    private static final double MINIMUM_VELOCITY = 0.05;    /* m/s */
+    
     // conversion factors
     private static final double TONS_TO_KG = 907.185;
     private static final double KM_PER_H_TO_M_PER_S = 1/3.6;
@@ -58,11 +24,14 @@ public class Train {
     private static final double M_TO_FT = 3.2808399;
 
     // train data
-    private static final double SERVICE_BRAKE_DECELERATION = 1.2;
-    private static final double EMERGENCY_BRAKE_DECELERATION = 2.73;
-    private static final double MAX_SPEED = 70 * KM_PER_H_TO_M_PER_S;
-    private static final double MASS_OF_PERSON = 80.7;  // average mass in North America
-    private static final double EMPTY_CAR_MASS = 40.9 * TONS_TO_KG;
+    private static final double SERVICE_BRAKE_DECELERATION = 1.2;       /* m/s^2 */
+    private static final double EMERGENCY_BRAKE_DECELERATION = 2.73;    /* m/s^2 */
+    private static final double MAX_SPEED = 70 * KM_PER_H_TO_M_PER_S;   /* m/s */
+    private static final double MASS_OF_PERSON = 80.7;                  /* kg (average mass in North America) */
+    private static final double EMPTY_CAR_MASS = 40.9 * TONS_TO_KG;     /* kg */
+    private static final double CAR_LENGTH = 32.2;                      /* m */
+    private static final double CAR_HEIGHT = 3.42;                      /* m */
+    private static final double CAR_WIDTH = 2.65;                       /* m */
     private static final int MAX_PASSENGERS = 148;
 
     private TrainModel trainModel;
@@ -84,7 +53,30 @@ public class Train {
 
     private boolean serviceBrakesEngaged;
     private boolean emergencyBrakesEngaged;
+    
+    private boolean engineFailure;
+    private boolean brakeFailure;
+    private boolean signalFailure;
 
+    public void setEngineFailure(boolean engaged) {
+        this.engineFailure = engaged;
+    }    
+    public void setBrakeFailure(boolean engaged) {
+        this.brakeFailure = engaged;
+        this.serviceBrakesEngaged = false;
+    }    
+    public void setSignalFailure(boolean engaged) {
+        this.signalFailure = engaged;
+    }
+    public boolean hasEngineFailure() {
+        return this.engineFailure;
+    }
+    public boolean hasSignalFailure() {
+        return this.signalFailure;
+    }
+    public boolean hasBrakeFailure() {
+        return this.brakeFailure;
+    }
 
     public int getId() {
         return id;
@@ -114,7 +106,9 @@ public class Train {
     }
 
     public void engageServiceBrakes(boolean engaged) {
-        this.serviceBrakesEngaged = engaged;
+        if(this.brakeFailure) {
+            this.serviceBrakesEngaged = engaged;
+        }
     }
     public void engageEmergencyBrakes(boolean engaged) {
         this.emergencyBrakesEngaged = engaged;
@@ -126,13 +120,22 @@ public class Train {
         return this.emergencyBrakesEngaged;
     }
     public double getTemperature() {
-        return temperature;
+        return this.temperature;
     }
     public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
     public int getCarCount() {
         return carCount;
+    }
+    public double getLength() {
+        return this.carCount * CAR_LENGTH * M_TO_FT; 
+    }
+    public double getWidth() {
+        return CAR_WIDTH * M_TO_FT; 
+    }
+    public double getHeight() {
+        return CAR_HEIGHT * M_TO_FT; 
     }
     public int getSpeedLimit() {
         if(this.trainModel == null || this.trainModel.getTrack() == null || this.trainModel.getTrack().getBlock(this.id) == null) {
