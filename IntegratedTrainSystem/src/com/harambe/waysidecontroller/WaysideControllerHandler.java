@@ -126,8 +126,8 @@ public class WaysideControllerHandler implements Runnable {
                 Thread.sleep(250);
                 updateUI();
                 messages.clear();
-                
-                if(myTrack.getPowerFailure()){
+
+                if (myTrack.getPowerFailure()) {
                     running = false;
                     break;
                 }
@@ -150,9 +150,9 @@ public class WaysideControllerHandler implements Runnable {
                             }
                         }
                     }
-                    
-                    if(b.isBroken()){
-                        
+
+                    if (b.isBroken()) {
+
                     }
 
                     //If a red block has changed, update within the wayside appropriate
@@ -308,9 +308,6 @@ public class WaysideControllerHandler implements Runnable {
         //Block destinationBlock = myTrack.getBlock(destinationBlockNumber, line);
 
         String line = destinationBlock.getLine();
-        
-        //Change this as necessary
-        trainID = 1;
 
         // code goes here.
         messages.add("CTC dispatch order to Block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));

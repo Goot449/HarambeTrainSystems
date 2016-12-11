@@ -15,7 +15,7 @@ public class WaysideDriver {
             //           System.out.println(track.getStringRoute("red", track.getBlock(48, "red")));
 
             Thread.sleep(1000);
-            handler.dispatchTrain(45, "green", 0);
+            handler.dispatchTrain(1, track.getBlock(45, "green"), 0);
             System.out.println(track.getStringRoute("green", track.getBlock(45, "green")));
             //handler.dispatchTrain(77, "green", 0);
 
@@ -24,8 +24,6 @@ public class WaysideDriver {
             track.getBlock(43, "green").toggleOccupied();
             handler.sendAuthority(1, track.getBlock(45, "green"), 0);
             System.out.println(track.getBlock(155, "green").getTrainAuthority());
-            
-            
 
 //        System.out.println(track.getStringRoute("red", track.getBlock(48, "red")));
 //        System.out.println(track.getStringRoute("green", track.getBlock(39, "green")));
