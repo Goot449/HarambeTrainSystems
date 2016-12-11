@@ -19,6 +19,7 @@ public class WaysideControllerHandler implements Runnable {
     ArrayList<Switch> greenSwitches;
     Track myTrack;
     WaysideControlUI UI;
+    private HashMap<Integer, Block> finalBlocks;
 
     public WaysideControllerHandler(Track track) {
         if (t == null) {
@@ -27,6 +28,7 @@ public class WaysideControllerHandler implements Runnable {
         controllers = new ArrayList<>();
         messages = new LinkedBlockingQueue<>();
         myTrack = track;
+        finalBlocks = new HashMap<>();
 
         oldRedBlocks = new LinkedHashMap<>();
 
@@ -54,7 +56,6 @@ public class WaysideControllerHandler implements Runnable {
         }
 
         initControllers(oldRedBlocks, oldGreenBlocks, switches);
-
     }
 
     public final void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<String, Switch> newSwitches) {
@@ -119,22 +120,43 @@ public class WaysideControllerHandler implements Runnable {
     @Override
     public void run() {
         try {
-            while (true) {
+            boolean running = true;
+            while (running) {
                 //Update the track every 500 ms
                 Thread.sleep(250);
                 updateUI();
                 messages.clear();
+                
+                if(myTrack.getPowerFailure()){
+                    running = false;
+                    break;
+                }
 
                 //Get the new status of track
                 ArrayList<Block> redTempBlocks = myTrack.getRedBlocks();
                 ArrayList<Block> greenTempBlocks = myTrack.getGreenBlocks();
 
-                //Every 500 ms we look through all blocks for changes
+                //Every 250 ms we look through all blocks for changes
                 //If change occurred, we will update the wayside controller and check if switch necessary
                 for (Block b : redTempBlocks) {
+
+                    //If a block changes that was marked as the destination to one of the trains, we update the finalBlocks map and track
+                    if (b.getFinalBlock()) {
+                        for (Integer i : finalBlocks.keySet()) {
+                            if (finalBlocks.get(i) != null) {
+                                if (finalBlocks.get(i).getBlockNumber() == b.getBlockNumber()) {
+                                    finalBlocks.put(i, null);
+                                }
+                            }
+                        }
+                    }
+                    
+                    if(b.isBroken()){
+                        
+                    }
+
                     //If a red block has changed, update within the wayside appropriate
                     if (b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
-                        //System.out.println("Change detected in block " + b.getBlockNumber());
 
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
                         temp.addBlock(new Block(b));
@@ -179,11 +201,11 @@ public class WaysideControllerHandler implements Runnable {
     public void sendAuthority(int trainID, Block destinationBlock, double speed) {
         messages.add("CTC authority suggestion to train " + trainID + " to block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
         Block trainBlock = myTrack.getBlock(trainID);
-        
-        if(trainBlock == null){
+
+        if (trainBlock == null) {
             return;
         }
-        
+
         Block nxtBlock = trainBlock.peek();
 
         //On same wayside
@@ -191,9 +213,13 @@ public class WaysideControllerHandler implements Runnable {
             WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
             myTrack.getBlock(trainID).setSeen(1);
             if (wc.checkAuthority(nxtBlock.getBlockNumber(), destinationBlock.getBlockNumber(), myTrack)) {
-                int authority = myTrack.getNumberBlocks("red", destinationBlock, nxtBlock);
+                int authority = wc.getNumberBlocks(destinationBlock.getLine(), destinationBlock, nxtBlock);
                 trainBlock.setAuthority(authority + 1);
                 trainBlock.setCommandedSpeed(speed);
+
+                //Update track so that the destination is marked as such; this is important for authority 
+                finalBlocks.put(trainID, destinationBlock);
+                destinationBlock.setFinalBlock();
             }
         } else if (nxtBlock.getLine().equals(("red"))) {
             WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
@@ -215,11 +241,49 @@ public class WaysideControllerHandler implements Runnable {
                 if (temp.checkAuthority(check, destinationBlock.getBlockNumber(), myTrack)) {
                     System.out.println(myTrack.getBlock(trainID).getBlockNumber());
                     System.out.println(destinationBlock.getBlockNumber());
-                    int authority = myTrack.getNumberBlocks("red", destinationBlock, myTrack.getBlock(trainID));
+
+                    int authority = temp.getNumberBlocks("red", destinationBlock, myTrack.getBlock(trainID));
                     System.out.println(myTrack.getStringRoute("red", destinationBlock));
                     System.out.println(authority);
                     trainBlock.setAuthority(authority + 1);
                     trainBlock.setCommandedSpeed(speed);
+
+                    //Update track so that the destination is marked as such; this is important for authority 
+                    finalBlocks.put(trainID, destinationBlock);
+                    destinationBlock.setFinalBlock();
+                }
+
+            }
+        } else {
+            WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
+            int check = 0;
+            if (wc.getBlock(62) != null) {
+                check = 62;
+            } else {
+                check = 63;
+            }
+            myTrack.getBlock(trainID).setSeen(1);
+            if (wc.checkAuthority(nxtBlock.getBlockNumber(), check, myTrack)) {
+                WaysideController temp = findCorrectWayside(destinationBlock.getBlockNumber(), destinationBlock.getLine());
+                myTrack.getBlock(check, "red").setSeen(1);
+                if (check == 62) {
+                    check = 63;
+                } else {
+                    check = 62;
+                }
+                if (temp.checkAuthority(check, destinationBlock.getBlockNumber(), myTrack)) {
+                    System.out.println(myTrack.getBlock(trainID).getBlockNumber());
+                    System.out.println(destinationBlock.getBlockNumber());
+
+                    int authority = temp.getNumberBlocks("green", destinationBlock, myTrack.getBlock(trainID));
+                    System.out.println(myTrack.getStringRoute("green", destinationBlock));
+                    System.out.println(authority);
+                    trainBlock.setAuthority(authority + 1);
+                    trainBlock.setCommandedSpeed(speed);
+
+                    //Update track so that the destination is marked as such; this is important for authority 
+                    finalBlocks.put(trainID, destinationBlock);
+                    destinationBlock.setFinalBlock();
                 }
 
             }
@@ -240,10 +304,13 @@ public class WaysideControllerHandler implements Runnable {
 
     }
 
-    public void dispatchTrain(int destinationBlockNumber, String line, double speed) {
-        Block destinationBlock = myTrack.getBlock(destinationBlockNumber, line);
+    public void dispatchTrain(int trainID, Block destinationBlock, double speed) {
+        //Block destinationBlock = myTrack.getBlock(destinationBlockNumber, line);
 
-        System.out.println(myTrack.getBlock(78, "red").getNext().getBlockNumber());
+        String line = destinationBlock.getLine();
+        
+        //Change this as necessary
+        trainID = 1;
 
         // code goes here.
         messages.add("CTC dispatch order to Block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
@@ -252,12 +319,17 @@ public class WaysideControllerHandler implements Runnable {
             if (initialWayside.equals(findCorrectWayside(destinationBlock.getBlockNumber(), line))) {
                 if (initialWayside.checkAuthority(78, destinationBlock.getBlockNumber(), myTrack)) {
                     //Dispatch train and place in the yard
-                    //Blocks speed is set as commanded by CTC
+                    //Blocks speed is set as commanded by CTC, authority in number of blocks is computed
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("red", 1);
-                    int authority = myTrack.getNumberBlocks("red", destinationBlock, myTrack.getBlock(78, "red"));
+                    int authority = initialWayside.getNumberBlocks("red", destinationBlock, myTrack.getBlock(78, "red"));
                     myTrack.commandAuthority("red", authority, 78);
+
                     myTrack.getBlock(1).setCommandedSpeed(speed);
+
+                    //Update track so that the destination is marked as such; this is important for authority 
+                    finalBlocks.put(trainID, destinationBlock);
+                    destinationBlock.setFinalBlock();
                 }
             } //Need to communicate between two wayside
             else if (initialWayside.checkAuthority(78, 36, myTrack)) {
@@ -267,10 +339,13 @@ public class WaysideControllerHandler implements Runnable {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("red", 1);
-                    int authority = myTrack.getNumberBlocks("red", destinationBlock, myTrack.getBlock(78, "red"));
+                    int authority = other.getNumberBlocks("red", destinationBlock, myTrack.getBlock(78, "red"));
                     myTrack.commandAuthority("red", authority, 78);
                     myTrack.getBlock(1).setCommandedSpeed(speed);
 
+                    //Update track so that the destination is marked as such; this is important for authority 
+                    finalBlocks.put(trainID, destinationBlock);
+                    destinationBlock.setFinalBlock();
                 }
             }
         } //Green line
@@ -281,9 +356,13 @@ public class WaysideControllerHandler implements Runnable {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("green", 1);
-                    int authority = myTrack.getNumberBlocks("green", destinationBlock, myTrack.getBlock(155, "green"));
+                    int authority = initialWayside.getNumberBlocks("green", destinationBlock, myTrack.getBlock(155, "green"));
                     myTrack.commandAuthority("green", authority, 155);
                     myTrack.getBlock(1).setCommandedSpeed(speed);
+
+                    //Update track so that the destination is marked as such; this is important for authority 
+                    finalBlocks.put(trainID, destinationBlock);
+                    destinationBlock.setFinalBlock();
                 }
             } //Need to communicate between two wayside
             else if (initialWayside.checkAuthority(155, 62, myTrack)) {
@@ -293,9 +372,13 @@ public class WaysideControllerHandler implements Runnable {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     myTrack.placeTrain("green", 1);
-                    int authority = myTrack.getNumberBlocks("green", destinationBlock, myTrack.getBlock(155, "green"));
+                    int authority = initialWayside.getNumberBlocks("green", destinationBlock, myTrack.getBlock(155, "green"));
                     myTrack.commandAuthority("green", authority, 155);
                     myTrack.getBlock(1).setCommandedSpeed(speed);
+
+                    //Update track so that the destination is marked as such; this is important for authority 
+                    finalBlocks.put(trainID, destinationBlock);
+                    destinationBlock.setFinalBlock();
                 }
             }
         }
