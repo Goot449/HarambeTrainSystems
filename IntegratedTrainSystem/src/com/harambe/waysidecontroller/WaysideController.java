@@ -38,6 +38,10 @@ public class WaysideController {
         plc = new DefaultPLC();
     }
     
+    public void setPLC(PLC newPLC){
+        plc = newPLC;
+    }
+    
     public boolean changeSwitch(Switch sb){
         Block block1 = sb.getswitchedBlockBlock();
         Block block2 = sb.getunSwitchedBlockBlock();
@@ -65,8 +69,9 @@ public class WaysideController {
     
     public boolean checkAuthority(int srcNum, int destNum, Track myTrack){
         System.out.println(srcNum + " " + destNum);
-        
-        return plc.checkAuthority(myTrack.getBlock(srcNum, line), myTrack.getBlock(destNum, line), myTrack);
+        boolean result;
+        result = plc.checkAuthority(myTrack.getBlock(srcNum, line), myTrack.getBlock(destNum, line), myTrack);
+        return result;
     }
     
     public Switch getSwitch(String sbNum){
@@ -74,13 +79,6 @@ public class WaysideController {
             return switches.get(sbNum);
         }
         return null;
-    }
-    
-    public boolean containsSwitch(int sbNum){
-        if(switches.containsKey(sbNum)){
-            return true;
-        }
-        return false;
     }
     
     public Block getBlock(int blockNum){
@@ -130,5 +128,28 @@ public class WaysideController {
     
     public String toString(){
         return id;
+    }
+    
+    public int getNumberBlocks(String line, Block destination, Block currentBlock) {
+        int authorityNum = 0;
+
+        while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
+            Block lastTraverse = currentBlock;
+            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
+
+            currentBlock = currentBlock.traverse();
+
+            if (lastTraverse == currentBlock) {
+                currentBlock.toggleSwitch();
+                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
+            } else {
+                authorityNum++;
+            }
+        }
+
+        currentBlock.traverse();
+        currentBlock.setSeen(0);
+
+        return authorityNum;
     }
 }

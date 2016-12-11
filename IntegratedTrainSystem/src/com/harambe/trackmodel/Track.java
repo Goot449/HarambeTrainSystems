@@ -230,52 +230,6 @@ public class Track {
         return authorityNum;
     }
 
-    public int getNumberBlocks(String line, Block destination, Block currentBlock) {
-        int authorityNum = 0;
-
-        while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
-            Block lastTraverse = currentBlock;
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
-            currentBlock = currentBlock.traverse();
-
-            if (lastTraverse == currentBlock) {
-                currentBlock.toggleSwitch();
-                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
-            } else {
-                authorityNum++;
-            }
-        }
-
-        currentBlock.traverse();
-        currentBlock.setSeen(0);
-
-        return authorityNum;
-    }
-
-    public boolean checkRoute(Block destination, Block currentBlock) {
-        while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
-            if (currentBlock.isBlockOccupied()) {
-                return false;
-            }
-            Block lastTraverse = currentBlock;
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
-            currentBlock = currentBlock.traverse();
-
-            if (lastTraverse == currentBlock) {
-                currentBlock.toggleSwitch();
-                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
-            }
-
-        }
-        
-        currentBlock.traverse();
-        currentBlock.setSeen(0);
-        
-        return true;
-    }
-
     public ArrayList<String> getStringRoute(String line, String destination) {
 
         ArrayList<Block> pathBlocks = new ArrayList<Block>();
@@ -607,9 +561,12 @@ public class Track {
     }
 
     public void setPowerFailure() {
-
         powerFailure = true;
         System.out.println("SYSTEM POWER FAILURE");
+    }
+
+    public boolean getPowerFailure() {
+        return powerFailure;
     }
 
     public ArrayList<Block> getRedBlocks() {

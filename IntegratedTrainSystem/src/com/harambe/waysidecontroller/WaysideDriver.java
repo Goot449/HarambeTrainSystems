@@ -12,21 +12,21 @@ public class WaysideDriver {
             WaysideControllerHandler handler = new WaysideControllerHandler(track);
 
             System.out.println("Get route ");
- //           System.out.println(track.getStringRoute("red", track.getBlock(48, "red")));
-
+            //           System.out.println(track.getStringRoute("red", track.getBlock(48, "red")));
 
             Thread.sleep(1000);
-            handler.dispatchTrain(45, "red", 0);
+            handler.dispatchTrain(1, track.getBlock(45, "green"), 0);
+            System.out.println(track.getStringRoute("green", track.getBlock(45, "green")));
             //handler.dispatchTrain(77, "green", 0);
-            
+
             //System.out.println(track.getBlock(155, "green").getTrainAuthority());
-            System.out.println(track.getBlock(78, "red").getTrainAuthority());
-            track.getBlock(47, "red").toggleOccupied();
-            handler.sendAuthority(1, track.getBlock(48, "red"), 0);
-            System.out.println(track.getBlock(78, "red").getTrainAuthority());
+            System.out.println(track.getBlock(155, "green").getTrainAuthority());
+            track.getBlock(43, "green").toggleOccupied();
+            handler.sendAuthority(1, track.getBlock(45, "green"), 0);
+            System.out.println(track.getBlock(155, "green").getTrainAuthority());
+
 //        System.out.println(track.getStringRoute("red", track.getBlock(48, "red")));
 //        System.out.println(track.getStringRoute("green", track.getBlock(39, "green")));
-
 //        System.out.println(track.getStringRoute("green", "CENTRAL"));
 //        System.out.println(track.getNumberBlocks("green", "CENTRAL"));
 //        Block startBlock = track.getBlock(67, "green");
@@ -44,10 +44,7 @@ public class WaysideDriver {
              */
             //System.out.println("Made it to the end?");
             //handler.dispatchTrain(track.getBlock(38, "red"), 0);
-
             //track.getBlock(38, "red").toggleOccupied();
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
