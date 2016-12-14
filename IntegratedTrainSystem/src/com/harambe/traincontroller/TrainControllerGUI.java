@@ -922,7 +922,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     }
     
     void setBrakeStatus(Boolean enabled){
-        trainStateList.get(selectedTrain).setBrakeFailure(!enabled);
+        trainStateList.get(selectedTrain).setBrakeStatus(!enabled);
     }
 
     // Variables declaration - do not modify                     
