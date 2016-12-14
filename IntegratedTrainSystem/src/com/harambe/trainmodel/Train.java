@@ -106,7 +106,7 @@ public class Train {
     }
 
     public void engageServiceBrakes(boolean engaged) {
-        if(this.brakeFailure) {
+        if(!this.brakeFailure) {
             this.serviceBrakesEngaged = engaged;
         }
     }
