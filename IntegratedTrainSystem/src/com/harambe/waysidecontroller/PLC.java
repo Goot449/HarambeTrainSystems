@@ -16,6 +16,6 @@ public interface PLC {
     boolean checkMaintenance(Block maintenance);
     boolean checkLight(Switch switchBlock);
     boolean checkCrossing(Block crossingBlock, Block next, Block prev);
-    boolean checkAuthority(Block nxtBlock, Block destination, Track myTrack);
+    boolean checkAuthority(Block nxtBlock, Block destination, int trainID);
     boolean checkSwitch(Block curBlock, Block nxtBlock, Block destination);
 }
