@@ -5,20 +5,20 @@
  */
 package com.harambe.trackmodel;
 
+import com.harambe.waysidecontroller.*;
 import java.util.*;
 
 /**
  *
  * @author Owner
  */
-public class Block implements BlockInterface{
-    
+public class Block implements BlockInterface {
+
     //Initial variable values:
     //Authority: -1
     //Commanded speed: Speed limit
     //For yard: Authority = First 2 blocks
     //-Commanded speed = 10
-    
     //Block static attributes
     private String line;
     private String section;
@@ -46,7 +46,7 @@ public class Block implements BlockInterface{
     private Switch switcher = null;
     private Block previous;
     private Block next;
-   
+
     //Blcok configurable attributes
     private boolean blockOccupied = false;
     private int trainID = 0;
@@ -62,23 +62,83 @@ public class Block implements BlockInterface{
     private int commandedAuthority = -1;
     private double distanceTraveled = 0;
     private boolean finalBlock = false;
-    
-    public Block(Block b){
-        this.line = b.line;
-        this.section = b.section;
+    private int trainIDAuth = -1;
+
+    public Block(Block b) {
+        //        this.line = b.line;
+        //        this.section = b.section;
+        //        blockNumber = b.blockNumber;
+        //        blockLength = b.blockLength;
+        //        grade = b.grade;
+        //        speedLimit = b.speedLimit;
+        //        station = b.station;
+        //        switchBlock = b.switchBlock;
+        //        underground = b.underground;
+        //        elevation = b.elevation;
+        //        cumElevation = b.cumElevation;
+        //        switchNumber = b.switchNumber;
+        //        seen = b.seen;
+        //        stationName = b.stationName;
+        //        switcher = b.switcher;
+        //        trainID = b.trainID;
+        //        railroadCrossing = b.railroadCrossing;
+        //        closedBlock = b.closedBlock;
+        //        signalWorking = b.signalWorking;
+        //        brokenBlock = b.brokenBlock;
+        //        brokenCircuit = b.brokenCircuit;
+        //        lightsGreenTrueRedFalse = b.lightsGreenTrueRedFalse;
+        //        trackHeater = b.trackHeater;
+        //        beaconCommanded = b.beaconCommanded;
+        //        distanceTraveled = b.distanceTraveled;
+        //        finalBlock = b.finalBlock;
+        //        arrow = b.arrow;
+        //        direction = b.direction;
+        //        crossing = b.crossing;
+        //        switchType = b.switchType;
+        //        commandedAuthority = b.commandedAuthority;
+        //        commandedSpeed = b.commandedSpeed;
+        //
+        //        toYard = b.toYard;
+        //        fromYard = b.fromYard;
+        //        station = b.station;
+        //        stationSide = b.stationSide;
+        //        next = b.next;
+        //        previous = b.previous;
+        //        stationPeople = b.stationPeople;
+        //        blockOccupied = b.isBlockOccupied();
+        //
+        //        railroadCrossing = b.getCrossing();
+        //        trainIDAuth = b.trainIDAuth;
+
+        line = b.line;
+        section = b.section;
         blockNumber = b.blockNumber;
         blockLength = b.blockLength;
-	grade = b.grade;
-	speedLimit = b.speedLimit;
-	station = b.station;
-	switchBlock = b.switchBlock;
-	underground = b.underground;
-	elevation = b.elevation;
-	cumElevation = b.cumElevation;
-	switchNumber = b.switchNumber;
+        speedLimit = b.speedLimit;
+        grade = b.grade;
+        switchBlock = b.switchBlock;
+        station = b.station;
+        underground = b.underground;
+        cumElevation = b.cumElevation;
+        elevation = b.elevation;
+        switchNumber = b.switchNumber;
+        arrow = b.arrow;
+        crossing = b.crossing;
+        stationSide = b.stationSide;
+        switchType = b.switchType;
+        direction = b.direction;
+        stationPeople = b.stationPeople;
+        fromYard = b.fromYard;
+        toYard = b.toYard;
+        friction = 0.001;
         seen = b.seen;
         stationName = b.stationName;
         switcher = b.switcher;
+        previous = b.previous;
+        next = b.previous;
+
+        //Blcok configurable attributes
+        blockOccupied = b.blockOccupied;
         trainID = b.trainID;
         railroadCrossing = b.railroadCrossing;
         closedBlock = b.closedBlock;
@@ -88,377 +148,376 @@ public class Block implements BlockInterface{
         lightsGreenTrueRedFalse = b.lightsGreenTrueRedFalse;
         trackHeater = b.trackHeater;
         beaconCommanded = b.beaconCommanded;
+        commandedSpeed = b.commandedSpeed;
+        commandedAuthority = b.commandedAuthority;
         distanceTraveled = b.distanceTraveled;
         finalBlock = b.finalBlock;
-	arrow=b.arrow; 
-	direction = b.direction;
-	crossing = b.crossing;
-	switchType = b.switchType;
-	commandedAuthority = b.commandedAuthority;
-	commandedSpeed = b.commandedSpeed;
-        
-        toYard = b.toYard;
-        fromYard = b.fromYard;
-        station = b.station;
-        stationSide = b.stationSide;
-        next = b.next;
-        previous = b.previous;
-        stationPeople = b.stationPeople;
-        blockOccupied = b.isBlockOccupied();
-        
-        railroadCrossing = b.getCrossing();
+        trainIDAuth = b.trainIDAuth;
     }
-    
-    public Block(String[] splitStrings, Block lastCreated){
-        
+
+    public Block(String[] splitStrings, Block lastCreated) {
+
         line = splitStrings[0];
         section = splitStrings[1];
         blockNumber = Integer.parseInt(splitStrings[2]);
         blockLength = Double.parseDouble(splitStrings[3]);
-	grade = Double.parseDouble(splitStrings[4]);
-	speedLimit = Integer.parseInt(splitStrings[5]);
-	station = splitStrings[6];
-	switchBlock = splitStrings[7];
-	underground = splitStrings[8];
-	elevation = Double.parseDouble(splitStrings[9]);
-	cumElevation = Double.parseDouble(splitStrings[10]);
-	switchNumber = splitStrings[11];
-	arrow=splitStrings[12]; 
-	direction = Integer.parseInt(splitStrings[13]);
-	crossing = splitStrings[14];
-	switchType = splitStrings[15];
-	commandedAuthority = -1;
-	commandedSpeed = speedLimit;
-        
-        if(station.equals("TO YARD") || station.equals("TO YARD/FROM YARD")){
-            
-		toYard = true;
-		//station = "";
-	}
-	if(station.equals("FROM YARD") || station.equals("TO YARD/FROM YARD")){
-            
-		fromYard = true;
-		//commandedAuthority = 100;
-		//commandedSpeed = 10;
-		//station = "";
-	}
-	if(toYard == false && fromYard == false && station.length()>0){
-            
-		String[] stationStuff = station.split("-");
-		station = stationStuff[0];
-		stationSide = stationStuff[1];
-	}
-        if(lastCreated == null){
+        grade = Double.parseDouble(splitStrings[4]);
+        speedLimit = Integer.parseInt(splitStrings[5]);
+        station = splitStrings[6];
+        switchBlock = splitStrings[7];
+        underground = splitStrings[8];
+        elevation = Double.parseDouble(splitStrings[9]);
+        cumElevation = Double.parseDouble(splitStrings[10]);
+        switchNumber = splitStrings[11];
+        arrow = splitStrings[12];
+        direction = Integer.parseInt(splitStrings[13]);
+        crossing = splitStrings[14];
+        switchType = splitStrings[15];
+        commandedAuthority = -1;
+        commandedSpeed = speedLimit;
+        trainIDAuth = -1;
 
-	} else if(direction == 1 || direction == 2){
-                //Set the path 
-		next = lastCreated;
+        if (station.equals("TO YARD") || station.equals("TO YARD/FROM YARD")) {
 
-		if(next.getDirection() == -1){
-                    next.setNext(this);
-                }
-		next.setPrevious(this);
-	} else if(direction == -1) {
-            
-		previous = lastCreated;
+            toYard = true;
+            //station = "";
+        }
+        if (station.equals("FROM YARD") || station.equals("TO YARD/FROM YARD")) {
 
-		if(previous.getDirection() == 2){
-			previous.setPrevious(this);
-                } else{
-                    previous.setNext(this);
-                }
-	}
-	if(isStation()){
+            fromYard = true;
+            //commandedAuthority = 100;
+            //commandedSpeed = 10;
+            //station = "";
+        }
+        if (toYard == false && fromYard == false && station.length() > 0) {
+
+            String[] stationStuff = station.split("-");
+            station = stationStuff[0];
+            stationSide = stationStuff[1];
+        }
+        if (lastCreated == null) {
+
+        } else if (direction == 1 || direction == 2) {
+            //Set the path 
+            next = lastCreated;
+
+            if (next.getDirection() == -1) {
+                next.setNext(this);
+            }
+            next.setPrevious(this);
+        } else if (direction == -1) {
+
+            previous = lastCreated;
+
+            if (previous.getDirection() == 2) {
+                previous.setPrevious(this);
+            } else {
+                previous.setNext(this);
+            }
+        }
+        if (isStation()) {
             Random pls = new Random();
             stationPeople = pls.nextInt(50);
-	}
+        }
 
-	commandedSpeed = speedLimit;
+        commandedSpeed = speedLimit;
     }
-    
+
     //----------------TRAIN----------------
-    public int getBlockSpeedLimit(){
+    public int getBlockSpeedLimit() {
         return speedLimit;
     }
-    
-    public boolean getFinalBlock(){
+
+    public boolean getFinalBlock() {
         return finalBlock;
     }
-    
-    public void setFinalBlock(){
+
+    public void setFinalBlock() {
         finalBlock = true;
     }
 
     //Returns the train friction coefficient
-    public double getFrictionCoefficient(){
+    public double getFrictionCoefficient() {
         return friction;
     }
 
     //Returns train grade 
-    public double getGrade(){
+    public double getGrade() {
         return grade;
     }
-    
+
     //Returns the current commanded authority from the Wayside Controller 
-    public int getTrainAuthority(){
+    public int getTrainAuthority() {
         int temp = commandedAuthority;
         commandedAuthority = -1;
-                
+        trainIDAuth = -1;
+
         return temp;
     }
 
+    //Checks authority w/o resetting it to -1
+    public int checkAuthority() {
+        return commandedAuthority;
+    }
+
+    public void setTrainIDAuth(int newTrain) {
+        trainIDAuth = newTrain;
+    }
+
+    public int getTrainIDAuth() {
+        return trainIDAuth;
+    }
+
     //Returns the current commanded speed from the Wayside Controller
-    public double getTrainCommandedSpeed(){
-        return (commandedSpeed*.2778);
+    public double getTrainCommandedSpeed() {
+        return (commandedSpeed * .2778);
     }
 
     //If a station block and indicated to stop by the Wayside, beacon will send string of information to train like "station name", "L/R" side, 
     //dwell time and passengers at stop.
-    public String getBeacon(){
+    public String getBeacon() {
 
-        if(station.length()>0 && beaconCommanded && (!toYard||!fromYard)){
+        if (station.length() > 0 && beaconCommanded && (!toYard || !fromYard)) {
             beaconCommanded = false;
             return station + "," + stationSide + "," + "90" + "," + stationPeople;
-	} else{
+        } else {
             return "";
-	}
+        }
     }
-    
+
     //----------------WAYSIDE----------------
     //Returns T occupied; F not occupied
-    public boolean isBlockOccupied(){
+    public boolean isBlockOccupied() {
         return blockOccupied;
     }
 
-    public void toggleOccupied(){
+    public void toggleOccupied() {
         blockOccupied = (!blockOccupied);
     }
-    
-    public void toggleBroken(){
+
+    public void toggleBroken() {
         brokenBlock = (!brokenBlock);
     }
 
     //Returns a string of this block including: section, block number, occupied (boolean), broken (boolean), closed (boolean)
-    public String toString(){
-	return (this.getSection() + "   " + this.getBlockNumber() + "   " + this.isBlockOccupied() + "  " + this.isBroken() + " " +this.isClosed());
+    public String toString() {
+        return (this.getSection() + "   " + this.getBlockNumber() + "   " + this.isBlockOccupied() + "  " + this.isBroken() + " " + this.isClosed());
     }
 
     //Returns T broken; F not broken
-    public boolean isBroken(){
+    public boolean isBroken() {
         return brokenBlock;
     }
 
     //Returns true if closed, false if not closed
-    public boolean isClosed(){
+    public boolean isClosed() {
         return closedBlock;
     }
-    
+
     //Sets the commanded speed of the block	
-    public void setCommandedSpeed(double commandedSpeed2){		
-        commandedSpeed = commandedSpeed2;
+    public void setCommandedSpeed(double commandedSpeed2) {
+        if (commandedSpeed2 < speedLimit) {
+            commandedSpeed = commandedSpeed2;
+        } else {
+            commandedSpeed = speedLimit;
+        }
     }
 
-    public void toggleRedGreen(boolean trueGreen){
-        lightsGreenTrueRedFalse	= trueGreen;
+    public void toggleRedGreen(boolean trueGreen) {
+        lightsGreenTrueRedFalse = trueGreen;
     }
-	
-    public boolean getRedFalseGreenTrue(){
+
+    public boolean getRedFalseGreenTrue() {
         return lightsGreenTrueRedFalse;
     }
 
-    public boolean isSignalWorking(){
+    public boolean isSignalWorking() {
         return signalWorking;
     }
 
     //Closes a block for maintenance
-    public void closeBlock(){
+    public void closeBlock() {
         closedBlock = true;
     }
-    
-    public void breakCircuit(){
+
+    public void breakCircuit() {
         brokenCircuit = true;
         blockOccupied = true;
     }
 
     //Opens a block for maintenance
-    public void openBlock(){
+    public void openBlock() {
         closedBlock = false;
     }
 
-    public void setBeaconOn(){
-        beaconCommanded = true;	
+    public void setBeaconOn() {
+        beaconCommanded = true;
     }
 
     //Chooses next block for track traversal based on where the train came from
-    public Block traverse(){
-        
+    public Block traverse() {
+
         Block returnBlock = null;
         seen = 1;
-        
+
         boolean zeroPrevious = false;
         boolean zeroNext = false;
-        
 
-        if(direction == 1 || direction == -1){
+        if (direction == 1 || direction == -1) {
 
-            if(this.getNext() == null){
+            if (this.getNext() == null) {
                 returnBlock = this;
                 //System.out.println(this.blockNumber);
                 //System.out.println(this.line);
-                
-            } else{
+
+            } else {
                 returnBlock = this.getNext();
             }
 
-            if(this.getPrevious()!= null){
+            if (this.getPrevious() != null) {
                 this.getPrevious().setSeen(0);
             }
-	} else{
-            if(this.station.equals("TO YARD/FROM YARD")){
-                
+        } else {
+            if (this.station.equals("TO YARD/FROM YARD")) {
+
                 returnBlock = this.getNext();
-		if(returnBlock == null){
+                if (returnBlock == null) {
                     returnBlock = this;
-		}
-            } else if(this.getNext() == null){
+                }
+            } else if (this.getNext() == null) {
                 returnBlock = this;
-            } else if(this.getPrevious() == null){
+            } else if (this.getPrevious() == null) {
                 returnBlock = this;
-            } else if(this.getNext().getSeen() == 1){
+            } else if (this.getNext().getSeen() == 1) {
                 returnBlock = this.getPrevious();
-		zeroNext = true;
-            } else if(this.getPrevious().getSeen() == 1){
+                zeroNext = true;
+            } else if (this.getPrevious().getSeen() == 1) {
                 returnBlock = this.getNext();
-		zeroPrevious = true;
+                zeroPrevious = true;
             }
 
             //Going wrong way on 1-WAY case
-            if(returnBlock != null && this.getArrow().equals("Head") && returnBlock.getArrow().equals("Head") && (returnBlock.getDirection() == 1 || returnBlock.getDirection() == -1)){
+            if (returnBlock != null && this.getArrow().equals("Head") && returnBlock.getArrow().equals("Head") && (returnBlock.getDirection() == 1 || returnBlock.getDirection() == -1)) {
                 returnBlock = this;
-		zeroPrevious = false;
-		zeroNext = false;
+                zeroPrevious = false;
+                zeroNext = false;
             }
-	}
+        }
 
-	if(zeroPrevious){
+        if (zeroPrevious) {
             this.getPrevious().setSeen(0);
         }
 
-	if(zeroNext){
+        if (zeroNext) {
             this.getNext().setSeen(0);
-	}
+        }
 
-	return returnBlock;
+        return returnBlock;
 
-	}
+    }
 
-	public boolean isCrossing(){
-		
-		if(crossing.equals("-")){
-                    return false;
-		} else{
-                    return true;
-		} 
-	}
+    public boolean isCrossing() {
 
-	//Same as traverse but doens't mark seen
-	public Block peek(){
-            
-            Block returnBlock = null;
-            boolean zeroPrevious = false;
-            boolean zeroNext = false;
-		
-            if(direction == 1 || direction == -1){
+        if (crossing.equals("-")) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
-		if(this.getNext() == null){
+    //Same as traverse but doens't mark seen
+    public Block peek() {
+
+        Block returnBlock = null;
+        boolean zeroPrevious = false;
+        boolean zeroNext = false;
+
+        if (direction == 1 || direction == -1) {
+
+            if (this.getNext() == null) {
+                returnBlock = this;
+            } else {
+                returnBlock = this.getNext();
+            }
+
+            if (this.getPrevious() != null) {
+                //this.getPrevious().setSeen(0);
+            }
+        } else {
+            if (this.station.equals("TO YARD/FROM YARD")) {
+                returnBlock = this.getNext();
+                if (returnBlock == null) {
                     returnBlock = this;
-		} else{
-                    returnBlock = this.getNext();
-		}
-
-		if(this.getPrevious()!= null){
-                    //this.getPrevious().setSeen(0);
-		}
-            } else{
-                if(this.station.equals("TO YARD/FROM YARD")){
-                    returnBlock = this.getNext();
-                    if(returnBlock == null){
-                        returnBlock = this;
-                    }
-		} else if(this.getNext() == null){
-                    returnBlock = this;
-                } else if(this.getPrevious() == null){
-                    returnBlock = this;
-		} else if(this.getNext().getSeen() == 1){
-                    returnBlock = this.getPrevious();
-                    zeroNext = true;
-		} else if(this.getPrevious().getSeen() == 1){
-                    returnBlock = this.getNext();
-                    zeroPrevious = true;
                 }
+            } else if (this.getNext() == null) {
+                returnBlock = this;
+            } else if (this.getPrevious() == null) {
+                returnBlock = this;
+            } else if (this.getNext().getSeen() == 1) {
+                returnBlock = this.getPrevious();
+                zeroNext = true;
+            } else if (this.getPrevious().getSeen() == 1) {
+                returnBlock = this.getNext();
+                zeroPrevious = true;
+            }
 
-                //Going wrong way on 1-WAY case
-                if(returnBlock != null && this.getArrow().equals("Head") && returnBlock.getArrow().equals("Head") && (returnBlock.getDirection() == 1 || returnBlock.getDirection() == -1)){
-				returnBlock = this;
-				zeroPrevious = false;
-				zeroNext = false;
-			}
-		}
+            //Going wrong way on 1-WAY case
+            if (returnBlock != null && this.getArrow().equals("Head") && returnBlock.getArrow().equals("Head") && (returnBlock.getDirection() == 1 || returnBlock.getDirection() == -1)) {
+                returnBlock = this;
+                zeroPrevious = false;
+                zeroNext = false;
+            }
+        }
 
-		if(zeroPrevious)
-		{
-                    //this.getPrevious().setSeen(0);
-		}
+        if (zeroPrevious) {
+            //this.getPrevious().setSeen(0);
+        }
 
-		if(zeroNext)
-		{
-                    //this.getNext().setSeen(0);
-		}
+        if (zeroNext) {
+            //this.getNext().setSeen(0);
+        }
 
-		return returnBlock;
-	}
+        return returnBlock;
+    }
 
-	public boolean isSwitch(){
-		
-		if(switchNumber.length()>0){
-			return true;
-                } else{
-			return false;
-                }
-	}
-	
-	//Sets the current authority;
-	public void setAuthority(int authority){
-            commandedAuthority = authority;
-	}
+    public boolean isSwitch() {
 
-	public Crossing getCrossing() {
-            return railroadCrossing;
-	}
+        if (switchNumber.length() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	public void addCrossing(Crossing newCrossing){
-            railroadCrossing = newCrossing;
-	}
-        
-        public void setFriction(double frictionIn)
-	{
-		friction = frictionIn;
-		if(friction == 0.0002)
-		{
-			trackHeater = true;
-		}
-		friction = 0.001;
-	}
-      
-	//Toggles switch and all its connections if attached to a switch block 
-	public void toggleSwitch()
-	{
-		if(switcher!=null){
-                    switcher.toggleSwitch();
-                }
-	}
-        
-	/*public String gui1()
+    //Sets the current authority;
+    public void setAuthority(int authority) {
+        commandedAuthority = authority;
+    }
+
+    public Crossing getCrossing() {
+        return railroadCrossing;
+    }
+
+    public void addCrossing(Crossing newCrossing) {
+        railroadCrossing = newCrossing;
+    }
+
+    public void setFriction(double frictionIn) {
+        friction = frictionIn;
+        if (friction == 0.0002) {
+            trackHeater = true;
+        }
+        friction = 0.001;
+    }
+
+    //Toggles switch and all its connections if attached to a switch block 
+    public void toggleSwitch() {
+        if (switcher != null) {
+            switcher.toggleSwitch();
+        }
+    }
+
+    /*public String gui1()
 	{
 		int directional = direction;
 		if(direction == -1)
@@ -511,141 +570,143 @@ public class Block implements BlockInterface{
 		return secondGui;
 
 	}*/
-
-	
     //----------------BLOCK----------------
-    public boolean isStation(){
-        
-        if(station.length()>0 && (!toYard||!fromYard)){
+    public boolean isStation() {
+
+        if (station.length() > 0 && (!toYard || !fromYard)) {
             return true;
-        } else{
+        } else {
             return false;
-	}
+        }
     }
 
     //Returns 1 if this block has already been traversed; 0 if not
-    private int getSeen(){
+    private int getSeen() {
         return seen;
     }
-				
-    public double getBlockLength(){
+
+    public double getBlockLength() {
         return blockLength;
     }
-    
-    public int getBlockNumber(){
+
+    public int getBlockNumber() {
         return blockNumber;
     }
 
     //Returns the ID of the train currently in the block; 0 not there 
-    public int getTrainID(){
+    public int getTrainID() {
         return trainID;
     }
 
-    public int getSpeedLimit(){
+    public int getSpeedLimit() {
         return speedLimit;
     }
-    
+
     //For use in traversing the track
     public Block getPrevious() {
         return previous;
     }
-    public Block getNext(){
+
+    public Block getNext() {
         return next;
     }
-    
-    public String getSection(){
-        return section;	
+
+    public String getSection() {
+        return section;
     }
-    
-    public String getStation(){
+
+    public String getStation() {
         return station;
     }
-    
-    public String getStationSide(){
+
+    public String getStationSide() {
         return stationSide;
     }
-    
-    public String getSwitchNumber(){
-        return switchNumber; /*e.g. "Switch 6" */
+
+    public String getSwitchNumber() {
+        return switchNumber;
+        /*e.g. "Switch 6" */
     }
-    
-    public Switch getSwitch(){
+
+    public Switch getSwitch() {
         return switcher;
     }
-    
-    public String getSwitchBlock(){
-        return switchBlock; /* e.g. SWITCH or "" */ 
+
+    public String getSwitchBlock() {
+        return switchBlock;
+        /* e.g. SWITCH or "" */
     }
-    
+
     //This method is used only internally for setting up switches.  switchType contains a string "AFTER", "BEFORE", or "-", signifying whether the switch is part of a middle section
     //that comes before or after the fork, as well as - to signify a normal 3-junction switch
-    public String getSwitchType(){
+    public String getSwitchType() {
         return switchType;
-    }	
+    }
 
     //This method is used only internally for two-directional traversal, since trains can go in two ways on some blocks and need to know where they've come from	
-    public void setSeen(int i){
-        seen = i; /*for traversal use */
+    public void setSeen(int i) {
+        seen = i;
+        /*for traversal use */
     }
-    
+
     //Puts a train in a block
-    private void setTrainID(int ID){
+    private void setTrainID(int ID) {
         trainID = ID;
     }
 
     //This method returns the type of arrow "Head" or "Tail" of the current block.	
-    public String getArrow(){
+    public String getArrow() {
         return arrow;
     }
 
     //This method physically places a train in a block and changes the appropriate parameters. 	
-    public Block placeTrain(int train, double distanceMoved){
-        
-        System.out.println(train+" train moved to: " + this.section + " " + this.blockNumber);
-	trainID = train;
+    public Block placeTrain(int train, double distanceMoved) {
+
+        System.out.println(train + " train moved to: " + this.section + " " + this.blockNumber);
+        trainID = train;
         blockOccupied = true;
-	
-        return this.moveTrain(distanceMoved);	
+
+        return this.moveTrain(distanceMoved);
     }
 
     //This method simulates train movement.  Distance updates and is stored.  If it surpasses length of the block, train proceeds.  	
-    public Block moveTrain(double moved){
-		try{
-                Thread.sleep(1000);
-                } catch(Exception e){
-                    
-                }
-		double newDist = moved + distanceTraveled;
-		System.out.println("In " + this.section + " " + this.blockNumber + " moved: " + newDist + "Length:"+ this.blockLength);
-		Block currentBlock = this;
-                
-		if(newDist>blockLength){
-                    
-                    Block temp = currentBlock;
-                    blockOccupied = false;
-                    distanceTraveled = 0;
-                    newDist = newDist - blockLength;
-                    //((Block) this.getNext()).placeTrain(trainID, newDist); 
-                    currentBlock = this.traverseTrain(trainID); 
-                    
-                    if(temp == currentBlock){
-                        System.out.println("CRASH!");
-                    } else{
-                        currentBlock = currentBlock.placeTrain(trainID,newDist);
-                    }
-			
-                    //trainID = 0;
-		} else{
-                    distanceTraveled = newDist;
-		}
-		
-		//System.out.print("Train is currently in block: " + currentBlock.getSection() + " " + currentBlock.getBlockNumber());
-		return currentBlock;
-	}
-    
+    public Block moveTrain(double moved) {
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+
+        }
+        double newDist = moved + distanceTraveled;
+        System.out.println("In " + this.section + " " + this.blockNumber + " moved: " + newDist + "Length:" + this.blockLength);
+        Block currentBlock = this;
+
+        if (newDist > blockLength) {
+
+            Block temp = currentBlock;
+            blockOccupied = false;
+            distanceTraveled = 0;
+            newDist = newDist - blockLength;
+            //((Block) this.getNext()).placeTrain(trainID, newDist); 
+            currentBlock = this.traverseTrain(trainID);
+
+            if (temp == currentBlock) {
+                System.out.println("CRASH!");
+            } else {
+                currentBlock = currentBlock.placeTrain(trainID, newDist);
+            }
+
+            //trainID = 0;
+        } else {
+            distanceTraveled = newDist;
+        }
+
+        //System.out.print("Train is currently in block: " + currentBlock.getSection() + " " + currentBlock.getBlockNumber());
+        return currentBlock;
+    }
+
     //This method simulates train movement.  Equivalent to traverse() but is used solely for trains	
-    public Block traverseTrain(int train){
-            
+    public Block traverseTrain(int train) {
+
         Block returnBlock = null;
         //System.out.println(this.getSection() + this.getBlockNumber());
         //System.out.println(this.getNext());
@@ -653,89 +714,87 @@ public class Block implements BlockInterface{
         boolean zeroNext = false;
         boolean zeroPrevious = false;
 
-        if(direction == 1 || direction == -1){
+        if (direction == 1 || direction == -1) {
 
-            if(this.getNext() == null){
+            if (this.getNext() == null) {
                 returnBlock = this;
-            } else{
+            } else {
                 returnBlock = this.getNext();
             }
 
-            if(this.getPrevious()!= null){
+            if (this.getPrevious() != null) {
                 zeroPrevious = true;
             }
-        } else{
-                
-            if(this.station.equals("TO YARD/FROM YARD")){
-				
+        } else {
+
+            if (this.station.equals("TO YARD/FROM YARD")) {
+
                 returnBlock = this.getNext();
-                if(returnBlock == null){
+                if (returnBlock == null) {
                     returnBlock = this;
                 }
-                
+
                 //System.out.println(returnBlock);
-                    
-            } else if(this.getNext() == null){
+            } else if (this.getNext() == null) {
                 returnBlock = this;
-            } else if(this.getPrevious() == null){
+            } else if (this.getPrevious() == null) {
                 returnBlock = this;
-            } else if(this.getNext().getTrainID() == train){
+            } else if (this.getNext().getTrainID() == train) {
                 returnBlock = this.getPrevious();
                 zeroNext = true;
-            } else if(this.getPrevious().getTrainID() == train){
+            } else if (this.getPrevious().getTrainID() == train) {
                 returnBlock = this.getNext();
                 zeroPrevious = true;
             }
 
             //Going wrong way on 1-WAY case
-            if(returnBlock != null && this.getArrow().equals("Head") && returnBlock.getArrow().equals("Head") && (returnBlock.getDirection() == 1 || returnBlock.getDirection() == -1)){
+            if (returnBlock != null && this.getArrow().equals("Head") && returnBlock.getArrow().equals("Head") && (returnBlock.getDirection() == 1 || returnBlock.getDirection() == -1)) {
                 returnBlock = this;
                 zeroPrevious = false;
                 zeroNext = false;
             }
         }
 
-        if(zeroPrevious){
+        if (zeroPrevious) {
             this.getPrevious().setTrainID(0);
         }
 
-        if(zeroNext){
+        if (zeroNext) {
             this.getNext().setTrainID(0);
         }
-            
+
         //System.out.println(this.getSection() + this.getBlockNumber());
         return returnBlock;
     }
 
     //Returns 1 or -1 for a one-way block (-1 means constructed from tail to head), 2 for two-way		
-    public int getDirection(){
+    public int getDirection() {
         return direction;
     }
 
-    public void setNext(Block nextBlock){
-        next = nextBlock; 
+    public void setNext(Block nextBlock) {
+        next = nextBlock;
     }
-    
-    public String getLine(){
+
+    public String getLine() {
         return line;
     }
-    
-    public void setPrevious(Block previousBlock){
+
+    public void setPrevious(Block previousBlock) {
         previous = previousBlock;
     }
 
-    public void setSwitch(Switch aSwitch){
+    public void setSwitch(Switch aSwitch) {
         switcher = aSwitch;
     }
 
-    public int getStationPeople(){
+    public int getStationPeople() {
         return stationPeople;
     }
 
     //Returns 1 if this block has already been traversed, 0 if not. ??? REDUNDANT... remove. 
-    public int getBlockDirection(){
+    public int getBlockDirection() {
         return direction;
     }
-    
-    
+
 }

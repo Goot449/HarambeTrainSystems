@@ -22,32 +22,27 @@ public class RunSystem {
 		
         System.out.println("Start");
         WaysideControllerHandler handler = new WaysideControllerHandler(trackObj);
-        Thread thread = new Thread(handler);
-        thread.start();
-        TrainModel trainModel = new TrainModel(trackObj);
-        TrainController trainController = new TrainController();
+
+
 		
         //Thread.sleep(1000);
-        for (int i = 0; i<1; i++){
-            Train train = new Train(1,i);
-            trainController.addTrain(train);
-            trainModel.addTrain(train);
-            
-        }
-        
+//        for (int i = 0; i<1; i++){
+//            Train train = new Train(1,i);
+//            trainController.addTrain(train);
+//            trainModel.addTrain(train);
+//        }
+//        
         TrackModelPrototypeUI trackGUI = new TrackModelPrototypeUI(trackObj);
         trackGUI.setVisible(true);
 		
-        trainController.setStartControl(true);
-        TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
-        trainGUI.setVisible(true);
+//        trainController.setStartControl(true);
+//        TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
+//        trainGUI.setVisible(true);
         
         OfficeWindow ctcOfficeUI = new OfficeWindow(handler);
         ctcOfficeUI.setVisible(true);
         
-        trainModel.setVisible(true);
-    
-        
+//        trainModel.setVisible(true);
     }
     
 }

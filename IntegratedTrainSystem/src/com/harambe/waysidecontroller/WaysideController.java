@@ -38,8 +38,17 @@ public class WaysideController {
         plc = new DefaultPLC();
     }
     
-    public void setPLC(PLC newPLC){
-        plc = newPLC;
+    public void setPLC(String newPLC){
+        
+        if(newPLC.equals("DefaultPLC.class")){
+            plc = new DefaultPLC();
+        }
+        else if(newPLC.equals("testPLC.class")){
+            plc = new testPLC();
+        }
+        else{
+            plc = new AlternativePLC();
+        }
     }
     
     public boolean changeSwitch(Switch sb){
@@ -67,11 +76,9 @@ public class WaysideController {
         return true;
     }
     
-    public boolean checkAuthority(int srcNum, int destNum, Track myTrack){
+    public boolean checkAuthority(int srcNum, int destNum, Track myTrack, int trainID){
         System.out.println(srcNum + " " + destNum);
-        boolean result;
-        result = plc.checkAuthority(myTrack.getBlock(srcNum, line), myTrack.getBlock(destNum, line), myTrack);
-        return result;
+        return plc.checkAuthority(myTrack.getBlock(srcNum, line), myTrack.getBlock(destNum, line), trainID);
     }
     
     public Switch getSwitch(String sbNum){
@@ -151,5 +158,28 @@ public class WaysideController {
         currentBlock.setSeen(0);
 
         return authorityNum;
+    }
+    
+    public void setAuthorities(String line, Block destination, Block currentBlock, int num, double speed, int trainID) {
+        while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
+            //System.out.println("In set Authorities");
+            Block lastTraverse = currentBlock;
+            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
+
+            currentBlock = currentBlock.traverse();
+
+            if (lastTraverse == currentBlock) {
+                currentBlock.toggleSwitch();
+                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
+            } else {
+                currentBlock.setAuthority(num);
+                currentBlock.setCommandedSpeed(speed);
+                currentBlock.setTrainIDAuth(trainID);
+                num--;
+            }
+        }
+
+        currentBlock.traverse();
+        currentBlock.setSeen(0);
     }
 }
