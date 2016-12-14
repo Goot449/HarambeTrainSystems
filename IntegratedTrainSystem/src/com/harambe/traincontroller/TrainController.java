@@ -6,7 +6,7 @@ import javax.swing.Timer;
 
 public class TrainController {
 
-    private boolean testModeEnabled = false;
+    private boolean testModeEnabled = true;
     private boolean autoModeEnabled = false;
     private boolean startControl = false;
     private double maxEnginePower = 120000;
@@ -35,9 +35,6 @@ public class TrainController {
                 double emergencyBrakesEnabled = trainInfo[3];
                 double serviceBrakesEnabled = trainInfo[4];
                 //add logic for speedLimit here. Should be 0 for approaching a station
-                //if authority and speed limit are both 0, approaching station
-                //if approaching station and current speed = 0, stopped at station
-                //if stopped at station, wait 10000 iterations
                 double[] trainStateInfo = this.getTrainStateInfo(trainStateList.get(i));
                 double setPoint = trainStateInfo[0];
                 double previousError = trainStateInfo[1];
@@ -57,17 +54,6 @@ public class TrainController {
                 }
                 if (guiSetServiceBrake == 1.0){
                     power = 0;
-                }
-                // Check for failures here
-                boolean failureExists = checkForFailures(trainList.get(i),trainStateList.get(i), testModeEnabled);
-                if (failureExists){
-                    trainList.get(i).engageEmergencyBrakes(true);
-                    power = 0.0;
-                    trainStateList.get(i).setPreviousFailure(true);
-                }
-                else if(trainStateList.get(i).getPreviousFailure()){
-                    trainStateList.get(i).setPreviousFailure(false);
-                    trainList.get(i).engageEmergencyBrakes(false);
                 }
                 setTrainPower(trainList.get(i), trainStateList.get(i),power);
                 setTrainPrevious(trainStateList.get(i), velocityError, integration);
@@ -124,20 +110,6 @@ public class TrainController {
             trainInfo[3] = 0;
         }
         return trainInfo;
-    }
-    
-    public boolean checkForFailures(Train train, TrainState trainState, boolean testModeEnabled){
-        boolean hasFailure;
-        if (train.hasBrakeFailure() || train.hasEngineFailure() || train.hasSignalFailure()){
-            hasFailure = true;
-        }
-        else if (trainState.hasBrakeFailure() || trainState.hasEngineFailure() || trainState.hasSignalFailure()){
-            hasFailure = true;
-        }
-        else {
-            hasFailure = false;
-        }
-        return hasFailure;
     }
     
     public void setTrainPower(Train train, TrainState trainState, double power){

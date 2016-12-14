@@ -23,10 +23,11 @@ public class GetStarted {
         System.out.println("Start");
         TrainModel trainModel = new TrainModel();
         TrainController trainController = new TrainController();
-        Train train1 = new Train(1,1);
+        Train train1 = new Train(1,0);
         trainController.addTrain(train1);
-        Train train2 = new Train(1,2);
-        trainController.addTrain(train2);
+//        Train train2 = new Train(1,2);
+//        trainController.addTrain(train2);
+        trainController.setStartControl(true);
         TrainControllerGUI thisGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
         thisGUI.setVisible(true);
     }
