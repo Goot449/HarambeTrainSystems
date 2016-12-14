@@ -3,7 +3,6 @@ package com.harambe.traincontroller;
 import java.awt.Color;
 import java.util.ArrayList;
 import com.harambe.trainmodel.Train;
-import javax.swing.ButtonModel;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
@@ -217,7 +216,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
                 interiorTempSpinnerStateChanged(evt);
             }
         });
-
+        
         //interiorTempLabel.setBackground(new java.awt.Color(153, 255, 153));
         interiorTempLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         interiorTempLabel.setText("Interior Temperature");
@@ -817,9 +816,9 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         //System.out.println("This worked");
         changeLeftDoorFailState(leftDoorFailToggle.isSelected());
-    }  
+    }                                               
     
-    public void controlLeftDoors(boolean areOpen, Train thisTrain){
+     public void controlLeftDoors(boolean areOpen, Train thisTrain){
         thisTrain.setLeftDoors(areOpen);
     }
     
