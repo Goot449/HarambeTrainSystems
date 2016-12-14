@@ -31,7 +31,7 @@ public class TrainState {
     
     public TrainState(Train newTrain){
         this.setTrainID(newTrain.getId());
-        this.setSetPoint(0);
+        this.setSetPoint(newTrain.getSpeedLimit());
         this.setLightsOn(newTrain.lightsAreOn());
         this.setLeftDoorsOpen(newTrain.leftDoorsAreOpen());
         this.setRightDoorsOpen(newTrain.rightDoorsAreOpen());

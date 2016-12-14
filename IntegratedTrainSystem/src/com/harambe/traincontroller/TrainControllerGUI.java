@@ -3,6 +3,7 @@ package com.harambe.traincontroller;
 import java.awt.Color;
 import java.util.ArrayList;
 import com.harambe.trainmodel.Train;
+import javax.swing.ButtonModel;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
@@ -108,18 +109,23 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         buttonGroup1.add(leftDoorOpenButton);
         leftDoorOpenButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         leftDoorOpenButton.setText("Open");
+        leftDoorOpenButton.addChangeListener( new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                leftDoorOpenStateChanged(evt);
+            }
+        });
 
         buttonGroup1.add(leftDoorClosedButton);
         leftDoorClosedButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         leftDoorClosedButton.setSelected(true);
         leftDoorClosedButton.setText("Closed");
 
-        leftDoorLabel.setBackground(new java.awt.Color(153, 255, 153));
+        //leftDoorLabel.setBackground(new java.awt.Color(153, 255, 153));
         leftDoorLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         leftDoorLabel.setText("Left Doors");
         leftDoorLabel.setOpaque(true);
 
-        rightDoorLabel.setBackground(new java.awt.Color(153, 255, 153));
+        //rightDoorLabel.setBackground(new java.awt.Color(153, 255, 153));
         rightDoorLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rightDoorLabel.setText("Right Doors");
         rightDoorLabel.setOpaque(true);
@@ -127,13 +133,18 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         buttonGroup2.add(rightDoorOpenButton);
         rightDoorOpenButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rightDoorOpenButton.setText("Open");
+        rightDoorOpenButton.addChangeListener( new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                rightDoorOpenStateChanged(evt);
+            }
+        });
 
         buttonGroup2.add(rightDoorClosedButton);
         rightDoorClosedButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rightDoorClosedButton.setSelected(true);
         rightDoorClosedButton.setText("Closed");
 
-        interiorLightsLabel.setBackground(new java.awt.Color(153, 255, 153));
+        //interiorLightsLabel.setBackground(new java.awt.Color(153, 255, 153));
         interiorLightsLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         interiorLightsLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         interiorLightsLabel.setText("Interior Lights");
@@ -141,11 +152,16 @@ public class TrainControllerGUI extends javax.swing.JFrame {
 
         buttonGroup3.add(interiorLightsOnButton);
         interiorLightsOnButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        interiorLightsOnButton.setSelected(true);
         interiorLightsOnButton.setText("On");
+        interiorLightsOnButton.addChangeListener( new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                interiorLightsOnStateChanged(evt);
+            }
+        });
 
         buttonGroup3.add(interiorLightsOffButton);
         interiorLightsOffButton.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        interiorLightsOffButton.setSelected(true);
         interiorLightsOffButton.setText("Off");
 
         simSpeedLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -196,8 +212,13 @@ public class TrainControllerGUI extends javax.swing.JFrame {
 
         interiorTempSpinner.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         interiorTempSpinner.setModel(new javax.swing.SpinnerNumberModel(70, 60, 80, 1));
+        interiorTempSpinner.addChangeListener( new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                interiorTempSpinnerStateChanged(evt);
+            }
+        });
 
-        interiorTempLabel.setBackground(new java.awt.Color(153, 255, 153));
+        //interiorTempLabel.setBackground(new java.awt.Color(153, 255, 153));
         interiorTempLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         interiorTempLabel.setText("Interior Temperature");
         interiorTempLabel.setOpaque(true);
@@ -716,18 +737,35 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         setTrainStateTestSpeed(testCurrentSpeedSlider.getValue());
     }                                                   
 
-    private void brakeFailToggleStateChanged(javax.swing.event.ChangeEvent evt) {                                             
-        changeBrakeFailState(brakeFailToggle.isSelected());
-        setBrakeStatus(brakeFailToggle.isSelected());
+    private void leftDoorOpenStateChanged(javax.swing.event.ChangeEvent evt) {
+        controlLeftDoors(leftDoorOpenButton.isSelected(), trainList.get(selectedTrain));
+    }
+    
+    private void rightDoorOpenStateChanged(javax.swing.event.ChangeEvent evt) {
+        controlRightDoors(rightDoorOpenButton.isSelected(), trainList.get(selectedTrain));
+    }
+    
+    private void interiorLightsOnStateChanged(javax.swing.event.ChangeEvent evt) {
+        controlInteriorLights(interiorLightsOnButton.isSelected(), trainList.get(selectedTrain));
+    }
+    
+    private void interiorTempSpinnerStateChanged(javax.swing.event.ChangeEvent evt) {
+        controlInteriorTemp((int)interiorTempSpinner.getValue(), trainList.get(selectedTrain));
+    }
+    
+    private void brakeFailToggleStateChanged(javax.swing.event.ChangeEvent evt) { 
+        boolean selected = brakeFailToggle.isSelected();
+        changeBrakeFailState(selected, trainList.get(selectedTrain));
+        //setBrakeStatus(selected);
     }                                            
 
     private void signalFailToggleStateChanged(javax.swing.event.ChangeEvent evt) {                                              
-        changeSignalFailState(signalFailToggle.isSelected());
+        changeSignalFailState(signalFailToggle.isSelected(), trainList.get(selectedTrain));
     }                                             
 
     private void engineFailToggleStateChanged(javax.swing.event.ChangeEvent evt) {                                              
         // TODO add your handling code here:
-        changeEngineFailState(engineFailToggle.isSelected());
+        changeEngineFailState(engineFailToggle.isSelected(), trainList.get(selectedTrain));
     }  
     
     private void trainSelectorBoxActionPerformed(java.awt.event.ActionEvent evt) {                                              
@@ -779,7 +817,23 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         //System.out.println("This worked");
         changeLeftDoorFailState(leftDoorFailToggle.isSelected());
-    }                                               
+    }  
+    
+    public void controlLeftDoors(boolean areOpen, Train thisTrain){
+        thisTrain.setLeftDoors(areOpen);
+    }
+    
+    public void controlRightDoors(boolean areOpen, Train thisTrain) {
+        thisTrain.setRightDoors(areOpen);
+    }
+    
+    public void controlInteriorLights(boolean areOn, Train thisTrain) {
+        thisTrain.setLights(areOn);
+    }
+    
+    public void controlInteriorTemp(int temp, Train thisTrain) {
+        thisTrain.setTemperature((double)temp);
+    }
     
     public int getCurrentSpeed(){
         int currentSpeed = Integer.parseInt(currentSpeedValueLabel.getText());
@@ -836,6 +890,31 @@ public class TrainControllerGUI extends javax.swing.JFrame {
     //Want to reload train state here
     void changeTrainInGUI(int selectedTrain){
         this.selectedTrain = selectedTrain;
+        if (trainList.get(selectedTrain).leftDoorsAreOpen()){
+            leftDoorOpenButton.setSelected(true);
+            leftDoorClosedButton.setSelected(false);
+        }
+        else{
+            leftDoorOpenButton.setSelected(false);
+            leftDoorClosedButton.setSelected(true);
+        }
+        if (trainList.get(selectedTrain).rightDoorsAreOpen()){
+            rightDoorOpenButton.setSelected(true);
+            rightDoorClosedButton.setSelected(false);
+        }
+        else{
+            rightDoorOpenButton.setSelected(false);
+            rightDoorClosedButton.setSelected(true);
+        }
+        if (trainList.get(selectedTrain).lightsAreOn()){
+            interiorLightsOnButton.setSelected(true);
+            interiorLightsOffButton.setSelected(false);
+        }
+        else{
+            interiorLightsOnButton.setSelected(false);
+            interiorLightsOffButton.setSelected(true);
+        }
+        interiorTempSpinner.setValue((int)trainList.get(selectedTrain).getTemperature());
         changeSetSpeedLabel((int)trainStateList.get(selectedTrain).getSetPoint());
         setSpeedSlider.setValue((int)trainStateList.get(selectedTrain).getSetPoint());
     }
@@ -881,33 +960,42 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         }
     }
     
-    void changeEngineFailState(Boolean enabled){
+    void changeEngineFailState(Boolean enabled, Train thisTrain){
         if(enabled){
             engineStatusLabel.setBackground(Color.red);
+            thisTrain.setEngineFailure(true);
+            notificationArea.setText("Engine Failure");
         }
         else{
             Color labelColor = new Color(153, 255, 153);
             engineStatusLabel.setBackground(labelColor);
+            thisTrain.setEngineFailure(false);
         }
     }
     
-    void changeSignalFailState(Boolean enabled){
+    void changeSignalFailState(Boolean enabled, Train thisTrain){
         if(enabled){
             signalStatusLabel.setBackground(Color.red);
+            thisTrain.setSignalFailure(true);
+            notificationArea.setText("Signal Failure");
         }
         else{
             Color labelColor = new Color(153, 255, 153);
             signalStatusLabel.setBackground(labelColor);
+            thisTrain.setSignalFailure(false);
         }
     }
     
-    void changeBrakeFailState(Boolean enabled){
+    void changeBrakeFailState(Boolean enabled, Train thisTrain){
         if(enabled){
             brakeStatusLabel.setBackground(Color.red);
+            thisTrain.setBrakeFailure(true);
+            notificationArea.setText("Brake Failure");
         }
         else{
             Color labelColor = new Color(153, 255, 153);
             brakeStatusLabel.setBackground(labelColor);
+            thisTrain.setBrakeFailure(false);
         }
     }
     
