@@ -57,9 +57,9 @@ public class WaysideControllerHandler implements Runnable {
 
         initControllers(oldRedBlocks, oldGreenBlocks, switches);
     }
-    
-    public boolean login(String user, String pass){
-        if(user.equals(masterUser) && pass.equals(password)){
+
+    public boolean login(String user, String pass) {
+        if (user.equals(masterUser) && pass.equals(password)) {
             return true;
         }
         return false;
@@ -151,7 +151,7 @@ public class WaysideControllerHandler implements Runnable {
                         if (!b.isBlockOccupied()) {
                             b.toggleOccupied();
                         }
-                        if(b.getTrainIDAuth() != -1){
+                        if (b.getTrainIDAuth() != -1) {
                             myTrack.getBlock(b.getTrainIDAuth()).setAuthority(0);
                         }
                     }
@@ -159,11 +159,11 @@ public class WaysideControllerHandler implements Runnable {
                     //If a red block has changed, update within the wayside appropriate
                     if (b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
                         //Must clear the authority from this block
-                        if(!b.isBlockOccupied()){
+                        if (!b.isBlockOccupied()) {
                             b.setAuthority(-1);
                             b.setTrainIDAuth(-1);
                         }
-                        
+
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
                         temp.addBlock(new Block(b));
                         oldRedBlocks.put(b.getBlockNumber(), new Block(b));
@@ -182,23 +182,22 @@ public class WaysideControllerHandler implements Runnable {
                 }
 
                 for (Block b : greenTempBlocks) {
-                    
-                    
+
                     if (b.isBroken()) {
                         if (!b.isBlockOccupied()) {
                             b.toggleOccupied();
                         }
-                        if(b.getTrainIDAuth() != -1){
+                        if (b.getTrainIDAuth() != -1) {
                             myTrack.getBlock(b.getTrainIDAuth()).setAuthority(0);
                         }
                     }
-                    
+
                     if (b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
-                        if(!b.isBlockOccupied()){
+                        if (!b.isBlockOccupied()) {
                             b.setAuthority(-1);
                             b.setTrainIDAuth(-1);
                         }
-                        
+
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Green");
                         temp.addBlock(new Block(b));
                         oldGreenBlocks.put(b.getBlockNumber(), new Block(b));
@@ -238,16 +237,22 @@ public class WaysideControllerHandler implements Runnable {
                 myTrack.getBlock(trainID).setSeen(1);
                 int authority = wc.getNumberBlocks(destinationBlock.getLine(), destinationBlock, nxtBlock);
                 System.out.println("The new authority = " + authority);
-                
+
                 myTrack.getBlock(trainID).setSeen(1);
 
                 nxtBlock = trainBlock.peek();
+                if (nxtBlock.equals(trainBlock.getPrevious())) {
+                    trainBlock.getNext().setSeen(1);
+                } else {
+                    trainBlock.getPrevious().setSeen(1);
+                }
 
                 wc.setAuthorities(destinationBlock.getLine(), destinationBlock, trainBlock, authority, speed, trainID);
-                
-                trainBlock.setAuthority(authority + 1);
-                
-                trainBlock.setCommandedSpeed(speed);
+
+                myTrack.getBlock(trainID).setAuthority(authority + 1);
+                System.out.println("The authority = " + myTrack.getBlock(trainID).checkAuthority());
+
+                myTrack.getBlock(trainID).setCommandedSpeed(speed);
                 return destinationBlock;
             }
         } else if (nxtBlock.getLine().equals(("red"))) {
@@ -273,11 +278,16 @@ public class WaysideControllerHandler implements Runnable {
                     myTrack.getBlock(trainID).setSeen(1);
 
                     nxtBlock = trainBlock.peek();
+                    if (nxtBlock.equals(trainBlock.getPrevious())) {
+                        trainBlock.getNext().setSeen(1);
+                    } else {
+                        trainBlock.getPrevious().setSeen(1);
+                    }
 
                     wc.setAuthorities(destinationBlock.getLine(), destinationBlock, myTrack.getBlock(trainID), authority, speed, trainID);
 
-                    trainBlock.setAuthority(authority + 1);
-                    trainBlock.setCommandedSpeed(speed);
+                    myTrack.getBlock(trainID).setAuthority(authority + 1);
+                    myTrack.getBlock(trainID).setCommandedSpeed(speed);
                     return destinationBlock;
                 }
 
@@ -308,12 +318,16 @@ public class WaysideControllerHandler implements Runnable {
                     myTrack.getBlock(trainID).setSeen(1);
 
                     nxtBlock = trainBlock.peek();
+                    if (nxtBlock.equals(trainBlock.getPrevious())) {
+                        trainBlock.getNext().setSeen(1);
+                    } else {
+                        trainBlock.getPrevious().setSeen(1);
+                    }
 
                     wc.setAuthorities(destinationBlock.getLine(), destinationBlock, myTrack.getBlock(trainID), authority, speed, trainID);
 
-
-                    trainBlock.setAuthority(authority + 1);
-                    trainBlock.setCommandedSpeed(speed);
+                    myTrack.getBlock(trainID).setAuthority(authority + 1);
+                    myTrack.getBlock(trainID).setCommandedSpeed(speed);
                     return destinationBlock;
                 }
 
@@ -321,20 +335,19 @@ public class WaysideControllerHandler implements Runnable {
         }
         return null;
     }
-    
+
     //If train receives new authority, we clear the current authorities for that train
-    private void clearCurrentAuthorities(int trainID, String line){
-        if(line.equals("red")){
-            for(Block b : myTrack.getRedBlocks()){
-                if(b.getTrainIDAuth() == trainID){
+    private void clearCurrentAuthorities(int trainID, String line) {
+        if (line.equals("red")) {
+            for (Block b : myTrack.getRedBlocks()) {
+                if (b.getTrainIDAuth() == trainID) {
                     b.setAuthority(-1);
                     b.setTrainIDAuth(-1);
                 }
             }
-        }
-        else{
-            for(Block b: myTrack.getGreenBlocks()){
-                if(b.getTrainIDAuth() == trainID){
+        } else {
+            for (Block b : myTrack.getGreenBlocks()) {
+                if (b.getTrainIDAuth() == trainID) {
                     b.setAuthority(-1);
                     b.setTrainIDAuth(-1);
                 }
@@ -355,15 +368,13 @@ public class WaysideControllerHandler implements Runnable {
         return myTrack;
 
     }
-    
-    public void maintenanceRequest(int target, String line){
+
+    public void maintenanceRequest(int target, String line) {
         WaysideController wc = findCorrectWayside(target, line);
-        if(wc.checkMaintenance(myTrack.getBlock(target, line))){
-            if(!myTrack.getBlock(target, line).isClosed())
-            {
+        if (wc.checkMaintenance(myTrack.getBlock(target, line))) {
+            if (!myTrack.getBlock(target, line).isClosed()) {
                 myTrack.getBlock(target, line).closeBlock();
-            }
-            else {
+            } else {
                 myTrack.getBlock(target, line).openBlock();
             }
         }
@@ -371,8 +382,8 @@ public class WaysideControllerHandler implements Runnable {
 
     public Block dispatchTrain(int trainID, Block destinationBlock, double speed) {
         String line = destinationBlock.getLine();
-        
-        if(myTrack.getBlock(trainID) != null){
+
+        if (myTrack.getBlock(trainID) != null) {
             return null;
         }
 
@@ -389,8 +400,6 @@ public class WaysideControllerHandler implements Runnable {
                     System.out.println("Go ahead and dispatch");
                     int authority = initialWayside.getNumberBlocks("red", destinationBlock, redYard);
                     messages.add("Path: " + Arrays.toString(myTrack.getStringRoute(line, destinationBlock).toArray()));
-                    
-                    
 
                     //redYard.setSeen(1);
                     initialWayside.setAuthorities(destinationBlock.getLine(), destinationBlock, redYard, authority - 1, speed, trainID);

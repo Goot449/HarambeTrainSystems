@@ -55,6 +55,7 @@ public class TrainController {
                 } else if (trainList.get(i).getEmergencyBreakStatus()) {
                     if (authority > 0) {
                         trainList.get(i).engageEmergencyBrakes(false);
+                        trainList.get(i).engageServiceBrakes(false);
                     }
                 }
                 if (power < 0) {
