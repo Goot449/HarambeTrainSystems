@@ -19,9 +19,9 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         super.setTitle(title); //To change body of generated methods, choose Tools | Templates.
     }
     
-    public TrainControllerGUI(ArrayList trainList, ArrayList trainStateList) {
-        this.trainList = trainList;
-        this.trainStateList = trainStateList;
+    public TrainControllerGUI() { //ArrayList trainList, ArrayList trainStateList
+        //this.trainList = trainList;
+        //this.trainStateList = trainStateList;
         this.setTitle("Train Controller");
         initComponents(trainList);
         Timer timer = new Timer((int) (1000 * DT), e -> {
@@ -76,10 +76,10 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         currentSpeedUnitsLabel = new javax.swing.JLabel();
         emergencyBrakeToggleButton = new javax.swing.JToggleButton();
         jPanel2 = new javax.swing.JPanel();
-        leftDoorFailToggle = new javax.swing.JToggleButton();
-        rightDoorFailToggle = new javax.swing.JToggleButton();
-        interiorLightsFailToggle = new javax.swing.JToggleButton();
-        hvacFailToggle = new javax.swing.JToggleButton();
+//        leftDoorFailToggle = new javax.swing.JToggleButton();
+//        rightDoorFailToggle = new javax.swing.JToggleButton();
+//        interiorLightsFailToggle = new javax.swing.JToggleButton();
+//        hvacFailToggle = new javax.swing.JToggleButton();
         engineFailToggle = new javax.swing.JToggleButton();
         signalFailToggle = new javax.swing.JToggleButton();
         brakeFailToggle = new javax.swing.JToggleButton();
@@ -229,7 +229,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         powerValueLabel.setText("120");
 
         powerUnitsLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        powerUnitsLabel.setText("kWh");
+        powerUnitsLabel.setText("kW");
 
         setSpeedLabel.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         setSpeedLabel.setText("Set Speed");
@@ -466,52 +466,52 @@ public class TrainControllerGUI extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("User", jPanel1);
 
-        leftDoorFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        leftDoorFailToggle.setText("Left Door Fail");
-        leftDoorFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                leftDoorFailToggleStateChanged(evt);
-            }
-        });
-        leftDoorFailToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                leftDoorFailToggleActionPerformed(evt);
-            }
-        });
-
-        rightDoorFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        rightDoorFailToggle.setText("Right Door Fail");
-        rightDoorFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                rightDoorFailToggleStateChanged(evt);
-            }
-        });
-        rightDoorFailToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rightDoorFailToggleActionPerformed(evt);
-            }
-        });
-
-        interiorLightsFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        interiorLightsFailToggle.setText("Interior Lights Fail");
-        interiorLightsFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                interiorLightsFailToggleStateChanged(evt);
-            }
-        });
-
-        hvacFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        hvacFailToggle.setText("HVAC Fail");
-        hvacFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                hvacFailToggleStateChanged(evt);
-            }
-        });
-        hvacFailToggle.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hvacFailToggleActionPerformed(evt);
-            }
-        });
+//        leftDoorFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+//        leftDoorFailToggle.setText("Left Door Fail");
+//        leftDoorFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
+//            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+//                leftDoorFailToggleStateChanged(evt);
+//            }
+//        });
+//        leftDoorFailToggle.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                leftDoorFailToggleActionPerformed(evt);
+//            }
+//        });
+//
+//        rightDoorFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+//        rightDoorFailToggle.setText("Right Door Fail");
+//        rightDoorFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
+//            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+//                rightDoorFailToggleStateChanged(evt);
+//            }
+//        });
+//        rightDoorFailToggle.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                rightDoorFailToggleActionPerformed(evt);
+//            }
+//        });
+//
+//        interiorLightsFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+//        interiorLightsFailToggle.setText("Interior Lights Fail");
+//        interiorLightsFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
+//            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+//                interiorLightsFailToggleStateChanged(evt);
+//            }
+//        });
+//
+//        hvacFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+//        hvacFailToggle.setText("HVAC Fail");
+//        hvacFailToggle.addChangeListener(new javax.swing.event.ChangeListener() {
+//            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+//                hvacFailToggleStateChanged(evt);
+//            }
+//        });
+//        hvacFailToggle.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                hvacFailToggleActionPerformed(evt);
+//            }
+//        });
 
         engineFailToggle.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         engineFailToggle.setText("Engine Fail");
@@ -589,10 +589,10 @@ public class TrainControllerGUI extends javax.swing.JFrame {
                             .addComponent(signalFailToggle)
                             .addComponent(brakeFailToggle)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(leftDoorFailToggle)
-                                    .addComponent(rightDoorFailToggle)
-                                    .addComponent(interiorLightsFailToggle))
+                                //.addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    //.addComponent(leftDoorFailToggle)
+                                    //.addComponent(rightDoorFailToggle)
+                                    //.addComponent(interiorLightsFailToggle))
                                 .addGap(60, 60, 60)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(testCurrentSpeedSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -607,7 +607,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(hvacFailToggle)
+                            //.addComponent(hvacFailToggle)
                             .addComponent(engineFailToggle))
                         .addGap(161, 161, 161)
                         .addComponent(testSpeedLimitLabel)
@@ -622,10 +622,10 @@ public class TrainControllerGUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(leftDoorFailToggle)
-                        .addGap(18, 18, 18)
-                        .addComponent(rightDoorFailToggle))
+                    //.addGroup(jPanel2Layout.createSequentialGroup()
+                        //.addComponent(leftDoorFailToggle)
+                        //.addGap(18, 18, 18)
+                        //.addComponent(rightDoorFailToggle))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -637,10 +637,10 @@ public class TrainControllerGUI extends javax.swing.JFrame {
                         .addComponent(testCurrentSpeedLabel)))
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(13, 13, 13)
-                        .addComponent(interiorLightsFailToggle)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(hvacFailToggle)
+                        //.addGap(13, 13, 13)
+                        //.addComponent(interiorLightsFailToggle)
+                        //.addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        //.addComponent(hvacFailToggle)
                         .addGap(18, 18, 18)
                         .addComponent(engineFailToggle)
                         .addGap(21, 21, 21))
@@ -713,7 +713,18 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         }
         toggleServiceBrakes(trainList.get(selectedTrain).getServiceBreakStatus());
     }
-    
+
+    public void addTrain(ArrayList<Train> trainList, ArrayList<TrainState> trainStateList){
+        this.trainList = trainList;
+        this.trainStateList = trainStateList;
+        String[] trainIDs = new String[trainList.size()];
+        for (int i = 0; i<trainList.size(); i++){
+            Train thisTrain = (Train) trainList.get(i);
+            trainIDs[i] = "Train " + Integer.toString(thisTrain.getId());
+        }
+        trainSelectorBox.setModel(new javax.swing.DefaultComboBoxModel(trainIDs));
+        trainSelectorBox.setSelectedIndex(selectedTrain);
+    }
 
     private void setSpeedSliderStateChanged(javax.swing.event.ChangeEvent evt) {                                            
         int speedLimit = Integer.parseInt(speedLimitValueLabel.getText());

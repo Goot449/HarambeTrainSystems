@@ -26,6 +26,7 @@ public class Track {
     private ArrayList<Switch> redSwitches = new ArrayList<Switch>();
     private ArrayList<Switch> greenSwitches = new ArrayList<Switch>();
     private TrainController trainController;
+    private TrainControllerGUI trainControllerGUI;
     private TrainModel trainModel;
     private HashMap<Integer, Train> trains;
 
@@ -416,8 +417,11 @@ public class Track {
         trainModel.addTrain(trains.get(trainID));
 
         trainController.setStartControl(true);
-        TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
-        trainGUI.setVisible(true);
+        if (trainControllerGUI == null){
+            trainControllerGUI = new TrainControllerGUI();
+        }
+        trainControllerGUI.addTrain(trainController.trainList, trainController.trainStateList);
+        trainControllerGUI.setVisible(true);
 
         trainModel.setVisible(true);
 
