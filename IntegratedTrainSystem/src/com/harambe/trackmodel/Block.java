@@ -672,7 +672,7 @@ public class Block implements BlockInterface {
     //This method simulates train movement.  Distance updates and is stored.  If it surpasses length of the block, train proceeds.  	
     public Block moveTrain(double moved) {
         try {
-            Thread.sleep(1000);
+            //Thread.sleep(1000);
         } catch (Exception e) {
 
         }
@@ -687,7 +687,7 @@ public class Block implements BlockInterface {
             distanceTraveled = 0;
             newDist = newDist - blockLength;
             //((Block) this.getNext()).placeTrain(trainID, newDist); 
-            currentBlock = this.traverseTrain(trainID);
+            currentBlock = this.traverse();
 
             if (temp == currentBlock) {
                 System.out.println("CRASH!");

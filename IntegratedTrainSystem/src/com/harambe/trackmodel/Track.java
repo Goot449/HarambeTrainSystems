@@ -41,7 +41,6 @@ public class Track {
         loadTrack("RedLine.csv");
         loadTrack("GreenLine.csv");
 
-        trainController = new TrainController();
         try {
             trains = new HashMap<>();
             for (int i = 1; i < 401; i++) {
@@ -295,14 +294,6 @@ public class Track {
             Block lastTraverse = currentBlock;
             //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
 
-            //Special case; couldn't figure out fix
-            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9) && currentBlock.peek().getBlockNumber() == 1){
-                currentBlock.toggleSwitch();
-            }
-            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 9 || destination.getBlockNumber() == 78) && currentBlock.peek().getBlockNumber() == 15){
-                currentBlock.toggleSwitch();
-            }
-            
             currentBlock = currentBlock.traverse();
 
             if (lastTraverse == currentBlock) {
@@ -388,7 +379,6 @@ public class Track {
     public void updateDistance(int trainID, double distance) {
 
         for (int i = 0; i < trainBlocks.size(); i++) {
-
             if (trainBlocks.get(i).getTrainID() == trainID) {
 
                 Block nextBlock = trainBlocks.get(i).moveTrain(distance);
@@ -409,6 +399,10 @@ public class Track {
 
         Block trainBlock = null;
         line = line.toLowerCase();
+
+        if (trainController == null) {
+            trainController = new TrainController();
+        }
         if (trainModel == null) {
             try {
                 trainModel = new TrainModel(this);
