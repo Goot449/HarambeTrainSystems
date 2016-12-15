@@ -1047,10 +1047,10 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             do{
                  
                if (trackTester.getBlock(i, "red").isBlockOccupied()){
-                   model.setValueAt(true, i-1, 13);
+                   model.setValueAt(true, i-1, 12);
                }
                else{
-                   model.setValueAt(false, i-1, 13);
+                   model.setValueAt(false, i-1, 12);
   
                }
                i++;
@@ -1059,10 +1059,10 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             do{
                  
                if (trackTester.getBlock(j, "green").isBlockOccupied()){
-                   model.setValueAt(true, j, 13);
+                   model.setValueAt(true, j, 12);
                }
                else{
-                   model.setValueAt(false, j, 13);
+                   model.setValueAt(false, j, 12);
   
                }
                j++;
