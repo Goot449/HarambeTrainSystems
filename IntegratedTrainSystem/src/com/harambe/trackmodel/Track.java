@@ -44,7 +44,9 @@ public class Track {
         try {
             trains = new HashMap<>();
             for (int i = 1; i < 401; i++) {
-                trains.put(i, new Train(2, i));
+                Train t = new Train(2, i, trainModel);
+                trains.put(i, t);
+                trainController.addTrain(t);
             }
         } catch (Exception e) {
 
