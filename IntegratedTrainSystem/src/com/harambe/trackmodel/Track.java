@@ -27,6 +27,7 @@ public class Track {
     private ArrayList<Switch> greenSwitches = new ArrayList<Switch>();
     private TrainController trainController;
     private TrainModel trainModel;
+    private HashMap<Integer, Train> trains;
 
     ArrayList<Block> trainBlocks = new ArrayList<Block>();
 
@@ -38,6 +39,18 @@ public class Track {
 
         loadTrack("RedLine.csv");
         loadTrack("GreenLine.csv");
+
+        trainController = new TrainController();
+        try {
+            trains = new HashMap<>();
+            for (int i = 1; i < 401; i++) {
+                Train t = new Train(2,i);
+                trains.put(i, t);
+                trainController.addTrain(t);
+            }
+        } catch (Exception e) {
+
+        }
 
         /*TrackModelGUI myGUI = new TrackModelGUI();
 		myGUI.initialize(this);*/
@@ -98,7 +111,6 @@ public class Track {
         }
 
         //printSwitchList(currentSwitches);
-
         //TEST CURRENT BLOCKS AS WELL AS SWITCH TOGGLING. 
         //printBlockList(currentAll);
         //Setup switch connections 
@@ -107,7 +119,6 @@ public class Track {
         }
 
         //printSwitchList(currentSwitches);
-
         //printBlockList(currentAll);
         //TEST FOR PROPER ROUTING! 
         //printSwitchList(currentSwitches);
@@ -390,9 +401,7 @@ public class Track {
         Block trainBlock = null;
         line = line.toLowerCase();
 
-        if (trainController == null) {
-            trainController = new TrainController();
-        }
+       
         if (trainModel == null) {
             try {
                 trainModel = new TrainModel(this);
@@ -400,20 +409,13 @@ public class Track {
 
             }
         }
-        Train train;
-        try {
-            train = new Train(2, trainID);
-        } catch (Exception e) {
-            train = null;
-            e.printStackTrace();
-        }
 //        TrainThread trainThread = new TrainThread();
 //        trainThread.init(trainID);
 //        trainThread.run();
 //        trainThreads.add(trainThread);
 
-        trainController.addTrain(train);
-        trainModel.addTrain(train);
+        trainController.addTrain(trains.get(trainID));
+        trainModel.addTrain(trains.get(trainID));
 
         trainController.setStartControl(true);
         TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
@@ -424,19 +426,11 @@ public class Track {
         //System.out.println(line);
         if (line.equals("red")) {
             trainBlock = redYard.placeTrain(trainID, 0);
-
         } else {
             trainBlock = greenYard.placeTrain(trainID, 0);
-            //System.out.println(trainBlock);
         }
 
         trainBlocks.add(trainBlock);
-        try {
-            System.out.println("Authority = " + train.getAuthority());
-            System.out.println(this.getStringRoute(line, this.getBlock(25, "red")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public synchronized Block getBlock(int blockNumber, String line) {

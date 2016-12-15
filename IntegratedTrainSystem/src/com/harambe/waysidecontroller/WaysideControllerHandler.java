@@ -196,12 +196,12 @@ public class WaysideControllerHandler implements Runnable {
         }
     }
 
-    public void sendAuthority(int trainID, Block destinationBlock, double speed) {
+    public Block sendAuthority(int trainID, Block destinationBlock, double speed) {
         messages.add("CTC authority suggestion to train " + trainID + " to block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
         Block trainBlock = myTrack.getBlock(trainID);
 
         if (trainBlock == null) {
-            return;
+            return null;
         }
 
         Block nxtBlock = trainBlock.peek();
@@ -219,6 +219,7 @@ public class WaysideControllerHandler implements Runnable {
                 wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority - 1, speed, trainID);
                 trainBlock.setAuthority(authority + 1);
                 trainBlock.setCommandedSpeed(speed);
+                return destinationBlock;
             }
         } else if (nxtBlock.getLine().equals(("red"))) {
             WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
@@ -249,6 +250,7 @@ public class WaysideControllerHandler implements Runnable {
                     System.out.println(authority);
                     trainBlock.setAuthority(authority + 1);
                     trainBlock.setCommandedSpeed(speed);
+                    return destinationBlock;
                 }
 
             }
@@ -285,10 +287,12 @@ public class WaysideControllerHandler implements Runnable {
 
                     trainBlock.setAuthority(authority + 1);
                     trainBlock.setCommandedSpeed(speed);
+                    return destinationBlock;
                 }
 
             }
         }
+        return null;
     }
     
     //If train receives new authority, we clear the current authorities for that train
@@ -325,8 +329,12 @@ public class WaysideControllerHandler implements Runnable {
 
     }
 
-    public void dispatchTrain(int trainID, Block destinationBlock, double speed) {
+    public Block dispatchTrain(int trainID, Block destinationBlock, double speed) {
         String line = destinationBlock.getLine();
+        
+        if(myTrack.getBlock(trainID) != null){
+            return null;
+        }
 
         // code goes here.
         messages.add("CTC dispatch order to Block " + destinationBlock.getBlockNumber() + " on the " + destinationBlock.getLine() + " line with speed of " + Double.toString(speed));
@@ -346,6 +354,7 @@ public class WaysideControllerHandler implements Runnable {
                     myTrack.commandAuthority("red", authority, 78);
                     redYard.setCommandedSpeed(speed);
                     myTrack.placeTrain("red", trainID);
+                    return destinationBlock;
                 }
             } //Need to communicate between two wayside
             else if (initialWayside.checkAuthority(78, 36, myTrack, trainID)) {
@@ -361,6 +370,7 @@ public class WaysideControllerHandler implements Runnable {
                     myTrack.commandAuthority("red", authority, 78);
                     redYard.setCommandedSpeed(speed);
                     myTrack.placeTrain("red", trainID);
+                    return destinationBlock;
                 }
             }
         } //Green line
@@ -379,6 +389,7 @@ public class WaysideControllerHandler implements Runnable {
                     myTrack.commandAuthority("green", authority, 155);
                     greenYard.setCommandedSpeed(speed);
                     myTrack.placeTrain("green", trainID);
+                    return destinationBlock;
                 }
             } //Need to communicate between two wayside
             else if (initialWayside.checkAuthority(155, 62, myTrack, trainID)) {
@@ -394,9 +405,11 @@ public class WaysideControllerHandler implements Runnable {
                     myTrack.commandAuthority("green", authority, 155);
                     greenYard.setCommandedSpeed(speed);
                     myTrack.placeTrain("green", trainID);
+                    return destinationBlock;
                 }
             }
         }
+        return null;
     }
 
     public void manualSwitch(String switchNumber) {
