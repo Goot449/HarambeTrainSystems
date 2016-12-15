@@ -47,7 +47,7 @@ public class TrainController {
                 double power = calcOut[0];
                 double velocityError = calcOut[1];
                 double integration = calcOut[2];
-                if (power<0){
+                if (power<0 || authority == 0.0){
                     trainList.get(i).engageServiceBrakes(true);
                     trainStateList.get(i).setGuiSetServiceBrake(false);
                     power = 0;

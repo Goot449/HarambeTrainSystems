@@ -44,10 +44,7 @@ public class AlternativePLC implements PLC {
         boolean status = true;
 
         for (int i = 0; i < 3; i++) {
-            if (switchBlock.isBlockOccupied() && !switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied() && switchBlock.getSwitch().getswitchedBlockBlock().isBlockOccupied()) {
-
-            } //Train coming from within and trying to leave?
-            else if (!switchBlock.isBlockOccupied() && switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied()) {
+            if (!switchBlock.isBlockOccupied() && switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied()) {
 
             } //Empty
             else if (!switchBlock.isBlockOccupied() && !switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied() && !switchBlock.getSwitch().getswitchedBlockBlock().isBlockOccupied()) {
