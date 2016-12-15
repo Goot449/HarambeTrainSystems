@@ -55,6 +55,7 @@ public class WaysideController {
         Block block1 = sb.getswitchedBlockBlock();
         Block block2 = sb.getunSwitchedBlockBlock();
         if(plc.checkSwitch(block1, block2, sb.getSwitchBlock())){
+            System.out.println("Toggling " + sb.getSwitchNumber());
             sb.toggleSwitch();
             return true;
         }
@@ -64,7 +65,7 @@ public class WaysideController {
     }
     
     public boolean checkMaintenance(Block b){
-        System.out.println("Checking maintenance");
+        System.out.println("Checking maintenance for block " + b.getBlockNumber());
         return plc.checkMaintenance(b);
     }
     

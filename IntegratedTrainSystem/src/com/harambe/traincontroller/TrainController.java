@@ -14,19 +14,19 @@ public class TrainController {
     public vitalCalculator vitalCalc = new vitalCalculator();
     public ArrayList<Train> trainList = new ArrayList<Train>();
     public ArrayList<TrainState> trainStateList = new ArrayList<TrainState>();
-    
-    public TrainController(){
+
+    public TrainController() {
         Timer timer = new Timer((int) (1000 * DT), e -> {
             controlTrain();
         });
         timer.setRepeats(true);
         timer.start();
     }
-    
-    public void controlTrain(){
-        if (startControl){
+
+    public void controlTrain() {
+        if (startControl) {
             int iterateLength = trainList.size();
-            for (int i = 0; i<iterateLength; i++){
+            for (int i = 0; i < iterateLength; i++) {
                 //Check for test mode here
                 double[] trainInfo = this.getTrainInfo(trainList.get(i));
                 double currSpeed = trainInfo[0];
@@ -47,107 +47,110 @@ public class TrainController {
                 double power = calcOut[0];
                 double velocityError = calcOut[1];
                 double integration = calcOut[2];
-                if (power<0 || authority == 0.0){
+                if (power < 0 || authority == 0.0) {
                     trainList.get(i).engageServiceBrakes(true);
+                    trainList.get(i).engageEmergencyBrakes(true);
                     trainStateList.get(i).setGuiSetServiceBrake(false);
                     power = 0;
-                }
-                else if (serviceBrakesEnabled == 1.0 & (power>0) & guiSetServiceBrake == 0.0) {
+                } else if (serviceBrakesEnabled == 1.0 & (power > 0) & guiSetServiceBrake == 0.0) {
+                    trainList.get(i).engageEmergencyBrakes(true);
                     trainList.get(i).engageServiceBrakes(false);
                 }
-                if (guiSetServiceBrake == 1.0){
+                if (guiSetServiceBrake == 1.0) {
                     power = 0;
                 }
                 // Check for failures here
-                boolean failureExists = checkForFailures(trainList.get(i),trainStateList.get(i), testModeEnabled);
-                if (failureExists){
+                boolean failureExists = checkForFailures(trainList.get(i), trainStateList.get(i), testModeEnabled);
+                if (failureExists) {
                     trainList.get(i).engageEmergencyBrakes(true);
                     power = 0.0;
                     trainStateList.get(i).setPreviousFailure(true);
-                }
-                else if(trainStateList.get(i).getPreviousFailure()){
+                } else if (trainStateList.get(i).getPreviousFailure()) {
                     trainStateList.get(i).setPreviousFailure(false);
                     trainList.get(i).engageEmergencyBrakes(false);
                 }
-                setTrainPower(trainList.get(i), trainStateList.get(i),power);
+                setTrainPower(trainList.get(i), trainStateList.get(i), power);
                 setTrainPrevious(trainStateList.get(i), velocityError, integration);
             }
         }
     }
-    
+
     public void setStartControl(boolean startControl) {
         this.startControl = startControl;
     }
-    
-    public void addTrain(Train newTrain){
+
+    public void addTrain(Train newTrain) {
         trainList.add(newTrain);
         TrainState trainState = new TrainState(newTrain);
         trainStateList.add(trainState);
     }
-    
-    public double[] getTrainInfo(Train train){
+
+    public double[] getTrainInfo(Train train) {
         double[] trainInfo = new double[5];
         trainInfo[0] = train.getFeedbackVelocity();
         //trainInfo[1] = 5; 
-        boolean currBlockIsEndBlock = false; //train.getAuthority();
-        if (!currBlockIsEndBlock){
-            trainInfo[1] = 1.0;
+        boolean currBlockIsEndBlock = false;
+        try {
+            int auth = train.getAuthority();
+            
+            if(auth == 0){
+                currBlockIsEndBlock = true;//false; 
+            }
+        } catch (Exception e) {
+
         }
-        else {
+        if (!currBlockIsEndBlock) {
+            trainInfo[1] = 1.0;
+        } else {
             trainInfo[1] = 0.0;
         }
         trainInfo[2] = train.getSpeedLimit(true);
-        if (train.getEmergencyBreakStatus()){
+        if (train.getEmergencyBreakStatus()) {
             trainInfo[3] = 1.0;
-        }
-        else{
+        } else {
             trainInfo[3] = 0;
         }
-        if (train.getServiceBreakStatus()){
+        if (train.getServiceBreakStatus()) {
             trainInfo[4] = 1.0;
-        }
-        else{
+        } else {
             trainInfo[4] = 0;
         }
         return trainInfo;
     }
-    
-    public double[] getTrainStateInfo(TrainState trainState){
+
+    public double[] getTrainStateInfo(TrainState trainState) {
         double[] trainInfo = new double[4];
         trainInfo[0] = trainState.getSetPoint();
         trainInfo[1] = trainState.getPreviousError();
         trainInfo[2] = trainState.getPreviousIntegration();
-        if (trainState.didGuiSetServiceBrake()){
+        if (trainState.didGuiSetServiceBrake()) {
             trainInfo[3] = 1.0;
-        }
-        else{
+        } else {
             trainInfo[3] = 0;
         }
         return trainInfo;
     }
-    
-    public boolean checkForFailures(Train train, TrainState trainState, boolean testModeEnabled){
+
+    public boolean checkForFailures(Train train, TrainState trainState, boolean testModeEnabled) {
         boolean hasFailure;
-        if (train.hasBrakeFailure() || train.hasEngineFailure() || train.hasSignalFailure()){
+        if (train.hasBrakeFailure() || train.hasEngineFailure() || train.hasSignalFailure()) {
             hasFailure = true;
-        }
-        else if (trainState.hasBrakeFailure() || trainState.hasEngineFailure() || trainState.hasSignalFailure()){
+        } else if (trainState.hasBrakeFailure() || trainState.hasEngineFailure() || trainState.hasSignalFailure()) {
             hasFailure = true;
-        }
-        else {
+        } else {
             hasFailure = false;
         }
         return hasFailure;
     }
-    
-    public void setTrainPower(Train train, TrainState trainState, double power){
+
+    public void setTrainPower(Train train, TrainState trainState, double power) {
         train.setPower(power);
         trainState.setPower(power);
     }
-    
-    public void setTrainPrevious(TrainState trainState, double previousError, double previousIntegration){
+
+    public void setTrainPrevious(TrainState trainState, double previousError, double previousIntegration) {
         trainState.setPreviousError(previousError);
         trainState.setPreviousIntegration(previousIntegration);
     }
-    
+
 }

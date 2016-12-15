@@ -190,7 +190,6 @@ public class Track {
         }
     }
 
-
     public ArrayList<String> getStringRoute(String line, Block destination) {
 
         ArrayList<Block> pathBlocks = new ArrayList<Block>();
@@ -303,7 +302,7 @@ public class Track {
         getBlock(blockNumber, line).setCommandedSpeed(commandedSpeed);
     }
 
-    public void updateDistance(int trainID, double distance) {
+    public boolean updateDistance(int trainID, double distance) {
 
         for (int i = 0; i < trainBlocks.size(); i++) {
             if (trainBlocks.get(i).getTrainID() == trainID) {
@@ -313,9 +312,11 @@ public class Track {
                     trainBlocks.set(i, nextBlock);
                     trainBlocks.remove(i);
                     trainBlocks.add(nextBlock);
+                    return true;
                 }
             }
         }
+        return false;
 
     }
 

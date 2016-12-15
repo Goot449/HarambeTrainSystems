@@ -201,7 +201,7 @@ public class Train {
         if(this.trainModel == null || this.trainModel.getTrack() == null) {
             throw new Exception("Cannot get authority unless the train has an associated track.");
         }
-        return this.getBlock().getTrainAuthority();
+        return this.getBlock().checkAuthority();
     }
 
     /**
@@ -279,7 +279,10 @@ public class Train {
             }
         }
         double rate = this.trainModel != null ? this.trainModel.getRate() : 1;
-        velocity = velocity + acceleration * DT * rate;
+        if(velocity > 0)
+            velocity = velocity + acceleration * DT * rate;
+        else
+            velocity = 0;
         position = position + velocity * DT * rate;
         if(track != null){
             track.updateDistance(id, position);

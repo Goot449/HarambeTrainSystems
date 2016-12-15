@@ -57,6 +57,13 @@ public class WaysideControllerHandler implements Runnable {
 
         initControllers(oldRedBlocks, oldGreenBlocks, switches);
     }
+    
+    public boolean login(String user, String pass){
+        if(user.equals(masterUser) && pass.equals(password)){
+            return true;
+        }
+        return false;
+    }
 
     public final void initControllers(LinkedHashMap<Integer, Block> newRedBlocks, LinkedHashMap<Integer, Block> newGreenBlocks, LinkedHashMap<String, Switch> newSwitches) {
         //Need to create the controllers and assign the switches...
@@ -123,7 +130,7 @@ public class WaysideControllerHandler implements Runnable {
             boolean running = true;
             while (running) {
                 //Update the track every 500 ms
-                Thread.sleep(250);
+                Thread.sleep(100);
                 updateUI();
                 messages.clear();
 
@@ -164,7 +171,7 @@ public class WaysideControllerHandler implements Runnable {
                             temp.changeSwitch(temp.isSwitchOption(b));
                         } //If status around crossing changes, see if changing crossing is necessary
                         else if (b.getBlockNumber() == 45 || b.getBlockNumber() == 46 || b.getBlockNumber() == 47 || b.getBlockNumber() == 48 || b.getBlockNumber() == 49) {
-                            System.out.println("Trying to toggle crossing");
+                            //System.out.println("Trying to toggle crossing");
                             temp.toggleCrossing();
                         }
                     }
@@ -348,9 +355,6 @@ public class WaysideControllerHandler implements Runnable {
                 myTrack.getBlock(target, line).openBlock();
             }
         }
-        else {
-            myTrack.getBlock(target, line).openBlock();
-        }
     }
 
     public Block dispatchTrain(int trainID, Block destinationBlock, double speed) {
@@ -372,7 +376,9 @@ public class WaysideControllerHandler implements Runnable {
                     //Blocks speed is set as commanded by CTC, authority in number of blocks is computed
                     System.out.println("Go ahead and dispatch");
                     int authority = initialWayside.getNumberBlocks("red", destinationBlock, redYard);
-                    System.out.println(authority);
+                    messages.add("Path: " + Arrays.toString(myTrack.getStringRoute(line, destinationBlock).toArray()));
+                    
+                    
 
                     //redYard.setSeen(1);
                     initialWayside.setAuthorities(destinationBlock.getLine(), destinationBlock, redYard, authority - 1, speed, trainID);
@@ -389,6 +395,7 @@ public class WaysideControllerHandler implements Runnable {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     int authority = other.getNumberBlocks("red", destinationBlock, redYard);
+                    messages.add("Path: " + Arrays.toString(myTrack.getStringRoute(line, destinationBlock).toArray()));
 
                     redYard.setSeen(1);
                     initialWayside.setAuthorities(destinationBlock.getLine(), destinationBlock, redYard, authority - 1, speed, trainID);
@@ -408,6 +415,7 @@ public class WaysideControllerHandler implements Runnable {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     int authority = initialWayside.getNumberBlocks("green", destinationBlock, greenYard);
+                    messages.add("Path: " + Arrays.toString(myTrack.getStringRoute(line, destinationBlock).toArray()));
                     greenYard.setSeen(1);
 
                     initialWayside.setAuthorities(destinationBlock.getLine(), destinationBlock, greenYard, authority - 1, speed, trainID);
@@ -424,6 +432,7 @@ public class WaysideControllerHandler implements Runnable {
                     //Dispatch train
                     System.out.println("Go ahead and dispatch");
                     int authority = initialWayside.getNumberBlocks("green", destinationBlock, greenYard);
+                    messages.add("Path: " + Arrays.toString(myTrack.getStringRoute(line, destinationBlock).toArray()));
                     greenYard.setSeen(1);
 
                     initialWayside.setAuthorities(destinationBlock.getLine(), destinationBlock, greenYard, authority - 1, speed, trainID);

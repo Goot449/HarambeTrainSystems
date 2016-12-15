@@ -11,11 +11,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 public class WaysideControlUI extends javax.swing.JFrame {
-    
+
     static WaysideControllerHandler handler;
     static boolean manual = false;
     DefaultTableModel blockTableModel;
     DefaultListModel ctcListModel;
+    static boolean loggedIn = false;
 
     /**
      * Creates new form WaysideControlUI
@@ -29,42 +30,42 @@ public class WaysideControlUI extends javax.swing.JFrame {
         this.lineSelectComboBoxActionPerformed(null);
         this.setVisible(true);
     }
-    
+
     public void updateUI() {
         if (this.switchSelectComboBox.getSelectedItem() != null) {
             int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
             this.switchPositionTextBox.setText("");
             this.switchPositionTextBox.setText(blockNum + "");
-            
+
             for (String s : handler.messages) {
                 ctcListModel.addElement(s);
             }
-            
+
             WaysideController wc = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString());
-            
+
             blockTableModel.setRowCount(0);
-            
+
             try {
                 Switch s = wc.getSwitch(this.switchSelectComboBox.getSelectedItem().toString());
                 if (s.getSwitchBlock().isBlockOccupied()) {
-                    blockTableModel.addRow(new Object[]{s.getSwitchNumber() + " : " + s.getSwitchBlock().getBlockNumber(), "Yes"});                    
+                    blockTableModel.addRow(new Object[]{s.getSwitchNumber() + " : " + s.getSwitchBlock().getBlockNumber(), "Yes"});
                 } else {
                     blockTableModel.addRow(new Object[]{s.getSwitchNumber() + " : " + s.getSwitchBlock().getBlockNumber(), "No"});
                 }
                 if (s.getswitchedBlockBlock().isBlockOccupied()) {
-                    blockTableModel.addRow(new Object[]{"Current Position : " + s.getswitchedBlockBlock().getBlockNumber(), "Yes"});                    
+                    blockTableModel.addRow(new Object[]{"Current Position : " + s.getswitchedBlockBlock().getBlockNumber(), "Yes"});
                 } else {
                     blockTableModel.addRow(new Object[]{"Current Position : " + s.getswitchedBlockBlock().getBlockNumber(), "No"});
                 }
                 if (s.getunSwitchedBlockBlock().isBlockOccupied()) {
-                    blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "Yes"});                    
+                    blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "Yes"});
                 } else {
                     blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "No"});
                 }
             } catch (Exception e) {
-                
+
             }
-            
+
             if (lineSelectComboBox.getSelectedItem().toString().equals("Red Line")) {
                 railRoadCrossingTextBox.setText("");
                 boolean crossingStatus = handler.findCorrectWayside(47, "red").getBlock(47).getCrossing().getCrossingState("red");
@@ -128,6 +129,9 @@ public class WaysideControlUI extends javax.swing.JFrame {
         controllerSelectComboBox = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Wayside Controller UI");
@@ -246,6 +250,17 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(jList1);
 
+        jButton1.setText("Master Login");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("username");
+
+        jTextField2.setText("password");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -288,8 +303,14 @@ public class WaysideControlUI extends javax.swing.JFrame {
                                             .addComponent(jRadioButton2)))
                                     .addGroup(layout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(controllerSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(controllerSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton1)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jTextField2)
+                                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 6, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -301,9 +322,9 @@ public class WaysideControlUI extends javax.swing.JFrame {
                                     .addComponent(railRoadCrossingTextBox, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jToggleButton2)
-                                    .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(12, 12, 12)))
+                                    .addComponent(jToggleButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                                    .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                                .addGap(16, 16, 16)))
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)))
                 .addContainerGap())
@@ -318,10 +339,12 @@ public class WaysideControlUI extends javax.swing.JFrame {
                             .addComponent(jLabel3)
                             .addComponent(lineSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9)
-                            .addComponent(controllerSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(12, 12, 12)
+                            .addComponent(controllerSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(switchSelectComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel7))
@@ -334,7 +357,9 @@ public class WaysideControlUI extends javax.swing.JFrame {
                                 .addGap(7, 7, 7)
                                 .addComponent(loadPLCButton))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(3, 3, 3)
                                 .addComponent(jRadioButton2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jRadioButton1)))
@@ -365,9 +390,9 @@ public class WaysideControlUI extends javax.swing.JFrame {
             switchPositionTextBox.setText("");
             switchPositionTextBox.setText(blockNum + "");
             switchLightTextBox.setText("");
-            
+
             boolean light = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight();
-            
+
             if (light) {
                 switchLightTextBox.setText("On");
             } else {
@@ -378,7 +403,14 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        manual = true;
+        if (loggedIn == true) {
+            manual = true;
+        }
+        else {
+            jRadioButton2ActionPerformed(evt);
+            jRadioButton2.setSelected(true);
+        }
+
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void changeSwitchPositionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeSwitchPositionButtonActionPerformed
@@ -398,7 +430,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void switchLightTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchLightTextBoxActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_switchLightTextBoxActionPerformed
 
     private void controllerSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_controllerSelectComboBoxActionPerformed
@@ -445,12 +477,12 @@ public class WaysideControlUI extends javax.swing.JFrame {
             File selectedFile = jFileChooser.getSelectedFile();
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
             try {
-                
+
                 String pathToFile = selectedFile.getAbsolutePath().substring(0, selectedFile.getAbsolutePath().lastIndexOf("\\"));
                 System.out.println("Path to file: " + pathToFile);
                 String fileName = selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1);
                 System.out.println("File name: " + fileName);
-                
+
                 if (!fileName.equals("DefaultPLC.class") && !fileName.equals("AlternativePLC.class") && !fileName.equals("testPLC.class")) {
                     JOptionPane.showMessageDialog(null, "Error: requested file is not a PLC");
                 } else {
@@ -481,7 +513,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
             WaysideController wc = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString());
             wc.getSwitch((switchSelectComboBox.getSelectedItem().toString())).toggleLight();
             boolean light = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight();
-            
+
             if (light) {
                 switchLightTextBox.setText("On");
             } else {
@@ -493,15 +525,23 @@ public class WaysideControlUI extends javax.swing.JFrame {
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
         if (switchSelectComboBox.getSelectedItem() != null && manual == true) {
-            
+
         }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void railRoadCrossingTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_railRoadCrossingTextBoxActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_railRoadCrossingTextBoxActionPerformed
-    
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        loggedIn = handler.login(jTextField1.getText(), jTextField2.getText());
+        if(!loggedIn){
+            JOptionPane.showMessageDialog(null, "Error: wrong login credentials");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public void init(WaysideControllerHandler handler) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -544,6 +584,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JToggleButton changeSwitchPositionButton;
     private javax.swing.JComboBox<String> controllerSelectComboBox;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -555,6 +596,8 @@ public class WaysideControlUI extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JToggleButton jToggleButton2;
     private javax.swing.JToggleButton jToggleButton3;
     private javax.swing.JComboBox<String> lineSelectComboBox;
