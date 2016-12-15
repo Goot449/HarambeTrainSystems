@@ -12,7 +12,7 @@ public class Train {
     private static final boolean useTrackModel = false;
     
     // physics constants
-    private static final double MU_K = 0.1;
+    private static final double MU_K = 0.1;                 /* DEFAULT */
     private static final double G = -9.8;                   /* m/s^2 */
     private static final double DT = 0.01;                  /* s */
     private static final double MINIMUM_VELOCITY = 0.05;    /* m/s */
@@ -53,29 +53,29 @@ public class Train {
 
     private boolean serviceBrakesEngaged;
     private boolean emergencyBrakesEngaged;
-    
+
     private boolean engineFailure;
     private boolean brakeFailure;
     private boolean signalFailure;
 
     public void setEngineFailure(boolean engaged) {
-        this.engineFailure = engaged;
+        this.trainModel.setEngineFailure(engaged);
     }    
     public void setBrakeFailure(boolean engaged) {
-        this.brakeFailure = engaged;
-        this.serviceBrakesEngaged = false;
+        this.trainModel.setBrakeFailure(engaged);
+        if(engaged) this.serviceBrakesEngaged = false;
     }    
     public void setSignalFailure(boolean engaged) {
-        this.signalFailure = engaged;
+        this.trainModel.setSignalFailure(engaged);
     }
     public boolean hasEngineFailure() {
-        return this.engineFailure;
+        return this.trainModel.hasEngineFailure();
     }
     public boolean hasSignalFailure() {
-        return this.signalFailure;
+        return this.trainModel.hasSignalFailure();
     }
     public boolean hasBrakeFailure() {
-        return this.brakeFailure;
+        return this.trainModel.hasBrakeFailure();
     }
 
     public int getId() {
@@ -106,7 +106,8 @@ public class Train {
     }
 
     public void engageServiceBrakes(boolean engaged) {
-        if(this.brakeFailure) {
+        if(!this.trainModel.hasBrakeFailure()) {
+            System.out.println("Setting breaks to " + engaged);
             this.serviceBrakesEngaged = engaged;
         }
     }
@@ -137,11 +138,11 @@ public class Train {
     public double getHeight() {
         return CAR_HEIGHT * M_TO_FT; 
     }
-    public int getSpeedLimit() {
-        if(this.trainModel == null || this.trainModel.getTrack() == null || this.trainModel.getTrack().getBlock(this.id) == null) {
-            return 15;
-        }
-        return this.trainModel.getTrack().getBlock(this.id).getSpeedLimit();
+    public double getCommandSpeed() {
+        return getBlock() == null ? getSpeedLimit() : getBlock().getTrainCommandedSpeed();
+    }
+    public double getSpeedLimit() {
+        return getBlock() == null ? 15 : getBlock().getSpeedLimit();
     }
     public int getPassengerCount() {
         return passengerCount;
@@ -153,7 +154,7 @@ public class Train {
         if(this.trainModel == null || this.trainModel.getTrack() == null) {
             throw new Exception("Cannot get authority unless the train has an associated track.");
         }
-        return this.trainModel.getTrack().getBlock(this.id).getTrainAuthority();
+        return this.getBlock().getTrainAuthority();
     }
     
 
@@ -211,11 +212,7 @@ public class Train {
     }
     
     public boolean isAtBlock(int blockNumber) {
-        try {
-            return this.trainModel.getTrack().getBlock(this.id).getBlockNumber() == blockNumber;
-        } catch(NullPointerException e) {
-            return false;
-        }
+        return getBlock() != null && getBlock().getBlockNumber() == blockNumber;
     }
 
     public void setTrainModel(TrainModel trainModel) {
@@ -245,11 +242,20 @@ public class Train {
     public String toString() {
         return "Train " + this.id;
     }
+    
+    // Tries to get current block. If unavailable, returns null
+    private Block getBlock() {
+        try {
+            return this.trainModel.getTrack().getBlock(this.id);
+        } catch(NullPointerException e) {
+            return null;
+        }
+    }
 
     private void step() {
         //System.out.println(emergencyBrakesEngaged);
         Track track = this.trainModel == null ? null : this.trainModel.getTrack();
-        double grade = track != null  && track.getBlock(this.id) != null ? track.getBlock(this.id).getGrade() : 0;
+        double grade = getBlock() == null ? 0 : getBlock().getGrade();
         double mass = this.getMass();
         if(Math.abs(velocity) < MINIMUM_VELOCITY) {
             if(power > 0) {
@@ -259,11 +265,7 @@ public class Train {
             }
             force = 0;
         } else {
-            double friction = MU_K;
-            if(this.trainModel != null && this.trainModel.getTrack() != null
-                    && this.trainModel.getTrack().getBlock(this.id) != null) {
-                friction = this.trainModel.getTrack().getBlock(this.id).getFrictionCoefficient();
-            }
+            double friction = getBlock() == null ? MU_K : getBlock().getFrictionCoefficient();
             force = power / velocity;
             force -= MU_K * mass;
         }
