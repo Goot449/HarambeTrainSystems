@@ -94,7 +94,18 @@ public class DefaultPLC implements PLC {
             if ((currentBlock.checkAuthority() != -1 && currentBlock.getTrainIDAuth() != trainID) || currentBlock.isBlockOccupied() || currentBlock.isBroken() || currentBlock.isClosed()) {
                 return false;
             }
+            
             Block lastTraverse = currentBlock;
+            
+            //Special case; couldn't figure out fix
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9) && currentBlock.peek().getBlockNumber() == 1){
+                currentBlock.toggleSwitch();
+            }
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 9 || destination.getBlockNumber() == 78) && currentBlock.peek().getBlockNumber() == 15){
+                currentBlock.toggleSwitch();
+            }
+            
+            
             //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
 
             currentBlock = currentBlock.traverse();
@@ -105,6 +116,8 @@ public class DefaultPLC implements PLC {
             }
 
         }
+        
+        currentBlock.setSeen(0);
         
         currentBlock.traverse();
         currentBlock.setSeen(0);

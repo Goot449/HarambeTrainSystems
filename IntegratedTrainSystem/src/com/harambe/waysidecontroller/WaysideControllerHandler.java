@@ -358,8 +358,9 @@ public class WaysideControllerHandler implements Runnable {
                     //Blocks speed is set as commanded by CTC, authority in number of blocks is computed
                     System.out.println("Go ahead and dispatch");
                     int authority = initialWayside.getNumberBlocks("red", destinationBlock, redYard);
+                    System.out.println(authority);
 
-                    redYard.setSeen(1);
+                    //redYard.setSeen(1);
                     initialWayside.setAuthorities(destinationBlock.getLine(), destinationBlock, redYard, authority - 1, speed, trainID);
                     myTrack.commandAuthority("red", authority, 78);
                     redYard.setCommandedSpeed(speed);

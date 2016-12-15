@@ -10,8 +10,8 @@ public class WaysideDriver {
             Track track = new Track();
 
             WaysideControllerHandler handler = new WaysideControllerHandler(track);
-            handler.dispatchTrain(1, track.getBlock(45, "red"), 60);
-            System.out.println(track.getStringRoute("red", track.getBlock(45, "red")));
+            handler.dispatchTrain(1, track.getBlock(13, "red"), 60);
+            System.out.println(track.getStringRoute("red", track.getBlock(13, "red")));
             
             
             System.out.println(track.getBlock(78, "red").getTrainAuthority());
