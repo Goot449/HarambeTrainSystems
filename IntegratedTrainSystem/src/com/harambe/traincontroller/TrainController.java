@@ -53,11 +53,11 @@ public class TrainController {
                     trainStateList.get(i).setGuiSetServiceBrake(false);
                     power = 0;
                 }
-                else{
-                    trainList.get(i).engageServiceBrakes(false);
-                    trainList.get(i).engageEmergencyBrakes(false);
-                    trainStateList.get(i).setGuiSetServiceBrake(true);
-                }
+//                else{
+//                    trainList.get(i).engageServiceBrakes(false);
+//                    trainList.get(i).engageEmergencyBrakes(false);
+//                    trainStateList.get(i).setGuiSetServiceBrake(true);
+//                }
                 if (power < 0) {
                     trainList.get(i).engageServiceBrakes(true);
                     trainStateList.get(i).setGuiSetServiceBrake(false);
