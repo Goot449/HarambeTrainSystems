@@ -191,50 +191,7 @@ public class Track {
         }
     }
 
-    public ArrayList<String> getStringRoute(String line, String destination) {
-
-        ArrayList<Block> pathBlocks = new ArrayList<Block>();
-        ArrayList<String> pathBlockStrings = new ArrayList<String>();
-        Block currentBlock = null;
-
-        if (line.equals("red")) {
-            currentBlock = redYard;
-        } else {
-            currentBlock = greenYard;
-        }
-
-        pathBlocks.add(currentBlock);
-
-        while (!currentBlock.getStation().equals(destination)) {
-
-            Block lastTraverse = currentBlock;
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
-            currentBlock = currentBlock.traverse();
-
-            if (lastTraverse == currentBlock) {
-                currentBlock.toggleSwitch();
-                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
-            } else {
-                pathBlocks.add(currentBlock);
-            }
-        }
-
-        currentBlock.traverse();
-        currentBlock.setSeen(0);
-
-        String routeBlocks;
-
-        for (Block path : pathBlocks) {
-            routeBlocks = path.getBlockNumber() + "," + path.getSection() + "," + path.getBlockLength() + "," + path.getSpeedLimit();
-            pathBlockStrings.add(routeBlocks);
-        }
-
-        //System.out.println(pathBlockStrings.toString());
-        return pathBlockStrings;
-
-        //"blockNumber, section, blockLength, speed limit" in each string, separated by commas.
-    }
+    
 
     public ArrayList<String> getStringRoute(String line, String destination, Block currentBlock) {
 
@@ -293,7 +250,8 @@ public class Track {
 
             Block lastTraverse = currentBlock;
             //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
+            
+            //Commit you stupid thing
             //Special case; couldn't figure out fix
             if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9) && currentBlock.peek().getBlockNumber() == 1){
                 currentBlock.toggleSwitch();
@@ -310,6 +268,7 @@ public class Track {
                 pathBlocks.add(currentBlock);
                 pathBlockStrings.add(currentBlock.getBlockNumber() + "," + currentBlock.getSection());
             }
+            
         }
 
         currentBlock.traverse();

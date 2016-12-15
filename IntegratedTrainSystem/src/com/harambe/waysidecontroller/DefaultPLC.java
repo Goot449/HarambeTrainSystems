@@ -44,7 +44,7 @@ public class DefaultPLC implements PLC {
         boolean status = true;
 
         for (int i = 0; i < 3; i++) {
-            if (switchBlock.isBlockOccupied() && !switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied() && switchBlock.getSwitch().getswitchedBlockBlock().isBlockOccupied()) {
+            if (switchBlock.isBlockOccupied() && !switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied() && switchBlock.getSwitch().getswitchedBlockBlock().checkAuthority() != -1) {
 
             } //Train coming from within and trying to leave?
             else if (!switchBlock.isBlockOccupied() && switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied()) {
@@ -105,9 +105,6 @@ public class DefaultPLC implements PLC {
                 currentBlock.toggleSwitch();
             }
             
-            
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
             currentBlock = currentBlock.traverse();
 
             if (lastTraverse == currentBlock) {

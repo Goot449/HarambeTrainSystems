@@ -148,7 +148,11 @@ public class WaysideControllerHandler implements Runnable {
 
                     //If a red block has changed, update within the wayside appropriate
                     if (b.isBlockOccupied() != (oldRedBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
-
+                        //Must clear the authority from this block
+                        if(!b.isBlockOccupied()){
+                            b.setAuthority(-1);
+                        }
+                        
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
                         temp.addBlock(new Block(b));
                         oldRedBlocks.put(b.getBlockNumber(), new Block(b));
@@ -175,6 +179,10 @@ public class WaysideControllerHandler implements Runnable {
                     }
                     
                     if (b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
+                        if(!b.isBlockOccupied()){
+                            b.setAuthority(-1);
+                        }
+                        
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Green");
                         temp.addBlock(new Block(b));
                         oldGreenBlocks.put(b.getBlockNumber(), new Block(b));
