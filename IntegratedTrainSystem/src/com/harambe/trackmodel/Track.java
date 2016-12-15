@@ -293,7 +293,8 @@ public class Track {
 
             Block lastTraverse = currentBlock;
             //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
+            
+            //Commit you stupid thing
             //Special case; couldn't figure out fix
             if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9) && currentBlock.peek().getBlockNumber() == 1){
                 currentBlock.toggleSwitch();
@@ -310,6 +311,7 @@ public class Track {
                 pathBlocks.add(currentBlock);
                 pathBlockStrings.add(currentBlock.getBlockNumber() + "," + currentBlock.getSection());
             }
+            
         }
 
         currentBlock.traverse();
