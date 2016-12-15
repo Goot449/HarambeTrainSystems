@@ -685,6 +685,15 @@ public class Block implements BlockInterface {
             distanceTraveled = 0;
             newDist = newDist - blockLength;
             //((Block) this.getNext()).placeTrain(trainID, newDist); 
+            
+            if(currentBlock.peek() == null){
+                if(currentBlock.getNext().checkAuthority() != -1){
+                    currentBlock.getPrevious().setSeen(1);
+                }
+                else{
+                    currentBlock.getNext().setSeen(1);
+                }
+            }
             currentBlock = this.traverse();
 
             if (temp == currentBlock) {

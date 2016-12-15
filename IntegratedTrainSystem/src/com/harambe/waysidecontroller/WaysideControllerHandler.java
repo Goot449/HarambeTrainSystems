@@ -245,13 +245,7 @@ public class WaysideControllerHandler implements Runnable {
 
                 wc.setAuthorities(destinationBlock.getLine(), destinationBlock, trainBlock, authority, speed, trainID);
                 
-                
-                
                 trainBlock.setAuthority(authority + 1);
-                
-                System.out.println("Authority of train = " + myTrack.getBlock(trainID).checkAuthority());
-                System.out.println("Authority of train = " + myTrack.getBlock(7, "red").checkAuthority());
-                System.out.println("Authority of train = " + myTrack.getBlock(6, "red").checkAuthority());
                 
                 trainBlock.setCommandedSpeed(speed);
                 return destinationBlock;
@@ -280,9 +274,8 @@ public class WaysideControllerHandler implements Runnable {
 
                     nxtBlock = trainBlock.peek();
 
-                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority, speed, trainID);
-                    System.out.println(myTrack.getStringRoute("red", destinationBlock));
-                    System.out.println(authority);
+                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, myTrack.getBlock(trainID), authority, speed, trainID);
+
                     trainBlock.setAuthority(authority + 1);
                     trainBlock.setCommandedSpeed(speed);
                     return destinationBlock;
@@ -316,9 +309,8 @@ public class WaysideControllerHandler implements Runnable {
 
                     nxtBlock = trainBlock.peek();
 
-                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority, speed, trainID);
-                    System.out.println(myTrack.getStringRoute("green", destinationBlock));
-                    System.out.println(authority);
+                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, myTrack.getBlock(trainID), authority, speed, trainID);
+
 
                     trainBlock.setAuthority(authority + 1);
                     trainBlock.setCommandedSpeed(speed);

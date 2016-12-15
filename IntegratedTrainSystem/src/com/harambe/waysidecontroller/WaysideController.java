@@ -164,6 +164,7 @@ public class WaysideController {
                 //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
             } else {
                 authorityNum++;
+                System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
             }
         }
 
@@ -177,7 +178,7 @@ public class WaysideController {
         while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
             //System.out.println("In set Authorities");
             Block lastTraverse = currentBlock;
-            System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
+            
 
             //Special case; couldn't figure out fix
             if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9 && currentBlock.peek().getBlockNumber() == 1){
@@ -186,7 +187,6 @@ public class WaysideController {
             if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 9 || destination.getBlockNumber() == 78) && currentBlock.peek().getBlockNumber() == 15){
                 currentBlock.toggleSwitch();
             }
-            
             currentBlock = currentBlock.traverse();
 
             if (lastTraverse == currentBlock) {
@@ -198,6 +198,38 @@ public class WaysideController {
                 currentBlock.setTrainIDAuth(trainID);
                 num--;
             }
+        }
+
+        currentBlock.traverse();
+        currentBlock.setSeen(0);
+    }
+    
+    public void difSetAuthorities(String line, Block destination, Block currentBlock, int num, double speed, int trainID){
+        while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
+            //System.out.println("In set Authorities");
+            Block lastTraverse = currentBlock;
+            
+
+            //Special case; couldn't figure out fix
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9 && currentBlock.peek().getBlockNumber() == 1){
+                currentBlock.toggleSwitch();
+            }
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 9 || destination.getBlockNumber() == 78) && currentBlock.peek().getBlockNumber() == 15){
+                currentBlock.toggleSwitch();
+            }
+            
+            if (lastTraverse == currentBlock) {
+                currentBlock.toggleSwitch();
+                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
+            } else {
+                currentBlock.setAuthority(num);
+                currentBlock.setCommandedSpeed(speed);
+                currentBlock.setTrainIDAuth(trainID);
+                num--;
+            }
+            currentBlock = currentBlock.traverse();
+
+            
         }
 
         currentBlock.traverse();

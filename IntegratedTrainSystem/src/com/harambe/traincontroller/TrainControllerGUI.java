@@ -685,7 +685,7 @@ public class TrainControllerGUI extends javax.swing.JFrame {
         double currentPower = trainStateList.get(selectedTrain).getPower();
         double currentSpeed = trainList.get(selectedTrain).getFeedbackVelocity();
         currentSpeedValueLabel.setText(Integer.toString((int)Math.round(currentSpeed)));
-        double speedLimit = trainList.get(selectedTrain).getSpeedLimit();
+        double speedLimit = trainList.get(selectedTrain).getSpeedLimit(true);
         if (trainStateList.get(selectedTrain).isManualModeEnabled()){
             modeToggleButton.setSelected(false);
             setSpeedSlider.setEnabled(true);
