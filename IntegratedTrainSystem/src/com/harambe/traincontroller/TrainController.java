@@ -96,7 +96,7 @@ public class TrainController {
         else {
             trainInfo[1] = 0.0;
         }
-        trainInfo[2] = train.getSpeedLimit();
+        trainInfo[2] = train.getSpeedLimit(true);
         if (train.getEmergencyBreakStatus()){
             trainInfo[3] = 1.0;
         }
