@@ -150,7 +150,7 @@ public class TrainModel extends javax.swing.JFrame {
         lights.setText(train.lightsAreOn() ? "On" : "Off");
         temperature.setText(outputFormat.format(train.getTemperature()) + "° F");
         numberOfCars.setText("" + train.getCarCount());
-        speedLimit.setText(train.getSpeedLimit() + " mph");
+        speedLimit.setText(outputFormat.format(train.getSpeedLimit(true)) + " mph");
         passengers.setText(train.getPassengerCount() + "");
         maxPassengers.setText(train.getMaxPassengers() + "");
         weight.setText(outputFormat.format(train.getWeight()) + " Tons");

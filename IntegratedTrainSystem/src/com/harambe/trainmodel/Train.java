@@ -18,7 +18,7 @@ public class Train {
     
     // physics constants
     private static final double G = -9.8;                   /* m/s^2 */
-    private static final double DT = 0.01;                  /* s */
+    private static final double DT = 0.1;                   /* s */
     private static final double MINIMUM_VELOCITY = 0.05;    /* m/s */
     
     // conversion factors
@@ -26,6 +26,7 @@ public class Train {
     private static final double KM_PER_H_TO_M_PER_S = 1/3.6;
     private static final double MPS_TO_MPH = 2.23694;
     private static final double M_TO_FT = 3.2808399;
+    private static final double KM_PER_H_TO_MPH = KM_PER_H_TO_M_PER_S * MPS_TO_MPH;
 
     // train data
     private static final double SERVICE_BRAKE_DECELERATION = 1.2;       /* m/s^2 */
@@ -168,6 +169,9 @@ public class Train {
     }
     public double getSpeedLimit() {
         return getBlock() == null ? 15 : getBlock().getSpeedLimit();
+    }
+    public double getSpeedLimit(boolean useImperialUnits) {
+        return getSpeedLimit() * (useImperialUnits ? KM_PER_H_TO_MPH : 1);
     }
     public int getPassengerCount() {
         return passengerCount;
