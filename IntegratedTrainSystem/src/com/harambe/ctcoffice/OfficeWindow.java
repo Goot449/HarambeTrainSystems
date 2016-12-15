@@ -703,7 +703,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         int destBlockInt = Integer.parseInt(destBlock);
         officeTrackModel.getBlock(destBlockInt, dispatchLine);
 
-        Block dest = handler.dispatchTrain(trainID,officeTrackModel.getBlock(destBlockInt, dispatchLine), (double)destSpeed);
+        Block dest = handler.dispatchTrain(trainID,officeTrackModel.getBlock(destBlockInt, dispatchLine), 1.609*(double)destSpeed);
         if (dest != null){
             DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
             dest.getBlockNumber();
