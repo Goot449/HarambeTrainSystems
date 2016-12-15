@@ -116,7 +116,7 @@ public class TrainController {
         } else {
             trainInfo[1] = 0.0;
         }
-        trainInfo[2] = train.getSpeedLimit(true);
+        trainInfo[2] = (2.23694) * train.getCommandSpeed();
         if (train.getEmergencyBreakStatus()) {
             trainInfo[3] = 1.0;
         } else {
