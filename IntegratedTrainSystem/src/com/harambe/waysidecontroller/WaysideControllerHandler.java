@@ -328,6 +328,16 @@ public class WaysideControllerHandler implements Runnable {
         return myTrack;
 
     }
+    
+    public void maintenanceRequest(int target, String line){
+        WaysideController wc = findCorrectWayside(target, line);
+        if(wc.checkMaintenance(myTrack.getBlock(target, line))){
+            myTrack.getBlock(target, line).closeBlock();
+        }
+        else {
+            myTrack.getBlock(target, line).openBlock();
+        }
+    }
 
     public Block dispatchTrain(int trainID, Block destinationBlock, double speed) {
         String line = destinationBlock.getLine();

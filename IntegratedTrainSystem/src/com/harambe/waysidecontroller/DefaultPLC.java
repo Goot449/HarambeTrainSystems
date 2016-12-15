@@ -64,18 +64,12 @@ public class DefaultPLC implements PLC {
     //Check if maintenance is acceptable
     //If none of the surrounding blocks are full, then it is acceptable
     public boolean checkMaintenance(Block maintenance) {
-        Block adjacent1 = maintenance.getPrevious();
-        Block adjacent2 = maintenance.getNext();
-        boolean status = true;
-
-        for (int i = 0; i < 3; i++) {
-            if (!adjacent1.isBlockOccupied() && !adjacent2.isBlockOccupied() && !maintenance.isBlockOccupied()) {
-
-            } else {
+        for(int i = 0; i < 3; i++){
+            if(maintenance.checkAuthority() == -1){
                 return false;
             }
         }
-        return status;
+        return true;
     }
 
     //Check to see if we should toggle crossing

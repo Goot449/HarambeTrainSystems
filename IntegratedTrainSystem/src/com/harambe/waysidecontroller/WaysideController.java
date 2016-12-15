@@ -63,6 +63,10 @@ public class WaysideController {
         }
     }
     
+    public boolean checkMaintenance(Block b){
+        return plc.checkMaintenance(b);
+    }
+    
     public Switch isSwitchOption(Block b){
         for(Switch s : switches.values()){
             if(s.getswitchedBlockBlock().equals(b) || s.getunSwitchedBlockBlock().equals(b)){
