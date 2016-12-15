@@ -72,6 +72,7 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
+        powerButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jTextField14 = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
@@ -352,6 +353,13 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             }
         });
 
+        powerButton.setText("Power Failure");
+        powerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                powerButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -374,7 +382,9 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton4)
-                        .addGap(176, 176, 176))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(powerButton)
+                        .addGap(73, 73, 73))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -388,7 +398,8 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                         .addComponent(clearButton))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
-                        .addComponent(jButton4)))
+                        .addComponent(jButton4)
+                        .addComponent(powerButton)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1078,6 +1089,19 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         submitTrackButton.setEnabled(true);
     }//GEN-LAST:event_clearButtonActionPerformed
 
+    private void powerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_powerButtonActionPerformed
+        // TODO add your handling code here:
+        
+        Block powerBlockRed = trackTester.getBlock(52, "red");
+        Block powerBlockGreen = trackTester.getBlock(52, "green");
+        System.out.println(powerBlockRed.getSection() + powerBlockRed.getBlockNumber() + " commandedspeed: " + powerBlockRed.getBlockSpeedLimit());
+        powerBlockRed.setCommandedSpeed(0);
+        System.out.println(powerBlockRed.getSection() + powerBlockRed.getBlockNumber() + " commanded speed: " + powerBlockRed.getBlockSpeedLimit());
+        System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: " + powerBlockGreen.getBlockSpeedLimit());
+        powerBlockGreen.setCommandedSpeed(0);
+        System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: " + powerBlockGreen.getBlockSpeedLimit());
+    }//GEN-LAST:event_powerButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1198,6 +1222,7 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
     private javax.swing.JToggleButton jToggleButton7;
     private javax.swing.JToggleButton jToggleButton8;
     private javax.swing.ButtonGroup lineSelection;
+    private javax.swing.JButton powerButton;
     private javax.swing.JButton submitTrackButton;
     private javax.swing.JLabel trackInputLabel;
     // End of variables declaration//GEN-END:variables
