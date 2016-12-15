@@ -1028,46 +1028,51 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         inputTrackTextField.setEditable(false);
         submitTrackButton.setEnabled(false);
         
+        
         double DT = .1;
         Timer timer = new Timer((int) (1000 * DT), e -> {
             refreshOccupiedBlocks();
         });
         
+       
+        
+        
         timer.setRepeats(true);
         timer.start();
+        
     }//GEN-LAST:event_submitTrackButtonActionPerformed
 
     void refreshOccupiedBlocks() {
         
-        DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
-        
-        int i=1;
         int j=1;
         
+        String csvIn = inputTrackTextField.getText();
+
+        if("RedLine.csv".equals(csvIn)){
+            DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
             do{
-                 
-               if (trackTester.getBlock(i, "red").isBlockOccupied()){
-                   model.setValueAt(true, i-1, 12);
+               if (trackTester.getBlock(j, "red").isBlockOccupied()){
+                   model.setValueAt(true,j-1, 12);
                }
                else{
-                   model.setValueAt(false, i-1, 12);
-  
+                   model.setValueAt(false, j-1, 12);
                }
-               i++;
-            } while (trackTester.getBlock(i,"red") != null);
-            
+               j++;
+            } while (trackTester.getBlock(j, "red") != null);
+        } else if("GreenLine.csv".equals(csvIn)){
+            DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
             do{
                  
                if (trackTester.getBlock(j, "green").isBlockOccupied()){
-                   model.setValueAt(true, j, 12);
+                   model.setValueAt(true, j-1, 12);
                }
                else{
-                   model.setValueAt(false, j, 12);
+                   model.setValueAt(false, j-1, 12);
   
                }
                j++;
-            } while (trackTester.getBlock(j,"green") != null);
-
+            } while (trackTester.getBlock(j, "green") != null);
+        }
     }
     
     private void inputTrackTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTrackTextFieldActionPerformed
@@ -1080,11 +1085,13 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
 
-            if (model.getRowCount() > 0) {
+            /*if (model.getRowCount() > 0) {
                 for (int j = model.getRowCount() - 1; j > -1; j--) {
                     model.removeRow(j);
                 }
-            }
+            }*/
+            model.setRowCount(0);
+                    
         inputTrackTextField.setEditable(true);
         submitTrackButton.setEnabled(true);
     }//GEN-LAST:event_clearButtonActionPerformed
@@ -1096,10 +1103,10 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         Block powerBlockGreen = trackTester.getBlock(52, "green");
         System.out.println(powerBlockRed.getSection() + powerBlockRed.getBlockNumber() + " commandedspeed: " + powerBlockRed.getBlockSpeedLimit());
         powerBlockRed.setCommandedSpeed(0);
-        System.out.println(powerBlockRed.getSection() + powerBlockRed.getBlockNumber() + " commanded speed: " + powerBlockRed.getBlockSpeedLimit());
+        System.out.println(powerBlockRed.getSection() + powerBlockRed.getBlockNumber() + " commanded speed: 0");
         System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: " + powerBlockGreen.getBlockSpeedLimit());
         powerBlockGreen.setCommandedSpeed(0);
-        System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: " + powerBlockGreen.getBlockSpeedLimit());
+        System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: 0");
     }//GEN-LAST:event_powerButtonActionPerformed
 
     /**
