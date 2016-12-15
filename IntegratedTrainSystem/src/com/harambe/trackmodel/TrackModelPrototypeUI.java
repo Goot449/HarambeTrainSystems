@@ -69,10 +69,12 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         submitTrackButton = new javax.swing.JButton();
         jScrollPane7 = new javax.swing.JScrollPane();
         blockOutputTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        breakRailButton = new javax.swing.JButton();
+        circuitFailButton = new javax.swing.JButton();
         clearButton = new javax.swing.JButton();
         powerButton = new javax.swing.JButton();
+        blockSelectionTextField = new javax.swing.JTextField();
+        blockSelectionLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jTextField14 = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
@@ -332,17 +334,17 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             blockOutputTable.getColumnModel().getColumn(12).setResizable(false);
         }
 
-        jButton1.setText("Break Rail");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        breakRailButton.setText("Break Rail");
+        breakRailButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                breakRailButtonActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Circuit Fail");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        circuitFailButton.setText("Circuit Fail");
+        circuitFailButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                circuitFailButtonActionPerformed(evt);
             }
         });
 
@@ -360,6 +362,8 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
             }
         });
 
+        blockSelectionLabel.setText("Block Selection:");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -376,12 +380,16 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                         .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(submitTrackButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(clearButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(blockSelectionLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(blockSelectionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(breakRailButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
+                        .addComponent(circuitFailButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(powerButton)
                         .addGap(73, 73, 73))))
@@ -397,9 +405,11 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                         .addComponent(submitTrackButton)
                         .addComponent(clearButton))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jButton4)
-                        .addComponent(powerButton)))
+                        .addComponent(breakRailButton)
+                        .addComponent(circuitFailButton)
+                        .addComponent(powerButton)
+                        .addComponent(blockSelectionTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(blockSelectionLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
                 .addContainerGap())
@@ -941,27 +951,94 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton5ActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        Block brokenCircuitBlockGreen = trackTester.getBlock(50, "green");
+    private void circuitFailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_circuitFailButtonActionPerformed
+        
+        boolean lineSelected = !(submitTrackButton.isEnabled());
+        if(lineSelected == true){
+            String csvIn = inputTrackTextField.getText();
+            String block_num = blockSelectionTextField.getText();
+
+            if("RedLine.csv".equals(csvIn)){ //78
+               int blockNum = Integer.parseInt(block_num);
+               if(blockNum >= 1 && blockNum <= 78){
+                   Block selectedBlock = trackTester.getBlock(blockNum, "red");
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " is occupied: " + selectedBlock.isBlockOccupied());
+                   selectedBlock.breakCircuit();
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " is occupied: " + selectedBlock.isBlockOccupied());
+               } else {
+                   System.out.println("Make sure you have an allowed block selected.");
+               }
+            }else if("GreenLine.csv".equals(csvIn)){ //156
+                int blockNum = Integer.parseInt(block_num);
+                if(blockNum >= 1 && blockNum <= 156){
+                   Block selectedBlock = trackTester.getBlock(blockNum, "green");
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " is occupied: " + selectedBlock.isBlockOccupied());
+                   selectedBlock.breakCircuit();
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " is occupied: " + selectedBlock.isBlockOccupied());
+               }else{
+                    System.out.println("Make sure you have an allowed block selected.");
+                }
+            }else{
+               System.out.println("Make sure you have a track loaded and an allowed block number selected."); 
+            }
+        }else{
+            System.out.println("Please load a track first and/or fix the break before testing another."); 
+        }
+        
+        /*Block brokenCircuitBlockGreen = trackTester.getBlock(50, "green");
         Block brokenCircuitBlockRed = trackTester.getBlock(50, "red");
         System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
         brokenCircuitBlockGreen.breakCircuit();
         System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
         System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
         brokenCircuitBlockRed.breakCircuit();
-        System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
-    }//GEN-LAST:event_jButton4ActionPerformed
+        System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());*/
+    }//GEN-LAST:event_circuitFailButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Block brokenRailBlockRed = trackTester.getBlock(51, "red");
+    private void breakRailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_breakRailButtonActionPerformed
+        DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
+                   
+        boolean lineSelected = !(submitTrackButton.isEnabled());
+        if(lineSelected == true){
+            String csvIn = inputTrackTextField.getText();
+            String block_num = blockSelectionTextField.getText();
+
+            if("RedLine.csv".equals(csvIn)){ //78
+               int blockNum = Integer.parseInt(block_num);
+               if(blockNum >= 1 && blockNum <= 78){
+                   Block selectedBlock = trackTester.getBlock(blockNum, "red");
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " broken: " + selectedBlock.isBroken());
+                   selectedBlock.toggleBroken();
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " broken: " + selectedBlock.isBroken());
+               } else {
+                   System.out.println("Make sure you have an allowed block selected.");
+               }
+            }else if("GreenLine.csv".equals(csvIn)){ //156
+                int blockNum = Integer.parseInt(block_num);
+                if(blockNum >= 1 && blockNum <= 156){
+                   Block selectedBlock = trackTester.getBlock(blockNum, "green");
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " broken: " + selectedBlock.isBroken());
+                   selectedBlock.toggleBroken();
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " broken: " + selectedBlock.isBroken());
+               }else{
+                    System.out.println("Make sure you have an allowed block selected.");
+                }
+            }else{
+               System.out.println("Make sure you have a track loaded and an allowed block number selected."); 
+            }
+        }else{
+            System.out.println("Please load a track first and/or fix the break before testing another."); 
+        }
+        
+        /*Block brokenRailBlockRed = trackTester.getBlock(51, "red");
         Block brokenRailBlockGreen = trackTester.getBlock(51, "green");
         System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
         brokenRailBlockRed.toggleBroken();
         System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
         System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
         brokenRailBlockGreen.toggleBroken();
-        System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
-    }//GEN-LAST:event_jButton1ActionPerformed
+        System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());*/
+    }//GEN-LAST:event_breakRailButtonActionPerformed
 
     private void submitTrackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitTrackButtonActionPerformed
 
@@ -1094,19 +1171,54 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                     
         inputTrackTextField.setEditable(true);
         submitTrackButton.setEnabled(true);
+        circuitFailButton.setEnabled(true);
+        powerButton.setEnabled(true);
+        breakRailButton.setEnabled(true);
     }//GEN-LAST:event_clearButtonActionPerformed
 
     private void powerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_powerButtonActionPerformed
         // TODO add your handling code here:
         
-        Block powerBlockRed = trackTester.getBlock(52, "red");
+        boolean lineSelected = !(submitTrackButton.isEnabled());
+        if(lineSelected == true){
+            String csvIn = inputTrackTextField.getText();
+            String block_num = blockSelectionTextField.getText();
+
+            if("RedLine.csv".equals(csvIn)){ //78
+               int blockNum = Integer.parseInt(block_num);
+               if(blockNum >= 1 && blockNum <= 78){
+                   Block selectedBlock = trackTester.getBlock(blockNum, "red");
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " commandedspeed: " + selectedBlock.getBlockSpeedLimit());
+                   selectedBlock.setCommandedSpeed(0);
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " commanded speed: 0");
+               } else {
+                   System.out.println("Make sure you have an allowed block selected.");
+               }
+            }else if("GreenLine.csv".equals(csvIn)){ //156
+                int blockNum = Integer.parseInt(block_num);
+                if(blockNum >= 1 && blockNum <= 156){
+                   Block selectedBlock = trackTester.getBlock(blockNum, "green");
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " commandedspeed: " + selectedBlock.getBlockSpeedLimit());
+                   selectedBlock.setCommandedSpeed(0);
+                   System.out.println(selectedBlock.getSection() + selectedBlock.getBlockNumber() + " commanded speed: 0");
+               }else{
+                    System.out.println("Make sure you have an allowed block selected.");
+                }
+            }else{
+               System.out.println("Make sure you have a track loaded and an allowed block number selected."); 
+            }
+        }else{
+            System.out.println("Please load a track first and/or fix the break before testing another."); 
+        }
+        
+       /* Block powerBlockRed = trackTester.getBlock(52, "red");
         Block powerBlockGreen = trackTester.getBlock(52, "green");
         System.out.println(powerBlockRed.getSection() + powerBlockRed.getBlockNumber() + " commandedspeed: " + powerBlockRed.getBlockSpeedLimit());
         powerBlockRed.setCommandedSpeed(0);
         System.out.println(powerBlockRed.getSection() + powerBlockRed.getBlockNumber() + " commanded speed: 0");
         System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: " + powerBlockGreen.getBlockSpeedLimit());
         powerBlockGreen.setCommandedSpeed(0);
-        System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: 0");
+        System.out.println(powerBlockGreen.getSection() + powerBlockGreen.getBlockNumber() + " commanded speed: 0");*/
     }//GEN-LAST:event_powerButtonActionPerformed
 
     /**
@@ -1146,15 +1258,17 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable blockOutputTable;
+    private javax.swing.JLabel blockSelectionLabel;
+    private javax.swing.JTextField blockSelectionTextField;
+    private javax.swing.JButton breakRailButton;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JButton circuitFailButton;
     private javax.swing.JButton clearButton;
     private javax.swing.JTextField inputTrackTextField;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBox6;
