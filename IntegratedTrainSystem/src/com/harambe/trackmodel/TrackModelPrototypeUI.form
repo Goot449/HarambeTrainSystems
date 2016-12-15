@@ -338,12 +338,16 @@
                               <Component id="inputTrackTextField" min="-2" pref="257" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="submitTrackButton" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="clearButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
-                              <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="blockSelectionLabel" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="blockSelectionTextField" min="-2" pref="42" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                              <Component id="breakRailButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                              <Component id="circuitFailButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="powerButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
@@ -364,9 +368,11 @@
                               <Component id="clearButton" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                              <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="breakRailButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="circuitFailButton" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="powerButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="blockSelectionTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="blockSelectionLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -497,20 +503,20 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="breakRailButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Break Rail"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="breakRailButtonActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton4">
+            <Component class="javax.swing.JButton" name="circuitFailButton">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Circuit Fail"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="circuitFailButtonActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="clearButton">
@@ -528,6 +534,13 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="powerButtonActionPerformed"/>
               </Events>
+            </Component>
+            <Component class="javax.swing.JTextField" name="blockSelectionTextField">
+            </Component>
+            <Component class="javax.swing.JLabel" name="blockSelectionLabel">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Block Selection:"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
