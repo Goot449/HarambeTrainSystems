@@ -395,12 +395,9 @@ public class Track {
                     trainBlocks.remove(i);
                     trainBlocks.add(nextBlock);
                 }
-                //printBlockList(trainBlocks);
-                return;
             }
         }
 
-        //printBlockList(greenBlocks);
     }
 
     public void placeTrain(String line, int trainID) {
