@@ -11,8 +11,12 @@ public class Train {
     
     private static final boolean useTrackModel = false;
     
+    // default test properties. these are only used for the standalone train model.
+    private static final double MU_K = 0;
+    private static final double GRADE = 0;
+    
+    
     // physics constants
-    private static final double MU_K = 0.1;                 /* DEFAULT */
     private static final double G = -9.8;                   /* m/s^2 */
     private static final double DT = 0.01;                  /* s */
     private static final double MINIMUM_VELOCITY = 0.05;    /* m/s */
@@ -252,7 +256,7 @@ public class Train {
     private void step() {
         //System.out.println(emergencyBrakesEngaged);
         Track track = this.trainModel == null ? null : this.trainModel.getTrack();
-        double grade = getBlock() == null ? 0 : getBlock().getGrade();
+        double grade = getBlock() == null ? GRADE : getBlock().getGrade();
         double mass = this.getMass();
         if(Math.abs(velocity) < MINIMUM_VELOCITY) {
             if(power > 0) {
