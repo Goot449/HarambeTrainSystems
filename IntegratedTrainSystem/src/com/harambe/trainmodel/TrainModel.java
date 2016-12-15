@@ -215,6 +215,11 @@ public class TrainModel extends javax.swing.JFrame {
         addPassengersSpinner = new javax.swing.JSpinner();
         jLabel5 = new javax.swing.JLabel();
         addPassengersButton = new javax.swing.JButton();
+        temperatureSpinner = new javax.swing.JSpinner();
+        setTemperatureButton = new javax.swing.JButton();
+        toggleRightDoorsButton = new javax.swing.JButton();
+        toggleLeftDoorsButton = new javax.swing.JButton();
+        toggleLightsButton = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         weight = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
@@ -360,39 +365,74 @@ public class TrainModel extends javax.swing.JFrame {
             }
         });
 
+        setTemperatureButton.setText("Set Temperature");
+        setTemperatureButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                setTemperatureButtonActionPerformed(evt);
+            }
+        });
+
+        toggleRightDoorsButton.setText("Toggle Right Doors");
+        toggleRightDoorsButton.setToolTipText("");
+        toggleRightDoorsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleRightDoorsButtonActionPerformed(evt);
+            }
+        });
+
+        toggleLeftDoorsButton.setText("Toggle Left Doors");
+        toggleLeftDoorsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleLeftDoorsButtonActionPerformed(evt);
+            }
+        });
+
+        toggleLightsButton.setText("Toggle Lights");
+        toggleLightsButton.setToolTipText("");
+        toggleLightsButton.setActionCommand("Toggle Lights");
+        toggleLightsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleLightsButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout testPanelLayout = new javax.swing.GroupLayout(testPanel);
         testPanel.setLayout(testPanelLayout);
         testPanelLayout.setHorizontalGroup(
             testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(testPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addTrainButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(testPanelLayout.createSequentialGroup()
+                        .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(addPassengersSpinner, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                            .addComponent(temperatureSpinner))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(setTemperatureButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addPassengersButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(toggleLeftDoorsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(toggleRightDoorsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(testPanelLayout.createSequentialGroup()
                         .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(testPanelLayout.createSequentialGroup()
-                                .addGap(61, 61, 61)
-                                .addComponent(jLabel5))
+                                .addComponent(spinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(setPowerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(testPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(spinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(setPowerButton, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(testPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addTrainButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(testPanelLayout.createSequentialGroup()
-                                .addComponent(addPassengersSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(addPassengersButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(55, 55, 55)
+                                .addComponent(jLabel5)))
+                        .addGap(0, 1, Short.MAX_VALUE))
+                    .addComponent(toggleLightsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         testPanelLayout.setVerticalGroup(
             testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(testPanelLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(spinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(setPowerButton))
@@ -402,6 +442,16 @@ public class TrainModel extends javax.swing.JFrame {
                 .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addPassengersSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addPassengersButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(testPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(temperatureSpinner, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(setTemperatureButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toggleLeftDoorsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toggleRightDoorsButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(toggleLightsButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -603,6 +653,22 @@ public class TrainModel extends javax.swing.JFrame {
         } catch(Exception ex){};
     }//GEN-LAST:event_addTrainButtonActionPerformed
 
+    private void setTemperatureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setTemperatureButtonActionPerformed
+        this.train.setTemperature((int) this.temperatureSpinner.getValue());
+    }//GEN-LAST:event_setTemperatureButtonActionPerformed
+
+    private void toggleLightsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleLightsButtonActionPerformed
+        this.train.setLights(!this.train.lightsAreOn());
+    }//GEN-LAST:event_toggleLightsButtonActionPerformed
+
+    private void toggleLeftDoorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleLeftDoorsButtonActionPerformed
+        this.train.setLeftDoors(!this.train.leftDoorsAreOpen());
+    }//GEN-LAST:event_toggleLeftDoorsButtonActionPerformed
+
+    private void toggleRightDoorsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleRightDoorsButtonActionPerformed
+        this.train.setRightDoors(!this.train.rightDoorsAreOpen());
+    }//GEN-LAST:event_toggleRightDoorsButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -674,11 +740,16 @@ public class TrainModel extends javax.swing.JFrame {
     private javax.swing.JLabel rightDoors;
     private javax.swing.JButton serviceBrake;
     private javax.swing.JToggleButton setPowerButton;
+    private javax.swing.JButton setTemperatureButton;
     private javax.swing.JButton signalFailureButton;
     private javax.swing.JLabel speedLimit;
     private javax.swing.JSpinner spinner1;
     private javax.swing.JLabel temperature;
+    private javax.swing.JSpinner temperatureSpinner;
     private javax.swing.JPanel testPanel;
+    private javax.swing.JButton toggleLeftDoorsButton;
+    private javax.swing.JButton toggleLightsButton;
+    private javax.swing.JButton toggleRightDoorsButton;
     private javax.swing.JButton trainEngineFailureButton;
     private javax.swing.JLabel weight;
     private javax.swing.JLabel width;

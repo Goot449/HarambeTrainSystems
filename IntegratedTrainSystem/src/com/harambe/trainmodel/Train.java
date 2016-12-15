@@ -11,8 +11,12 @@ public class Train {
     
     private static final boolean useTrackModel = false;
     
+    // default test properties. these are only used for the standalone train model.
+    private static final double MU_K = 0;
+    private static final double GRADE = 0;
+    
+    
     // physics constants
-    private static final double MU_K = 0.1;                 /* DEFAULT */
     private static final double G = -9.8;                   /* m/s^2 */
     private static final double DT = 0.01;                  /* s */
     private static final double MINIMUM_VELOCITY = 0.05;    /* m/s */
@@ -57,6 +61,34 @@ public class Train {
     private boolean engineFailure;
     private boolean brakeFailure;
     private boolean signalFailure;
+    
+    public Train() throws Exception {
+        this(1, 0);
+    }
+
+    public Train(int carCount, int id, TrainModel trainModel) throws Exception {
+        this(carCount, id);
+        this.trainModel = trainModel;
+    }
+
+    public Train(int carCount, int id) throws Exception{
+        this.carCount = carCount;
+        this.id = id;
+        this.power = 0;
+        this.force = 0;
+        this.acceleration = 0;
+        this.velocity = 0;
+        this.position = 0;
+        this.lights = true;
+        this.leftDoorsOpen = false;
+        this.rightDoorsOpen = false;
+        this.temperature = 70;
+        Timer timer = new Timer((int) (1000 * DT), e -> {
+            step();
+        });
+        timer.setRepeats(true);
+        timer.start();
+    }
 
     public void setEngineFailure(boolean engaged) {
         this.trainModel.setEngineFailure(engaged);
@@ -84,15 +116,12 @@ public class Train {
     public boolean leftDoorsAreOpen() {
         return leftDoorsOpen;
     }
-
     public void setLeftDoors(boolean open) {
         this.leftDoorsOpen = open;
     }
-
     public boolean rightDoorsAreOpen() {
         return rightDoorsOpen;
     }
-
     public void setRightDoors(boolean open) {
         this.rightDoorsOpen = open;
     }
@@ -100,7 +129,6 @@ public class Train {
     public boolean lightsAreOn() {
         return lights;
     }
-
     public void setLights(boolean lights) {
         this.lights = lights;
     }
@@ -117,10 +145,10 @@ public class Train {
     public boolean getEmergencyBreakStatus() {
         return this.emergencyBrakesEngaged;
     }
-    public double getTemperature() {
+    public double getTemperature() {                    /* Degrees F */
         return this.temperature;
     }
-    public void setTemperature(double temperature) {
+    public void setTemperature(double temperature) {    /* Degrees F */
         this.temperature = temperature;
     }
     public int getCarCount() {
@@ -129,7 +157,7 @@ public class Train {
     public double getLength() {
         return this.carCount * CAR_LENGTH * M_TO_FT; 
     }
-    public double getWidth() {
+    public double getWidth() {                          /* ft */
         return CAR_WIDTH * M_TO_FT; 
     }
     public double getHeight() {
@@ -146,6 +174,24 @@ public class Train {
     }
     public int getMaxPassengers() {
         return MAX_PASSENGERS * carCount;
+    }    
+    public void setTrainModel(TrainModel trainModel) {
+        this.trainModel = trainModel;
+    }
+    public void setPower(double power) {
+        this.power = power;
+    }
+    public double getFeedbackVelocity() {
+        return velocity * MPS_TO_MPH;
+    }
+    public double getAcceleration() {
+        return acceleration * M_TO_FT;
+    }
+    public double getMass() {
+        return EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON;
+    }
+    public double getWeight() {
+        return (EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON) / TONS_TO_KG;
     }
     public int getAuthority() throws Exception {
         if(this.trainModel == null || this.trainModel.getTrack() == null) {
@@ -153,7 +199,6 @@ public class Train {
         }
         return this.getBlock().getTrainAuthority();
     }
-    
 
     /**
      * Attempts to add specified number of passengers. This will not increase the number of passengers
@@ -179,61 +224,14 @@ public class Train {
         this.passengerCount -= passengersRemoved;
         return passengersRemoved;
     }
-
-    public Train() throws Exception {
-        this(0, 0);
-    }
-
-    public Train(int carCount, int id, TrainModel trainModel) throws Exception {
-        this(carCount, id);
-        this.trainModel = trainModel;
-    }
-
-    public Train(int carCount, int id) throws Exception{
-        this.carCount = carCount;
-        this.id = id;
-        this.power = 0;
-        this.force = 0;
-        this.acceleration = 0;
-        this.velocity = 0;
-        this.position = 0;
-        this.lights = true;
-        this.leftDoorsOpen = false;
-        this.rightDoorsOpen = false;
-        this.temperature = 70;
-        Timer timer = new Timer((int) (1000 * DT), e -> {
-            step();
-        });
-        timer.setRepeats(true);
-        timer.start();
-    }
     
+    /**
+     * Tests if train is at specified block number
+     * @param blockNumber the block to test
+     * @return true if block is available and train is at specified block number
+     */
     public boolean isAtBlock(int blockNumber) {
         return getBlock() != null && getBlock().getBlockNumber() == blockNumber;
-    }
-
-    public void setTrainModel(TrainModel trainModel) {
-        this.trainModel = trainModel;
-    }
-    
-    public void setPower(double power) {
-        this.power = power;
-    }
-
-    public double getFeedbackVelocity() {
-        return velocity * MPS_TO_MPH;
-    }
-
-    public double getAcceleration() {
-        return acceleration * M_TO_FT;
-    }
-
-    public double getMass() {
-        return EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON;
-    }
-    
-    public double getWeight() {
-        return (EMPTY_CAR_MASS + passengerCount * MASS_OF_PERSON) / TONS_TO_KG;
     }
 
     public String toString() {
@@ -249,10 +247,11 @@ public class Train {
         }
     }
 
+    // Calculates physics (triggered every DT)
     private void step() {
         //System.out.println(emergencyBrakesEngaged);
         Track track = this.trainModel == null ? null : this.trainModel.getTrack();
-        double grade = getBlock() == null ? 0 : getBlock().getGrade();
+        double grade = getBlock() == null ? GRADE : getBlock().getGrade();
         double mass = this.getMass();
         if(Math.abs(velocity) < MINIMUM_VELOCITY) {
             if(power > 0) {
@@ -278,5 +277,7 @@ public class Train {
         double rate = this.trainModel != null ? this.trainModel.getRate() : 1;
         velocity = velocity + acceleration * DT * rate;
         position = position + velocity * DT * rate;
+        if(track != null)
+            track.updateDistance(id, position);
     }
 }

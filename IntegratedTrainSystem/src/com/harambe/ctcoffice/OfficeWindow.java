@@ -5,6 +5,7 @@
  */
 package com.harambe.ctcoffice;
 
+import com.harambe.trackmodel.Block;
 import com.harambe.trackmodel.Track;
 import com.harambe.waysidecontroller.WaysideControllerHandler;
 import java.io.IOException;
@@ -60,7 +61,6 @@ public class OfficeWindow extends javax.swing.JFrame {
         clockSlider = new javax.swing.JSlider();
         clockLabel = new javax.swing.JLabel();
         fileInput = new javax.swing.JTextField();
-        trackMapImageLabel = new javax.swing.JLabel();
         stationPanel = new javax.swing.JPanel();
         stationScrollPane1 = new javax.swing.JScrollPane();
         stationTable = new javax.swing.JTable();
@@ -80,6 +80,10 @@ public class OfficeWindow extends javax.swing.JFrame {
         dispatchRedLine = new javax.swing.JRadioButton();
         trainIDInput = new javax.swing.JTextField();
         trainIDLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        toggleBlockStatus = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        trackMapImageLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CTC Office");
@@ -125,7 +129,7 @@ public class OfficeWindow extends javax.swing.JFrame {
 
         clockLabel.setText("Wall Clock Speed");
 
-        fileInput.setText("RedLine.csv");
+        fileInput.setText("OfficeTrack.csv");
         fileInput.setToolTipText("");
 
         javax.swing.GroupLayout controlsPanelLayout = new javax.swing.GroupLayout(controlsPanel);
@@ -177,8 +181,6 @@ public class OfficeWindow extends javax.swing.JFrame {
                     .addComponent(manualModeLabel)
                     .addContainerGap(107, Short.MAX_VALUE)))
         );
-
-        trackMapImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trackimage.png")));
 
         stationPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Station Monitor"));
 
@@ -254,7 +256,8 @@ public class OfficeWindow extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        blockTable.setEnabled(false);
+        blockTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        blockTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         blockScrollPane5.setViewportView(blockTable);
 
         javax.swing.GroupLayout blockManagerPanelLayout = new javax.swing.GroupLayout(blockManagerPanel);
@@ -277,6 +280,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         speedLimitLabel.setText("Speed Limit:");
 
         dispatchTrainButton.setText("Dispatch");
+        dispatchTrainButton.setEnabled(false);
         dispatchTrainButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dispatchTrainButtonActionPerformed(evt);
@@ -285,14 +289,23 @@ public class OfficeWindow extends javax.swing.JFrame {
 
         dispatchBlockLabel.setText("Destination Block");
 
+        dispatchBlockInput.setEnabled(false);
         dispatchBlockInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dispatchBlockInputActionPerformed(evt);
             }
         });
 
+        speedLimitInput.setEnabled(false);
+        speedLimitInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                speedLimitInputActionPerformed(evt);
+            }
+        });
+
         DispatchLineButtonGroup.add(dispatchGreenLine);
         dispatchGreenLine.setText("Green");
+        dispatchGreenLine.setEnabled(false);
         dispatchGreenLine.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 dispatchGreenLineActionPerformed(evt);
@@ -301,7 +314,14 @@ public class OfficeWindow extends javax.swing.JFrame {
 
         DispatchLineButtonGroup.add(dispatchRedLine);
         dispatchRedLine.setText("Red");
+        dispatchRedLine.setEnabled(false);
+        dispatchRedLine.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                dispatchRedLineActionPerformed(evt);
+            }
+        });
 
+        trainIDInput.setEnabled(false);
         trainIDInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 trainIDInputActionPerformed(evt);
@@ -366,6 +386,45 @@ public class OfficeWindow extends javax.swing.JFrame {
                             .addComponent(dispatchRedLine)))))
         );
 
+        toggleBlockStatus.setText("Toggle Block Status");
+        toggleBlockStatus.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleBlockStatusActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(toggleBlockStatus)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(toggleBlockStatus)
+                .addGap(0, 100, Short.MAX_VALUE))
+        );
+
+        trackMapImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trackimage.png")));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(trackMapImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(trackMapImageLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout officejPanelLayout = new javax.swing.GroupLayout(officejPanel);
         officejPanel.setLayout(officejPanelLayout);
         officejPanelLayout.setHorizontalGroup(
@@ -382,11 +441,16 @@ public class OfficeWindow extends javax.swing.JFrame {
                         .addComponent(trainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, 0)
                         .addComponent(stationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, officejPanelLayout.createSequentialGroup()
-                        .addComponent(blockManagerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                .addComponent(trackMapImageLabel)
-                .addGap(0, 0, 0))
+                    .addComponent(blockManagerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(officejPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(officejPanelLayout.createSequentialGroup()
+                        .addGap(4, 4, 4)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(officejPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addContainerGap())
         );
         officejPanelLayout.setVerticalGroup(
             officejPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -402,7 +466,11 @@ public class OfficeWindow extends javax.swing.JFrame {
                             .addComponent(stationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(blockManagerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(trackMapImageLabel))
+                    .addGroup(officejPanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
 
@@ -468,7 +536,8 @@ public class OfficeWindow extends javax.swing.JFrame {
        
         try {
             officeTrackModel = new Track();
-            officeTrackModel.loadTrack(csv);
+            officeTrackModel.loadTrack("RedLine.csv");
+            //System.out.println(csv);
             blockTableModel= (DefaultTableModel)blockTable.getModel();
             stationTableModel = (DefaultTableModel)stationTable.getModel();
             //System.out.println(trackTester.getBlock(1, "green"));
@@ -499,6 +568,12 @@ public class OfficeWindow extends javax.swing.JFrame {
            
             fileInput.setEditable(false);
             loadTrackButton.setEnabled(false);
+            dispatchBlockInput.setEnabled(true);
+            speedLimitInput.setEnabled(true);
+            trainIDInput.setEnabled(true);
+            dispatchGreenLine.setEnabled(true);
+            dispatchRedLine.setEnabled(true);
+            dispatchTrainButton.setEnabled(true);
             
             Timer timer = new Timer((int) (1000 * DT), e -> {
             refreshOccupiedBlocks();
@@ -561,9 +636,13 @@ public class OfficeWindow extends javax.swing.JFrame {
         int destBlockInt = Integer.parseInt(destBlock);
         officeTrackModel.getBlock(destBlockInt, dispatchLine);
 
-        handler.dispatchTrain(trainID,officeTrackModel.getBlock(destBlockInt, dispatchLine), (double)destSpeed);
-        DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
-        model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
+        Block dest = handler.dispatchTrain(trainID,officeTrackModel.getBlock(destBlockInt, dispatchLine), (double)destSpeed);
+        if (dest != null){
+            DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
+            dest.getBlockNumber();
+            model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
+        }
+        
         dispatchBlockInput.setText("");
         speedLimitInput.setText("");
         trainIDInput.setText("");
@@ -574,6 +653,23 @@ public class OfficeWindow extends javax.swing.JFrame {
     private void trainIDInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainIDInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_trainIDInputActionPerformed
+
+    private void speedLimitInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speedLimitInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_speedLimitInputActionPerformed
+
+    private void dispatchRedLineActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dispatchRedLineActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_dispatchRedLineActionPerformed
+
+    private void toggleBlockStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleBlockStatusActionPerformed
+        // TODO add your handling code here:
+        blockTableModel= (DefaultTableModel)blockTable.getModel();
+        
+        System.out.println(blockTableModel.getValueAt(blockTable.getSelectedRow(), 0));
+        System.out.println(blockTableModel.getValueAt(blockTable.getSelectedRow(), 1));
+        
+    }//GEN-LAST:event_toggleBlockStatusActionPerformed
    
     /**
      * @param args the command line arguments
@@ -597,6 +693,8 @@ public class OfficeWindow extends javax.swing.JFrame {
     public javax.swing.JButton dispatchTrainButton;
     public javax.swing.JPanel dispatchTrainPanel;
     public javax.swing.JTextField fileInput;
+    public javax.swing.JPanel jPanel1;
+    public javax.swing.JPanel jPanel2;
     public javax.swing.JButton loadTrackButton;
     public javax.swing.ButtonGroup manualButtonGroup;
     public javax.swing.JLabel manualModeLabel;
@@ -609,6 +707,7 @@ public class OfficeWindow extends javax.swing.JFrame {
     public javax.swing.JPanel stationPanel;
     public javax.swing.JScrollPane stationScrollPane1;
     public javax.swing.JTable stationTable;
+    public javax.swing.JButton toggleBlockStatus;
     public javax.swing.JLabel trackMapImageLabel;
     public javax.swing.JTextField trainIDInput;
     public javax.swing.JLabel trainIDLabel;
