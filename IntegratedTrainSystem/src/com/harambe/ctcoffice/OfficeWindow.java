@@ -695,8 +695,11 @@ public class OfficeWindow extends javax.swing.JFrame {
         blockTableModel= (DefaultTableModel)blockTable.getModel();
         String str = blockTableModel.getValueAt(blockTable.getSelectedRow(), 3).toString();
         //str = str.replaceAll("[^\\d.]", "");
-        System.out.println(str);
-        handler.toggleSwitch(str);
+        //System.out.println(str);
+        if (str.contains("Switch")){
+            handler.toggleSwitch(str);
+        }
+        
        
     }//GEN-LAST:event_toggleSwitchButtonActionPerformed
    
