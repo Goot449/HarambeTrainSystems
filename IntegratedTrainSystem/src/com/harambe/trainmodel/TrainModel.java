@@ -6,6 +6,7 @@
 package com.harambe.trainmodel;
 
 import com.harambe.trackmodel.Track;
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
@@ -26,6 +27,9 @@ public class TrainModel extends javax.swing.JFrame {
     private Train train;
     private Track track;
     private double rate;
+    private boolean engineFailure;
+    private boolean brakeFailure;
+    private boolean signalFailure;
     
     public TrainModel() throws Exception {
         this(new LinkedList<Train>());
@@ -42,6 +46,9 @@ public class TrainModel extends javax.swing.JFrame {
         UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         initComponents();
         this.rate = 1;
+        this.engineFailure = false;
+        this.signalFailure = false;
+        this.brakeFailure = false;
         if(this.trains == null) {
             this.trains = new LinkedList<>();
         }
@@ -92,6 +99,29 @@ public class TrainModel extends javax.swing.JFrame {
         return true;
     }
     
+    public void setEngineFailure(boolean engaged) {
+        this.engineFailure = engaged;
+    }    
+    public void setBrakeFailure(boolean engaged) {
+        this.brakeFailure = engaged;
+        for(Train t : this.trains) {
+            t.engageServiceBrakes(false);
+        }
+    }    
+    public void setSignalFailure(boolean engaged) {
+        this.signalFailure = engaged;
+    }
+    public boolean hasEngineFailure() {
+        return this.engineFailure;
+    }
+    public boolean hasSignalFailure() {
+        return this.signalFailure;
+    }
+    public boolean hasBrakeFailure() {
+        return this.brakeFailure;
+    }
+    
+    
     public Track getTrack() {
         return this.track;
     }
@@ -120,13 +150,27 @@ public class TrainModel extends javax.swing.JFrame {
         lights.setText(train.lightsAreOn() ? "On" : "Off");
         temperature.setText(outputFormat.format(train.getTemperature()) + "° F");
         numberOfCars.setText("" + train.getCarCount());
-        speedLimit.setText(train.getSpeedLimit() + "MPH");
+        speedLimit.setText(train.getSpeedLimit() + " mph");
         passengers.setText(train.getPassengerCount() + "");
         maxPassengers.setText(train.getMaxPassengers() + "");
         weight.setText(outputFormat.format(train.getWeight()) + " Tons");
         width.setText(outputFormat.format(train.getWidth()) + " ft");
         length.setText(outputFormat.format(train.getLength()) + " ft");
         height.setText(outputFormat.format(train.getHeight()) + " ft");
+        
+        applyColor(trainEngineFailureButton, Color.red, hasEngineFailure());
+        applyColor(signalFailureButton, Color.red, hasSignalFailure());
+        applyColor(brakeFailureButton, Color.red, hasBrakeFailure());
+        applyColor(serviceBrake, Color.red, train.getServiceBreakStatus());
+        applyColor(emergencyBrake, Color.red, train.getEmergencyBreakStatus());
+        
+        this.serviceBrake.setEnabled(!brakeFailure);
+        this.serviceBrake.setToolTipText(brakeFailure ? "Cannot use service breaks with a brake failure" : null);
+    }
+    
+    private void applyColor(JButton button, Color color, boolean apply) {
+        button.setBackground(apply ? color : Color.white);
+        button.setForeground(apply ? color : Color.black);
     }
 
     /**
@@ -527,14 +571,17 @@ public class TrainModel extends javax.swing.JFrame {
 
     private void trainEngineFailureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainEngineFailureButtonActionPerformed
         // TODO add your handling code here:
+        this.setEngineFailure(!this.hasEngineFailure());
     }//GEN-LAST:event_trainEngineFailureButtonActionPerformed
 
     private void signalFailureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signalFailureButtonActionPerformed
         // TODO add your handling code here:
+        this.setSignalFailure(!this.hasSignalFailure());
     }//GEN-LAST:event_signalFailureButtonActionPerformed
 
     private void brakeFailureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_brakeFailureButtonActionPerformed
         // TODO add your handling code here:
+        this.setBrakeFailure(!this.hasBrakeFailure());
     }//GEN-LAST:event_brakeFailureButtonActionPerformed
 
     private void setPowerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_setPowerButtonActionPerformed

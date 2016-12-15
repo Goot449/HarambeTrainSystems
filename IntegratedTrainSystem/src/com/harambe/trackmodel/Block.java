@@ -224,7 +224,7 @@ public class Block implements BlockInterface {
     }
 
     //----------------TRAIN----------------
-    public int getBlockSpeedLimit() {
+    public double getBlockSpeedLimit() {
         return speedLimit;
     }
 
