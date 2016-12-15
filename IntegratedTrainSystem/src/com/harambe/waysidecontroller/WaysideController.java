@@ -148,7 +148,6 @@ public class WaysideController {
 
         while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
             Block lastTraverse = currentBlock;
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
 
             //Special case; couldn't figure out fix
             if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9) && currentBlock.peek().getBlockNumber() == 1){
@@ -178,7 +177,7 @@ public class WaysideController {
         while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
             //System.out.println("In set Authorities");
             Block lastTraverse = currentBlock;
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
+            System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
 
             //Special case; couldn't figure out fix
             if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9 && currentBlock.peek().getBlockNumber() == 1){

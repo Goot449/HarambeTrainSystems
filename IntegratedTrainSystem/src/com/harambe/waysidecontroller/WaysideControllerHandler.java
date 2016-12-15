@@ -235,13 +235,24 @@ public class WaysideControllerHandler implements Runnable {
             WaysideController wc = findCorrectWayside(nxtBlock.getBlockNumber(), nxtBlock.getLine());
             myTrack.getBlock(trainID).setSeen(1);
             if (wc.checkAuthority(nxtBlock.getBlockNumber(), destinationBlock.getBlockNumber(), myTrack, trainID)) {
+                myTrack.getBlock(trainID).setSeen(1);
                 int authority = wc.getNumberBlocks(destinationBlock.getLine(), destinationBlock, nxtBlock);
+                System.out.println("The new authority = " + authority);
+                
                 myTrack.getBlock(trainID).setSeen(1);
 
                 nxtBlock = trainBlock.peek();
 
-                wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority - 1, speed, trainID);
+                wc.setAuthorities(destinationBlock.getLine(), destinationBlock, trainBlock, authority, speed, trainID);
+                
+                
+                
                 trainBlock.setAuthority(authority + 1);
+                
+                System.out.println("Authority of train = " + myTrack.getBlock(trainID).checkAuthority());
+                System.out.println("Authority of train = " + myTrack.getBlock(7, "red").checkAuthority());
+                System.out.println("Authority of train = " + myTrack.getBlock(6, "red").checkAuthority());
+                
                 trainBlock.setCommandedSpeed(speed);
                 return destinationBlock;
             }
@@ -269,7 +280,7 @@ public class WaysideControllerHandler implements Runnable {
 
                     nxtBlock = trainBlock.peek();
 
-                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority - 1, speed, trainID);
+                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority, speed, trainID);
                     System.out.println(myTrack.getStringRoute("red", destinationBlock));
                     System.out.println(authority);
                     trainBlock.setAuthority(authority + 1);
@@ -305,7 +316,7 @@ public class WaysideControllerHandler implements Runnable {
 
                     nxtBlock = trainBlock.peek();
 
-                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority - 1, speed, trainID);
+                    wc.setAuthorities(destinationBlock.getLine(), destinationBlock, nxtBlock, authority, speed, trainID);
                     System.out.println(myTrack.getStringRoute("green", destinationBlock));
                     System.out.println(authority);
 

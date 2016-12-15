@@ -29,7 +29,7 @@ public class Track {
     private TrainModel trainModel;
     private HashMap<Integer, Train> trains;
 
-    ArrayList<Block> trainBlocks = new ArrayList<Block>();
+    ArrayList<Block> trainBlocks = new ArrayList<>();
 
     private double coeffFriction;
     private int weather;
