@@ -83,6 +83,11 @@ public class OfficeWindow extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         toggleBlockStatus = new javax.swing.JButton();
         toggleSwitchButton = new javax.swing.JButton();
+        authorityChange = new javax.swing.JTextField();
+        sendAuthority = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        newSpeedLimit = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         trackMapImageLabel = new javax.swing.JLabel();
 
@@ -218,13 +223,15 @@ public class OfficeWindow extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Line", "Destination", "Speed Limit"
+                "ID", "Line", "Destination", "Speed Limit"
             }
         ));
         trainTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        trainTable.setEnabled(false);
         trainTable.getTableHeader().setReorderingAllowed(false);
         trainScrollPane2.setViewportView(trainTable);
+        if (trainTable.getColumnModel().getColumnCount() > 0) {
+            trainTable.getColumnModel().getColumn(0).setResizable(false);
+        }
 
         javax.swing.GroupLayout trainPanelLayout = new javax.swing.GroupLayout(trainPanel);
         trainPanel.setLayout(trainPanelLayout);
@@ -401,6 +408,29 @@ public class OfficeWindow extends javax.swing.JFrame {
             }
         });
 
+        authorityChange.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                authorityChangeActionPerformed(evt);
+            }
+        });
+
+        sendAuthority.setText("Send Authority");
+        sendAuthority.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendAuthorityActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("New Destination");
+
+        jLabel2.setText("New Speed Limit");
+
+        newSpeedLimit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                newSpeedLimitActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -410,6 +440,18 @@ public class OfficeWindow extends javax.swing.JFrame {
                     .addComponent(toggleBlockStatus)
                     .addComponent(toggleSwitchButton))
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addGap(30, 30, 30)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(authorityChange, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                    .addComponent(newSpeedLimit))
+                .addGap(18, 18, 18)
+                .addComponent(sendAuthority)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -417,7 +459,20 @@ public class OfficeWindow extends javax.swing.JFrame {
                 .addComponent(toggleBlockStatus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(toggleSwitchButton)
-                .addGap(0, 66, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(authorityChange, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(newSpeedLimit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(40, 40, 40))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(sendAuthority)
+                        .addGap(51, 51, 51))))
         );
 
         trackMapImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trackimage.png")));
@@ -482,7 +537,7 @@ public class OfficeWindow extends javax.swing.JFrame {
                         .addGap(6, 6, 6)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, 0))
         );
 
@@ -652,7 +707,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         if (dest != null){
             DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
             dest.getBlockNumber();
-            model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
+            model.addRow(new Object[]{trainID, dispatchLine, destBlock, destSpeed});
         }
         
         dispatchBlockInput.setText("");
@@ -702,6 +757,32 @@ public class OfficeWindow extends javax.swing.JFrame {
         
        
     }//GEN-LAST:event_toggleSwitchButtonActionPerformed
+
+    private void authorityChangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_authorityChangeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_authorityChangeActionPerformed
+
+    private void sendAuthorityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendAuthorityActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel trainTableModel = (DefaultTableModel)trainTable.getModel();
+        String line = trainTableModel.getValueAt(trainTable.getSelectedRow(), 1).toString();
+        int trainID = Integer.parseInt(trainTableModel.getValueAt(trainTable.getSelectedRow(), 0).toString());
+        int newBlock = Integer.parseInt(authorityChange.getText());
+        int newSpeed = Integer.parseInt(newSpeedLimit.getText());
+        officeTrackModel.getBlock(newBlock, line);
+        Block destBlock = handler.sendAuthority(trainID, officeTrackModel.getBlock(newBlock, line), newSpeed);
+        if (destBlock != null){
+            trainTableModel.setValueAt(destBlock.getBlockNumber(), trainTable.getSelectedRow(), 2);
+            trainTableModel.setValueAt(newSpeed, trainTable.getSelectedRow(), 3);
+        }
+        authorityChange.setText("");
+        newSpeedLimit.setText("");
+        trainTable.clearSelection();
+    }//GEN-LAST:event_sendAuthorityActionPerformed
+
+    private void newSpeedLimitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newSpeedLimitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_newSpeedLimitActionPerformed
    
     /**
      * @param args the command line arguments
@@ -712,6 +793,7 @@ public class OfficeWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.ButtonGroup DispatchLineButtonGroup;
+    public javax.swing.JTextField authorityChange;
     public javax.swing.JPanel blockManagerPanel;
     public javax.swing.JScrollPane blockScrollPane5;
     public javax.swing.JTable blockTable;
@@ -725,6 +807,8 @@ public class OfficeWindow extends javax.swing.JFrame {
     public javax.swing.JButton dispatchTrainButton;
     public javax.swing.JPanel dispatchTrainPanel;
     public javax.swing.JTextField fileInput;
+    public javax.swing.JLabel jLabel1;
+    public javax.swing.JLabel jLabel2;
     public javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     public javax.swing.JButton loadTrackButton;
@@ -732,8 +816,10 @@ public class OfficeWindow extends javax.swing.JFrame {
     public javax.swing.JLabel manualModeLabel;
     public javax.swing.JToggleButton manualOffButton;
     public javax.swing.JToggleButton manualOnButton;
+    public javax.swing.JTextField newSpeedLimit;
     public javax.swing.JTabbedPane officeTabbedPane;
     public javax.swing.JPanel officejPanel;
+    public javax.swing.JButton sendAuthority;
     public javax.swing.JTextField speedLimitInput;
     public javax.swing.JLabel speedLimitLabel;
     public javax.swing.JPanel stationPanel;
