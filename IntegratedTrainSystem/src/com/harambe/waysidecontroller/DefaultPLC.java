@@ -65,7 +65,7 @@ public class DefaultPLC implements PLC {
     //If none of the surrounding blocks are full, then it is acceptable
     public boolean checkMaintenance(Block maintenance) {
         for(int i = 0; i < 3; i++){
-            if(maintenance.checkAuthority() == -1){
+            if(maintenance.checkAuthority() != -1){
                 return false;
             }
         }

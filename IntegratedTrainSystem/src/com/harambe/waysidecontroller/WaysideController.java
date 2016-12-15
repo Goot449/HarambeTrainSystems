@@ -64,6 +64,7 @@ public class WaysideController {
     }
     
     public boolean checkMaintenance(Block b){
+        System.out.println("Checking maintenance");
         return plc.checkMaintenance(b);
     }
     

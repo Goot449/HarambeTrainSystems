@@ -28,8 +28,8 @@ public class GetStarted {
 //        Train train2 = new Train(1,2);
 //        trainController.addTrain(train2);
         trainController.setStartControl(true);
-        TrainControllerGUI thisGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
-        thisGUI.setVisible(true);
+        //TrainControllerGUI thisGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
+        //thisGUI.setVisible(true);
     }
     
 }

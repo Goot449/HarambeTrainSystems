@@ -338,6 +338,7 @@ public class Block implements BlockInterface {
     //Closes a block for maintenance
     public void closeBlock() {
         closedBlock = true;
+        blockOccupied = true;
     }
 
     public void breakCircuit() {
@@ -348,6 +349,7 @@ public class Block implements BlockInterface {
     //Opens a block for maintenance
     public void openBlock() {
         closedBlock = false;
+        blockOccupied = false;
     }
 
     public void setBeaconOn() {
