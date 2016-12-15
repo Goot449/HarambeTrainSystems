@@ -82,6 +82,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         trainIDLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         toggleBlockStatus = new javax.swing.JButton();
+        toggleSwitchButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         trackMapImageLabel = new javax.swing.JLabel();
 
@@ -393,19 +394,30 @@ public class OfficeWindow extends javax.swing.JFrame {
             }
         });
 
+        toggleSwitchButton.setText("Toggle Switch");
+        toggleSwitchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                toggleSwitchButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(toggleBlockStatus)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(toggleBlockStatus)
+                    .addComponent(toggleSwitchButton))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(toggleBlockStatus)
-                .addGap(0, 100, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(toggleSwitchButton)
+                .addGap(0, 66, Short.MAX_VALUE))
         );
 
         trackMapImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/trackimage.png")));
@@ -549,7 +561,7 @@ public class OfficeWindow extends javax.swing.JFrame {
             int i=1;
             int j=1;
             do{
-                blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(i,"red").getSection() + officeTrackModel.getBlock(i,"red").getBlockNumber(), officeTrackModel.getBlock(i,"red").getLine(), df.format(officeTrackModel.getBlock(i,"red").getSpeedLimit()*0.621371), officeTrackModel.getBlock(i,"red").getStation(), "No", "Enabled"});    
+                blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(i,"red").getSection() + officeTrackModel.getBlock(i,"red").getBlockNumber(), officeTrackModel.getBlock(i,"red").getLine(), df.format(officeTrackModel.getBlock(i,"red").getSpeedLimit()*0.621371), officeTrackModel.getBlock(i,"red").getStation() + officeTrackModel.getBlock(i,"red").getSwitchNumber(), "No", "Enabled"});    
                 if (officeTrackModel.getBlock(i,"red").isStation()){
                     stationTableModel.addRow(new Object[]{officeTrackModel.getBlock(i, "red").getStation(), officeTrackModel.getBlock(i, "red").getLine(), "0", "No"});
                 }
@@ -558,7 +570,7 @@ public class OfficeWindow extends javax.swing.JFrame {
             } while (officeTrackModel.getBlock(i,"red") != null);
             
             do{
-                blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(j,"green").getSection() + officeTrackModel.getBlock(j,"green").getBlockNumber(), officeTrackModel.getBlock(j,"green").getLine(), df.format(officeTrackModel.getBlock(j,"green").getSpeedLimit()*0.621371), officeTrackModel.getBlock(j,"green").getStation(), "No", "Enabled"});    
+                blockTableModel.addRow(new Object[]{officeTrackModel.getBlock(j,"green").getSection() + officeTrackModel.getBlock(j,"green").getBlockNumber(), officeTrackModel.getBlock(j,"green").getLine(), df.format(officeTrackModel.getBlock(j,"green").getSpeedLimit()*0.621371), officeTrackModel.getBlock(j,"green").getStation() + officeTrackModel.getBlock(j,"green").getSwitchNumber(), "No", "Enabled"});    
                 if (officeTrackModel.getBlock(j,"green").isStation()){
                     stationTableModel.addRow(new Object[]{officeTrackModel.getBlock(j, "green").getStation(), officeTrackModel.getBlock(j, "green").getLine(), "0", "No"});
                 }
@@ -666,10 +678,27 @@ public class OfficeWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         blockTableModel= (DefaultTableModel)blockTable.getModel();
         
-        System.out.println(blockTableModel.getValueAt(blockTable.getSelectedRow(), 0));
-        System.out.println(blockTableModel.getValueAt(blockTable.getSelectedRow(), 1));
+       
+        String line;
+        int block;
+        line = blockTableModel.getValueAt(blockTable.getSelectedRow(), 1).toString();
+        String blockString = blockTableModel.getValueAt(blockTable.getSelectedRow(), 0).toString();
+        blockString = blockString.replaceAll("[^\\d.]", "");
+        block = Integer.parseInt(blockString);
+        handler.maintenanceRequest(block, line);
+        //str = str.replaceAll("[^\\d.]", "");
         
     }//GEN-LAST:event_toggleBlockStatusActionPerformed
+
+    private void toggleSwitchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_toggleSwitchButtonActionPerformed
+        // TODO add your handling code here:
+        blockTableModel= (DefaultTableModel)blockTable.getModel();
+        String str = blockTableModel.getValueAt(blockTable.getSelectedRow(), 3).toString();
+        //str = str.replaceAll("[^\\d.]", "");
+        System.out.println(str);
+        handler.toggleSwitch(str);
+       
+    }//GEN-LAST:event_toggleSwitchButtonActionPerformed
    
     /**
      * @param args the command line arguments
@@ -708,6 +737,7 @@ public class OfficeWindow extends javax.swing.JFrame {
     public javax.swing.JScrollPane stationScrollPane1;
     public javax.swing.JTable stationTable;
     public javax.swing.JButton toggleBlockStatus;
+    public javax.swing.JButton toggleSwitchButton;
     public javax.swing.JLabel trackMapImageLabel;
     public javax.swing.JTextField trainIDInput;
     public javax.swing.JLabel trainIDLabel;
