@@ -13,6 +13,8 @@ import com.harambe.traincontroller.TrainControllerGUI;
 import com.harambe.waysidecontroller.*;
 import com.harambe.trainmodel.Train;
 import com.harambe.trainmodel.TrainModel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 public class RunSystem {
 
@@ -22,32 +24,38 @@ public class RunSystem {
 		
         System.out.println("Start");
         WaysideControllerHandler handler = new WaysideControllerHandler(trackObj);
-        Thread thread = new Thread(handler);
-        thread.start();
-        TrainModel trainModel = new TrainModel(trackObj);
-        TrainController trainController = new TrainController();
+
+        try {
+        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+    } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+    } catch (InstantiationException e) {
+        e.printStackTrace();
+    } catch (IllegalAccessException e) {
+        e.printStackTrace();
+    } catch (UnsupportedLookAndFeelException e) {
+        e.printStackTrace();
+    }
 		
         //Thread.sleep(1000);
-        for (int i = 0; i<1; i++){
-            Train train = new Train(1,i);
-            trainController.addTrain(train);
-            trainModel.addTrain(train);
-            
-        }
-        
+//        for (int i = 0; i<1; i++){
+//            Train train = new Train(1,i);
+//            trainController.addTrain(train);
+//            trainModel.addTrain(train);
+//        }
+//        
         TrackModelPrototypeUI trackGUI = new TrackModelPrototypeUI(trackObj);
         trackGUI.setVisible(true);
 		
-        trainController.setStartControl(true);
-        TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
-        trainGUI.setVisible(true);
+//        trainController.setStartControl(true);
+//        TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
+//        trainGUI.setVisible(true);
         
         OfficeWindow ctcOfficeUI = new OfficeWindow(handler);
+
         ctcOfficeUI.setVisible(true);
         
-        trainModel.setVisible(true);
-    
-        
+//        trainModel.setVisible(true);
     }
     
 }

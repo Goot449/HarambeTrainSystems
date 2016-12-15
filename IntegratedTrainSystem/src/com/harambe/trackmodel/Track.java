@@ -7,6 +7,9 @@ package com.harambe.trackmodel;
 
 import java.io.*;
 import java.util.*;
+import com.harambe.waysidecontroller.TrainThread;
+import com.harambe.traincontroller.*;
+import com.harambe.trainmodel.*;
 
 /**
  *
@@ -22,6 +25,8 @@ public class Track {
     private ArrayList<Block> greenBlocks = new ArrayList<Block>();
     private ArrayList<Switch> redSwitches = new ArrayList<Switch>();
     private ArrayList<Switch> greenSwitches = new ArrayList<Switch>();
+    private TrainController trainController;
+    private TrainModel trainModel;
 
     ArrayList<Block> trainBlocks = new ArrayList<Block>();
 
@@ -92,7 +97,7 @@ public class Track {
             setupSwitch.setup();
         }
 
-        printSwitchList(currentSwitches);
+        //printSwitchList(currentSwitches);
 
         //TEST CURRENT BLOCKS AS WELL AS SWITCH TOGGLING. 
         //printBlockList(currentAll);
@@ -101,7 +106,7 @@ public class Track {
             setupSwitch.toggleSwitch();
         }
 
-        printSwitchList(currentSwitches);
+        //printSwitchList(currentSwitches);
 
         //printBlockList(currentAll);
         //TEST FOR PROPER ROUTING! 
@@ -173,61 +178,6 @@ public class Track {
         for (Block block : printList) {
             printBlockConnections(block);
         }
-    }
-
-    public int getNumberBlocks(String line, String destination) {
-        Block currentBlock = null;
-        int authorityNum = 0;
-
-        if (line.equals("red")) {
-            currentBlock = redYard;
-        } else {
-            currentBlock = greenYard;
-        }
-
-        while (!currentBlock.getStation().equals(destination)) {
-
-            Block lastTraverse = currentBlock;
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
-            currentBlock = currentBlock.traverse();
-
-            if (lastTraverse == currentBlock) {
-                currentBlock.toggleSwitch();
-                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
-            } else {
-                authorityNum++;
-            }
-        }
-
-        currentBlock.traverse();
-        currentBlock.setSeen(0);
-
-        return authorityNum;
-    }
-
-    public int getNumberBlocks(String line, String destination, Block currentBlock) {
-        int authorityNum = 0;
-
-        while (!currentBlock.getStation().equals(destination)) {
-
-            Block lastTraverse = currentBlock;
-            //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
-
-            currentBlock = currentBlock.traverse();
-
-            if (lastTraverse == currentBlock) {
-                currentBlock.toggleSwitch();
-                //currentBlock = currentBlock.getSwitch().getswitchedBlockBlock();
-            } else {
-                authorityNum++;
-            }
-        }
-
-        currentBlock.traverse();
-        currentBlock.setSeen(0);
-
-        return authorityNum;
     }
 
     public ArrayList<String> getStringRoute(String line, String destination) {
@@ -439,15 +389,54 @@ public class Track {
 
         Block trainBlock = null;
         line = line.toLowerCase();
+
+        if (trainController == null) {
+            trainController = new TrainController();
+        }
+        if (trainModel == null) {
+            try {
+                trainModel = new TrainModel(this);
+            } catch (Exception e) {
+
+            }
+        }
+        Train train;
+        try {
+            train = new Train(2, trainID);
+        } catch (Exception e) {
+            train = null;
+            e.printStackTrace();
+        }
+//        TrainThread trainThread = new TrainThread();
+//        trainThread.init(trainID);
+//        trainThread.run();
+//        trainThreads.add(trainThread);
+
+        trainController.addTrain(train);
+        trainModel.addTrain(train);
+
+        trainController.setStartControl(true);
+        TrainControllerGUI trainGUI = new TrainControllerGUI(trainController.trainList, trainController.trainStateList);
+        trainGUI.setVisible(true);
+
+        trainModel.setVisible(true);
+
         //System.out.println(line);
         if (line.equals("red")) {
             trainBlock = redYard.placeTrain(trainID, 0);
+
         } else {
             trainBlock = greenYard.placeTrain(trainID, 0);
             //System.out.println(trainBlock);
         }
 
         trainBlocks.add(trainBlock);
+        try {
+            System.out.println("Authority = " + train.getAuthority());
+            System.out.println(this.getStringRoute(line, this.getBlock(25, "red")));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public synchronized Block getBlock(int blockNumber, String line) {

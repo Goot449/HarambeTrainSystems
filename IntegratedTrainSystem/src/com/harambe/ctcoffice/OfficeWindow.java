@@ -78,6 +78,8 @@ public class OfficeWindow extends javax.swing.JFrame {
         speedLimitInput = new javax.swing.JTextField();
         dispatchGreenLine = new javax.swing.JRadioButton();
         dispatchRedLine = new javax.swing.JRadioButton();
+        trainIDInput = new javax.swing.JTextField();
+        trainIDLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CTC Office");
@@ -203,7 +205,7 @@ public class OfficeWindow extends javax.swing.JFrame {
             stationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
             .addGroup(stationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(stationScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                .addComponent(stationScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE))
         );
 
         trainPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Train Monitor"));
@@ -231,9 +233,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         );
         trainPanelLayout.setVerticalGroup(
             trainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(trainPanelLayout.createSequentialGroup()
-                .addComponent(trainScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                .addGap(0, 0, 0))
+            .addComponent(trainScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
 
         blockManagerPanel.setBorder(javax.swing.BorderFactory.createTitledBorder("Block Manager"));
@@ -302,6 +302,14 @@ public class OfficeWindow extends javax.swing.JFrame {
         DispatchLineButtonGroup.add(dispatchRedLine);
         dispatchRedLine.setText("Red");
 
+        trainIDInput.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trainIDInputActionPerformed(evt);
+            }
+        });
+
+        trainIDLabel.setText("Train ID:");
+
         javax.swing.GroupLayout dispatchTrainPanelLayout = new javax.swing.GroupLayout(dispatchTrainPanel);
         dispatchTrainPanel.setLayout(dispatchTrainPanelLayout);
         dispatchTrainPanelLayout.setHorizontalGroup(
@@ -310,23 +318,26 @@ public class OfficeWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
-                        .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dispatchTrainPanelLayout.createSequentialGroup()
-                                .addComponent(speedLimitLabel)
-                                .addGap(18, 18, 18))
-                            .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
-                                .addComponent(dispatchBlockLabel)
-                                .addGap(8, 8, 8)))
-                        .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(dispatchBlockInput, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
-                            .addComponent(speedLimitInput))
-                        .addGap(18, 18, 18)
-                        .addComponent(dispatchTrainButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(dispatchBlockLabel)
+                        .addGap(8, 8, 8))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dispatchTrainPanelLayout.createSequentialGroup()
+                        .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(trainIDLabel)
+                            .addComponent(speedLimitLabel))
+                        .addGap(18, 18, 18)))
+                .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(dispatchBlockInput, javax.swing.GroupLayout.DEFAULT_SIZE, 48, Short.MAX_VALUE)
+                    .addComponent(speedLimitInput)
+                    .addComponent(trainIDInput))
+                .addGap(18, 18, 18)
+                .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
                         .addComponent(dispatchGreenLine)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dispatchRedLine)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
+                        .addComponent(dispatchTrainButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         dispatchTrainPanelLayout.setVerticalGroup(
@@ -338,18 +349,21 @@ public class OfficeWindow extends javax.swing.JFrame {
                         .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(dispatchBlockLabel)
                             .addComponent(dispatchBlockInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(speedLimitLabel)
                             .addComponent(speedLimitInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dispatchGreenLine)
-                            .addComponent(dispatchRedLine))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(trainIDInput, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(trainIDLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(dispatchTrainPanelLayout.createSequentialGroup()
                         .addComponent(dispatchTrainButton, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(dispatchTrainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(dispatchGreenLine)
+                            .addComponent(dispatchRedLine)))))
         );
 
         javax.swing.GroupLayout officejPanelLayout = new javax.swing.GroupLayout(officejPanel);
@@ -379,14 +393,14 @@ public class OfficeWindow extends javax.swing.JFrame {
             .addGroup(officejPanelLayout.createSequentialGroup()
                 .addGroup(officejPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(officejPanelLayout.createSequentialGroup()
-                        .addGroup(officejPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(trainPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, officejPanelLayout.createSequentialGroup()
+                        .addGroup(officejPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(officejPanelLayout.createSequentialGroup()
                                 .addComponent(controlsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(dispatchTrainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(trainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(stationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(blockManagerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(trackMapImageLabel))
                 .addGap(0, 0, 0))
@@ -533,6 +547,7 @@ public class OfficeWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
         String destBlock = dispatchBlockInput.getText();
         int destSpeed = Integer.parseInt(speedLimitInput.getText());
+        int trainID = Integer.parseInt(trainIDInput.getText());
         String dispatchLine = "";
         Enumeration<AbstractButton> allRadioButton=DispatchLineButtonGroup.getElements();
         while(allRadioButton.hasMoreElements())
@@ -545,90 +560,26 @@ public class OfficeWindow extends javax.swing.JFrame {
         }
         int destBlockInt = Integer.parseInt(destBlock);
         officeTrackModel.getBlock(destBlockInt, dispatchLine);
-        
-        handler.dispatchTrain(officeTrackModel.getBlock(destBlockInt, dispatchLine), (double)destSpeed);
+
+        handler.dispatchTrain(trainID,officeTrackModel.getBlock(destBlockInt, dispatchLine), (double)destSpeed);
         DefaultTableModel model = (DefaultTableModel)trainTable.getModel();
         model.addRow(new Object[]{dispatchLine, destBlock, destSpeed});
         dispatchBlockInput.setText("");
         speedLimitInput.setText("");
+        trainIDInput.setText("");
         DispatchLineButtonGroup.clearSelection();
-        
+
     }//GEN-LAST:event_dispatchTrainButtonActionPerformed
+
+    private void trainIDInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainIDInputActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_trainIDInputActionPerformed
    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(OfficeWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new OfficeWindow(WaysideControllerHandler ).setVisible(true);
-//                
-//            }
-//        });
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new OfficeWindow(WaysideControllerHandler ).setVisible(true);
-//                
-//            }
-//        });
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new OfficeWindow(WaysideControllerHandler ).setVisible(true);
-//                
-//            }
-//        });
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new OfficeWindow(WaysideControllerHandler ).setVisible(true);
-//                
-//            }
-//        });
-        
+       
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -659,6 +610,8 @@ public class OfficeWindow extends javax.swing.JFrame {
     public javax.swing.JScrollPane stationScrollPane1;
     public javax.swing.JTable stationTable;
     public javax.swing.JLabel trackMapImageLabel;
+    public javax.swing.JTextField trainIDInput;
+    public javax.swing.JLabel trainIDLabel;
     public javax.swing.JPanel trainPanel;
     public javax.swing.JScrollPane trainScrollPane2;
     public javax.swing.JTable trainTable;

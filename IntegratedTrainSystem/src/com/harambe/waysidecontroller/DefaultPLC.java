@@ -18,12 +18,12 @@ public class DefaultPLC implements PLC {
 
     //Checks the authority requested
     //If none of the blocks in between the train and destination are full, then perform the action
-    public boolean checkAuthority(Block nextBlock, Block destinationBlock, Track myTrack) {
+    public boolean checkAuthority(Block nextBlock, Block destinationBlock, int trainID) {
         //Checking authority by looking through all blocks between the next block and destination
         //Perform this check 3 times to ensure that vitality is acheived
         for (int i = 0; i < 3; i++) {
             nextBlock.setSeen(1);
-            if (!checkRoute(destinationBlock, nextBlock.peek())) {
+            if (!checkRoute(destinationBlock, nextBlock.peek(), trainID) || nextBlock.isBlockOccupied()) {
                 return false;
             }
             nextBlock.setSeen(0);
@@ -95,9 +95,9 @@ public class DefaultPLC implements PLC {
         return true;
     }
     
-    public boolean checkRoute(Block destination, Block currentBlock) {
+    public boolean checkRoute(Block destination, Block currentBlock, int trainID) {
         while (currentBlock.getBlockNumber() != destination.getBlockNumber()) {
-            if (currentBlock.isBlockOccupied()) {
+            if ((currentBlock.checkAuthority() != -1 && currentBlock.getTrainIDAuth() != trainID) || currentBlock.isBlockOccupied() || currentBlock.isBroken() || currentBlock.isClosed()) {
                 return false;
             }
             Block lastTraverse = currentBlock;

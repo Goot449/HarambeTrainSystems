@@ -11,6 +11,7 @@ public class TrainState {
     private double power;
     private double previousError;
     private double previousIntegration;
+    private boolean previousFailure;
     
     private double testSpeed;
     private double testSpeedLimit;
@@ -20,9 +21,9 @@ public class TrainState {
     private boolean leftDoorsOpen;
     private boolean rightDoorsOpen;
     private int cabinTemp;
-    private boolean engineFunctioning;
-    private boolean brakeStatus;
-    private boolean receivingSignal;
+    private boolean engineFailure;
+    private boolean brakeFailure;
+    private boolean signalFailure;
     private boolean emergencyBrakeStatus;
     private boolean guiSetServiceBrake;
     private boolean serviceBrakeStatus;
@@ -30,7 +31,7 @@ public class TrainState {
     
     public TrainState(Train newTrain){
         this.setTrainID(newTrain.getId());
-        this.setSetPoint(0);
+        this.setSetPoint(newTrain.getSpeedLimit());
         this.setLightsOn(newTrain.lightsAreOn());
         this.setLeftDoorsOpen(newTrain.leftDoorsAreOpen());
         this.setRightDoorsOpen(newTrain.rightDoorsAreOpen());
@@ -42,9 +43,12 @@ public class TrainState {
         
         //have adam add a method to change cabin temp
         this.setCabinTemp((int)newTrain.getTemperature());
-        this.setEngineFunctioning(true);
+        this.setEngineFailure(false);
+        this.setSignalFailure(false);
+        this.setBrakeFailure(false);
         this.setPreviousError(0);
         this.setPreviousIntegration(0);
+        this.setPreviousFailure(false);
     }
 
     public int getTrainID() {
@@ -87,28 +91,28 @@ public class TrainState {
         this.cabinTemp = cabinTemp;
     }
 
-    public boolean isEngineFunctioning() {
-        return engineFunctioning;
+    public boolean hasEngineFailure() {
+        return engineFailure;
     }
 
-    public void setEngineFunctioning(boolean engineFunctioning) {
-        this.engineFunctioning = engineFunctioning;
+    public void setEngineFailure(boolean engineFailure) {
+        this.engineFailure = engineFailure;
     }
 
-    public boolean getBrakeStatus() {
-        return brakeStatus;
+    public boolean hasBrakeFailure() {
+        return brakeFailure;
     }
 
-    public void setBrakeStatus(boolean brakeStatus) {
-        this.brakeStatus = brakeStatus;
+    public void setBrakeFailure(boolean brakeFailure) {
+        this.brakeFailure = brakeFailure;
     }
 
-    public boolean isReceivingSignal() {
-        return receivingSignal;
+    public boolean hasSignalFailure() {
+        return signalFailure;
     }
 
-    public void setReceivingSignal(boolean receivingSignal) {
-        this.receivingSignal = receivingSignal;
+    public void setSignalFailure(boolean signalFailure) {
+        this.signalFailure = signalFailure;
     }
 
     public boolean getEmergencyBrakeStatus() {
@@ -197,6 +201,14 @@ public class TrainState {
 
     public void setManualModeEnabled(boolean manualModeEnabled) {
         this.manualModeEnabled = manualModeEnabled;
+    }
+    
+    public void setPreviousFailure(boolean previousFailure){
+        this.previousFailure = previousFailure;
+    }
+    
+    public boolean getPreviousFailure(){
+        return this.previousFailure;
     }
     
 }

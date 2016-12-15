@@ -1,4 +1,5 @@
 package com.harambe.waysidecontroller;
+
 import com.harambe.trackmodel.*;
 import java.io.File;
 import java.util.TreeSet;
@@ -23,69 +24,66 @@ public class WaysideControlUI extends javax.swing.JFrame {
         this.handler = handler;
         initComponents();
         jList1.setModel(new DefaultListModel());
-        blockTableModel= (DefaultTableModel)blockTable.getModel();
-        ctcListModel = (DefaultListModel)jList1.getModel();
+        blockTableModel = (DefaultTableModel) blockTable.getModel();
+        ctcListModel = (DefaultListModel) jList1.getModel();
         this.lineSelectComboBoxActionPerformed(null);
         this.setVisible(true);
     }
     
-    public void updateUI(){
-        if(this.switchSelectComboBox.getSelectedItem() != null){
+    public void updateUI() {
+        if (this.switchSelectComboBox.getSelectedItem() != null) {
             int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
             this.switchPositionTextBox.setText("");
-            this.switchPositionTextBox.setText(blockNum + "");  
-
-            WaysideController wc = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString());
+            this.switchPositionTextBox.setText(blockNum + "");
             
-            for(String s: handler.messages){
+            for (String s : handler.messages) {
                 ctcListModel.addElement(s);
             }
-
+            
+            WaysideController wc = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString());
+            
             blockTableModel.setRowCount(0);
-
-            Switch s = wc.getSwitch(this.switchSelectComboBox.getSelectedItem().toString());
-            if(s.getSwitchBlock().isBlockOccupied()){
-                blockTableModel.addRow(new Object[]{s.getSwitchNumber() + " : " + s.getSwitchBlock().getBlockNumber(), "Yes"});    
-            }
-            else{
-                blockTableModel.addRow(new Object[]{s.getSwitchNumber() + " : " + s.getSwitchBlock().getBlockNumber(), "No"});
-            }
-            if(s.getswitchedBlockBlock().isBlockOccupied()){
-                blockTableModel.addRow(new Object[]{"Current Position : " + s.getswitchedBlockBlock().getBlockNumber(), "Yes"});    
-            }
-            else{
-                blockTableModel.addRow(new Object[]{"Current Position : " + s.getswitchedBlockBlock().getBlockNumber(), "No"});
-            }
-            if(s.getunSwitchedBlockBlock().isBlockOccupied()){
-                blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "Yes"});    
-            }
-            else{
-                blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "No"});
+            
+            try {
+                Switch s = wc.getSwitch(this.switchSelectComboBox.getSelectedItem().toString());
+                if (s.getSwitchBlock().isBlockOccupied()) {
+                    blockTableModel.addRow(new Object[]{s.getSwitchNumber() + " : " + s.getSwitchBlock().getBlockNumber(), "Yes"});                    
+                } else {
+                    blockTableModel.addRow(new Object[]{s.getSwitchNumber() + " : " + s.getSwitchBlock().getBlockNumber(), "No"});
+                }
+                if (s.getswitchedBlockBlock().isBlockOccupied()) {
+                    blockTableModel.addRow(new Object[]{"Current Position : " + s.getswitchedBlockBlock().getBlockNumber(), "Yes"});                    
+                } else {
+                    blockTableModel.addRow(new Object[]{"Current Position : " + s.getswitchedBlockBlock().getBlockNumber(), "No"});
+                }
+                if (s.getunSwitchedBlockBlock().isBlockOccupied()) {
+                    blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "Yes"});                    
+                } else {
+                    blockTableModel.addRow(new Object[]{"Other Position : " + s.getunSwitchedBlockBlock().getBlockNumber(), "No"});
+                }
+            } catch (Exception e) {
+                
             }
             
-            if(lineSelectComboBox.getSelectedItem().toString().equals("Red Line")){
+            if (lineSelectComboBox.getSelectedItem().toString().equals("Red Line")) {
                 railRoadCrossingTextBox.setText("");
                 boolean crossingStatus = handler.findCorrectWayside(47, "red").getBlock(47).getCrossing().getCrossingState("red");
-                if(crossingStatus){
+                if (crossingStatus) {
                     railRoadCrossingTextBox.setText("Closed");
-                }
-                else{
+                } else {
                     railRoadCrossingTextBox.setText("Open");
                 }
-            }
-            else{
+            } else {
                 railRoadCrossingTextBox.setText("");
                 boolean crossingStatus = handler.findCorrectWayside(19, "green").getBlock(19).getCrossing().getCrossingState("green");
-                if(crossingStatus){
+                if (crossingStatus) {
                     railRoadCrossingTextBox.setText("Closed");
-                }
-                else{
+                } else {
                     railRoadCrossingTextBox.setText("Open");
                 }
             }
         }
-        
-        
+
 //        for(Block b : wc.blocks.values()){
 //            if(b.isBlockOccupied()){
 //                blockTableModel.addRow(new Object[]{b.getBlockNumber(), "Yes"});    
@@ -362,7 +360,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
     private void switchSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_switchSelectComboBoxActionPerformed
         // TODO add your handling code here:
         //System.out.println(switchSelectComboBox.getSelectedItem().toString());
-        if(switchSelectComboBox.getSelectedItem() != null){
+        if (switchSelectComboBox.getSelectedItem() != null) {
             int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
             switchPositionTextBox.setText("");
             switchPositionTextBox.setText(blockNum + "");
@@ -370,10 +368,9 @@ public class WaysideControlUI extends javax.swing.JFrame {
             
             boolean light = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight();
             
-            if(light){
+            if (light) {
                 switchLightTextBox.setText("On");
-            }
-            else{
+            } else {
                 switchLightTextBox.setText("Off");
             }
         }
@@ -386,7 +383,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void changeSwitchPositionButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeSwitchPositionButtonActionPerformed
         // TODO add your handling code here:
-        if(switchSelectComboBox.getSelectedItem() != null && manual){
+        if (switchSelectComboBox.getSelectedItem() != null && manual) {
             handler.manualSwitch(switchSelectComboBox.getSelectedItem().toString());
             int blockNum = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getswitchedBlockBlock().getBlockNumber();
             switchPositionTextBox.setText("");
@@ -416,32 +413,23 @@ public class WaysideControlUI extends javax.swing.JFrame {
     private void lineSelectComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lineSelectComboBoxActionPerformed
         // TODO add your handling code here:
         switchSelectComboBox.removeAllItems();
-        if(lineSelectComboBox.getSelectedItem().toString().equals("Red Line")){
-            if(controllerSelectComboBox.getSelectedItem().toString().equals("Controller 1")){
-                for(String s : new TreeSet<String>(handler.controllers.get(0).switches.keySet()))
-                {
+        if (lineSelectComboBox.getSelectedItem().toString().equals("Red Line")) {
+            if (controllerSelectComboBox.getSelectedItem().toString().equals("Controller 1")) {
+                for (String s : new TreeSet<String>(handler.controllers.get(0).switches.keySet())) {
+                    switchSelectComboBox.addItem(s);
+                }
+            } else {
+                for (String s : new TreeSet<String>(handler.controllers.get(2).switches.keySet())) {
                     switchSelectComboBox.addItem(s);
                 }
             }
-            else{
-                for(String s : new TreeSet<String>(handler.controllers.get(2).switches.keySet()))
-                {
-                    switchSelectComboBox.addItem(s);
-                }
+        } else if (controllerSelectComboBox.getSelectedItem().toString().equals("Controller 1")) {
+            for (String s : new TreeSet<String>(handler.controllers.get(1).switches.keySet())) {
+                switchSelectComboBox.addItem(s);
             }
         } else {
-            
-            if(controllerSelectComboBox.getSelectedItem().toString().equals("Controller 1")){
-                for(String s : new TreeSet<String>(handler.controllers.get(1).switches.keySet()))
-                {
-                    switchSelectComboBox.addItem(s);
-                }
-            }
-            else{
-                for(String s : new TreeSet<String>(handler.controllers.get(3).switches.keySet()))
-                {
-                    switchSelectComboBox.addItem(s);
-                }
+            for (String s : new TreeSet<String>(handler.controllers.get(3).switches.keySet())) {
+                switchSelectComboBox.addItem(s);
             }
         }
     }//GEN-LAST:event_lineSelectComboBoxActionPerformed
@@ -456,28 +444,31 @@ public class WaysideControlUI extends javax.swing.JFrame {
         if (result == JFileChooser.APPROVE_OPTION) {
             File selectedFile = jFileChooser.getSelectedFile();
             System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-            try{
+            try {
                 
                 String pathToFile = selectedFile.getAbsolutePath().substring(0, selectedFile.getAbsolutePath().lastIndexOf("\\"));
                 System.out.println("Path to file: " + pathToFile);
                 String fileName = selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1);
                 System.out.println("File name: " + fileName);
                 
-                
-                JOptionPane.showMessageDialog(null, "Error: requested file is not a PLC");
-                
+                if (!fileName.equals("DefaultPLC.class") && !fileName.equals("AlternativePLC.class") && !fileName.equals("testPLC.class")) {
+                    JOptionPane.showMessageDialog(null, "Error: requested file is not a PLC");
+                } else {
+                    handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).setPLC(fileName);
+                }
+
                 /*URLClassLoader classLoader = new URLClassLoader(new URL[] {new File("").toURI().toURL()});
                 Class<?> loadClass = classLoader.loadClass(fileName);
                 PLC newPLC = (PLC) loadClass.newInstance();
                 System.out.println("Good");*/
-               /*String fileName = selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1);
+ /*String fileName = selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1);
                
                InputStream fileInputStream = this.getClass().getClassLoader().getResourceAsStream(fileName);
                byte rawBytes[] = new byte[fileInputStream.available()];
                fileInputStream.read(rawBytes);
                
                Class<?> regeneratedClass = */
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("Bad");
                 e.printStackTrace();
             }
@@ -486,15 +477,14 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
         // TODO add your handling code here:
-        if(switchSelectComboBox.getSelectedItem() != null && manual == true){
+        if (switchSelectComboBox.getSelectedItem() != null && manual == true) {
             WaysideController wc = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString());
             wc.getSwitch((switchSelectComboBox.getSelectedItem().toString())).toggleLight();
             boolean light = handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).getSwitch(switchSelectComboBox.getSelectedItem().toString()).getLight();
             
-            if(light){
+            if (light) {
                 switchLightTextBox.setText("On");
-            }
-            else{
+            } else {
                 switchLightTextBox.setText("Off");
             }
         }
@@ -502,21 +492,24 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
         // TODO add your handling code here:
+        if (switchSelectComboBox.getSelectedItem() != null && manual == true) {
+            
+        }
     }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     private void railRoadCrossingTextBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_railRoadCrossingTextBoxActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_railRoadCrossingTextBoxActionPerformed
-
     
-    public void init(WaysideControllerHandler handler){
-         /* Set the Nimbus look and feel */
+    public void init(WaysideControllerHandler handler) {
+        /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        
-        /*try {
+
+ /*try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -532,13 +525,10 @@ public class WaysideControlUI extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(WaysideControlUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }*/
-
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
-
-
         this.handler = handler;
         /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
@@ -547,8 +537,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
 //            }
 //        });
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable blockTable;

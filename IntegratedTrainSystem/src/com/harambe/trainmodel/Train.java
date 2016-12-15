@@ -106,10 +106,7 @@ public class Train {
     }
 
     public void engageServiceBrakes(boolean engaged) {
-        if(!this.trainModel.hasBrakeFailure()) {
-            System.out.println("Setting breaks to " + engaged);
-            this.serviceBrakesEngaged = engaged;
-        }
+        this.serviceBrakesEngaged = engaged;
     }
     public void engageEmergencyBrakes(boolean engaged) {
         this.emergencyBrakesEngaged = engaged;
