@@ -277,7 +277,9 @@ public class Train {
         double rate = this.trainModel != null ? this.trainModel.getRate() : 1;
         velocity = velocity + acceleration * DT * rate;
         position = position + velocity * DT * rate;
-        if(track != null)
+        if(track != null){
             track.updateDistance(id, position);
+            position = 0;
+        }
     }
 }
