@@ -63,6 +63,10 @@ public class WaysideController {
         }
     }
     
+    public boolean checkMaintenance(Block b){
+        return plc.checkMaintenance(b);
+    }
+    
     public Switch isSwitchOption(Block b){
         for(Switch s : switches.values()){
             if(s.getswitchedBlockBlock().equals(b) || s.getunSwitchedBlockBlock().equals(b)){
@@ -144,6 +148,14 @@ public class WaysideController {
             Block lastTraverse = currentBlock;
             //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
 
+            //Special case; couldn't figure out fix
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9) && currentBlock.peek().getBlockNumber() == 1){
+                currentBlock.toggleSwitch();
+            }
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 9 || destination.getBlockNumber() == 78) && currentBlock.peek().getBlockNumber() == 15){
+                currentBlock.toggleSwitch();
+            }
+            
             currentBlock = currentBlock.traverse();
 
             if (lastTraverse == currentBlock) {
@@ -166,6 +178,14 @@ public class WaysideController {
             Block lastTraverse = currentBlock;
             //System.out.println(currentBlock.getSection() + currentBlock.getBlockNumber() + " " + currentBlock.getStation());
 
+            //Special case; couldn't figure out fix
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && destination.getBlockNumber() < 16 && destination.getBlockNumber() > 9 && currentBlock.peek().getBlockNumber() == 1){
+                currentBlock.toggleSwitch();
+            }
+            if(currentBlock.getBlockNumber() == 16 && currentBlock.getLine().equals("red") && (destination.getBlockNumber() < 9 || destination.getBlockNumber() == 78) && currentBlock.peek().getBlockNumber() == 15){
+                currentBlock.toggleSwitch();
+            }
+            
             currentBlock = currentBlock.traverse();
 
             if (lastTraverse == currentBlock) {

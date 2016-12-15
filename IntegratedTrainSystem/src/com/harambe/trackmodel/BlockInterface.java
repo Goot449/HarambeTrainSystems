@@ -14,7 +14,7 @@ public interface BlockInterface {
     //Returns values corresponging to that Block
     public boolean isBlockOccupied();
     public double getBlockLength();
-    public int getBlockSpeedLimit();
+    public double getBlockSpeedLimit();
     public double getGrade();
     public int getBlockDirection();
     

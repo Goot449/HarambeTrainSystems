@@ -13,6 +13,7 @@ import java.awt.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.Timer;
 
 /**
  *
@@ -62,6 +63,15 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         lineSelection = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel2 = new javax.swing.JPanel();
+        inputTrackTextField = new javax.swing.JTextField();
+        trackInputLabel = new javax.swing.JLabel();
+        submitTrackButton = new javax.swing.JButton();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        blockOutputTable = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        clearButton = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jTextField14 = new javax.swing.JTextField();
         jLabel32 = new javax.swing.JLabel();
@@ -116,14 +126,6 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         jLabel68 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jButton3 = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
-        inputTrackTextField = new javax.swing.JTextField();
-        trackInputLabel = new javax.swing.JLabel();
-        submitTrackButton = new javax.swing.JButton();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        blockOutputTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
 
         jFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -280,6 +282,119 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Track Model UI");
+
+        inputTrackTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputTrackTextFieldActionPerformed(evt);
+            }
+        });
+
+        trackInputLabel.setText("Input Track Model:");
+
+        submitTrackButton.setText("Submit");
+        submitTrackButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitTrackButtonActionPerformed(evt);
+            }
+        });
+
+        blockOutputTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Line", "Section", "Block Number", "Block Length", "Grade", "Speed Limit", "Station", "Switch Number", "Arrow", "Direction", "Crossing", "Switch Type", "Block Occupied"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane7.setViewportView(blockOutputTable);
+        if (blockOutputTable.getColumnModel().getColumnCount() > 0) {
+            blockOutputTable.getColumnModel().getColumn(0).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(1).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(2).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(3).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(4).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(5).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(6).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(7).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(8).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(9).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(10).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(11).setResizable(false);
+            blockOutputTable.getColumnModel().getColumn(12).setResizable(false);
+        }
+
+        jButton1.setText("Break Rail");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Circuit Fail");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        clearButton.setText("Clear");
+        clearButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(25, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(trackInputLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(submitTrackButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(clearButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addGap(176, 176, 176))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(trackInputLabel)
+                        .addComponent(submitTrackButton)
+                        .addComponent(clearButton))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton1)
+                        .addComponent(jButton4)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Track Model UI", jPanel2);
 
         jTextField14.setEditable(false);
         jTextField14.setBackground(new java.awt.Color(204, 204, 204));
@@ -777,110 +892,7 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("User", jPanel1);
-
-        inputTrackTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                inputTrackTextFieldActionPerformed(evt);
-            }
-        });
-
-        trackInputLabel.setText("Input Track Model:");
-
-        submitTrackButton.setText("Submit");
-        submitTrackButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitTrackButtonActionPerformed(evt);
-            }
-        });
-
-        blockOutputTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Line", "Section", "Block Number", "Block Length", "Grade", "Speed Limit", "Station", "Switch Number", "Arrow", "Direction", "Crossing", "Switch Type", "Block Occupied"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Double.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
-        jScrollPane7.setViewportView(blockOutputTable);
-        if (blockOutputTable.getColumnModel().getColumnCount() > 0) {
-            blockOutputTable.getColumnModel().getColumn(0).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(1).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(2).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(3).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(4).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(5).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(6).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(7).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(8).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(9).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(10).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(11).setResizable(false);
-            blockOutputTable.getColumnModel().getColumn(12).setResizable(false);
-        }
-
-        jButton1.setText("Break Rail");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Circuit Fail");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 1341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(25, Short.MAX_VALUE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(trackInputLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(submitTrackButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4)
-                        .addGap(176, 176, 176))))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(inputTrackTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(trackInputLabel)
-                        .addComponent(submitTrackButton))
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jButton4)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.addTab("Test", jPanel2);
+        jTabbedPane1.addTab("(Testing)", jPanel1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -906,110 +918,165 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
-    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
+    private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jRadioButton5ActionPerformed
+    }//GEN-LAST:event_jComboBox7ActionPerformed
 
     private void jRadioButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jRadioButton6ActionPerformed
 
-    private void jComboBox7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox7ActionPerformed
+    private void jRadioButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton5ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox7ActionPerformed
+    }//GEN-LAST:event_jRadioButton5ActionPerformed
 
-    private void inputTrackTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTrackTextFieldActionPerformed
-        // TODO add your handling code here:
-        
-        //Textfield for filename to parse and store
-        
-    }//GEN-LAST:event_inputTrackTextFieldActionPerformed
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Block brokenCircuitBlockGreen = trackTester.getBlock(50, "green");
+        Block brokenCircuitBlockRed = trackTester.getBlock(50, "red");
+        System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
+        brokenCircuitBlockGreen.breakCircuit();
+        System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
+        System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
+        brokenCircuitBlockRed.breakCircuit();
+        System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        Block brokenRailBlockRed = trackTester.getBlock(51, "red");
+        Block brokenRailBlockGreen = trackTester.getBlock(51, "green");
+        System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
+        brokenRailBlockRed.toggleBroken();
+        System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
+        System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
+        brokenRailBlockGreen.toggleBroken();
+        System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void submitTrackButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitTrackButtonActionPerformed
 
         //Track file to be parsed and displayed
         String csvIn = inputTrackTextField.getText();
 
-            if("RedLine.csv".equals(csvIn)){
-                DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
-                
-                if (model.getRowCount() > 0) {
-                    for (int j = model.getRowCount() - 1; j > -1; j--) {
-                        model.removeRow(j);
-                    }
+        if("RedLine.csv".equals(csvIn)){
+            DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
+
+            if (model.getRowCount() > 0) {
+                for (int j = model.getRowCount() - 1; j > -1; j--) {
+                    model.removeRow(j);
                 }
-                
-                int i=1;
-                do{
-                    model.addRow(new Object[]{
-                                 "red", //String
-                                 trackTester.getBlock(i, "red").getSection(), //String
-                                 trackTester.getBlock(i, "red").getBlockNumber(), //int
-                                 trackTester.getBlock(i, "red").getBlockLength(), //Double
-                                 trackTester.getBlock(i, "red").getGrade(), //Double
-                                 trackTester.getBlock(i, "red").getBlockSpeedLimit(), //int
-                                 trackTester.getBlock(i, "red").getStation(), //String
-                                 trackTester.getBlock(i, "red").getSwitchNumber(), //String
-                                 trackTester.getBlock(i, "red").getArrow(), //String
-                                 trackTester.getBlock(i, "red").getDirection(), //int
-                                 trackTester.getBlock(i, "red").getCrossing(), //String
-                                 trackTester.getBlock(i, "red").getSwitchType(), //String
-                                 trackTester.getBlock(i, "red").isBlockOccupied()}); //Boolean  
-                    i++;
-                } while (trackTester.getBlock(i, "red") != null);
             }
-            else if("GreenLine.csv".equals(csvIn)){
-                DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
-                
-                if (model.getRowCount() > 0) {
-                    for (int j = model.getRowCount() - 1; j > -1; j--) {
-                        model.removeRow(j);
-                    }
+
+            int i=1;
+            do{
+                model.addRow(new Object[]{
+                    "red", //String
+                    trackTester.getBlock(i, "red").getSection(), //String
+                    trackTester.getBlock(i, "red").getBlockNumber(), //int
+                    trackTester.getBlock(i, "red").getBlockLength(), //Double
+                    trackTester.getBlock(i, "red").getGrade(), //Double
+                    trackTester.getBlock(i, "red").getBlockSpeedLimit(), //int
+                    trackTester.getBlock(i, "red").getStation(), //String
+                    trackTester.getBlock(i, "red").getSwitchNumber(), //String
+                    trackTester.getBlock(i, "red").getArrow(), //String
+                    trackTester.getBlock(i, "red").getDirection(), //int
+                    trackTester.getBlock(i, "red").getCrossing(), //String
+                    trackTester.getBlock(i, "red").getSwitchType(), //String
+                    trackTester.getBlock(i, "red").isBlockOccupied()}); //Boolean
+            i++;
+        } while (trackTester.getBlock(i, "red") != null);
+        }
+        else if("GreenLine.csv".equals(csvIn)){
+            DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
+
+            if (model.getRowCount() > 0) {
+                for (int j = model.getRowCount() - 1; j > -1; j--) {
+                    model.removeRow(j);
                 }
-                
-                int i=1;
-                do{
-                    model.addRow(new Object[]{
-                                 "green", //String
-                                 trackTester.getBlock(i, "green").getSection(), //String
-                                 trackTester.getBlock(i, "green").getBlockNumber(), //int
-                                 trackTester.getBlock(i, "green").getBlockLength(), //Double
-                                 trackTester.getBlock(i, "green").getGrade(), //Double
-                                 trackTester.getBlock(i, "green").getBlockSpeedLimit(), //int
-                                 trackTester.getBlock(i, "green").getStation(), //String
-                                 trackTester.getBlock(i, "green").getSwitchNumber(), //String
-                                 trackTester.getBlock(i, "green").getArrow(), //String
-                                 trackTester.getBlock(i, "green").getDirection(), //int
-                                 trackTester.getBlock(i, "green").getCrossing(), //String
-                                 trackTester.getBlock(i, "green").getSwitchType(), //String
-                                 trackTester.getBlock(i, "green").isBlockOccupied()}); //Boolean     
-                    i++;
-                } while (trackTester.getBlock(i, "green") != null);
             }
-      
+
+            int i=1;
+            do{
+                model.addRow(new Object[]{
+                    "green", //String
+                    trackTester.getBlock(i, "green").getSection(), //String
+                    trackTester.getBlock(i, "green").getBlockNumber(), //int
+                    trackTester.getBlock(i, "green").getBlockLength(), //Double
+                    trackTester.getBlock(i, "green").getGrade(), //Double
+                    trackTester.getBlock(i, "green").getBlockSpeedLimit(), //int
+                    trackTester.getBlock(i, "green").getStation(), //String
+                    trackTester.getBlock(i, "green").getSwitchNumber(), //String
+                    trackTester.getBlock(i, "green").getArrow(), //String
+                    trackTester.getBlock(i, "green").getDirection(), //int
+                    trackTester.getBlock(i, "green").getCrossing(), //String
+                    trackTester.getBlock(i, "green").getSwitchType(), //String
+                    trackTester.getBlock(i, "green").isBlockOccupied()}); //Boolean
+            i++;
+        } while (trackTester.getBlock(i, "green") != null);
+        }
+        
+        inputTrackTextField.setEditable(false);
+        submitTrackButton.setEnabled(false);
+        
+        double DT = .1;
+        Timer timer = new Timer((int) (1000 * DT), e -> {
+            refreshOccupiedBlocks();
+        });
+        
+        timer.setRepeats(true);
+        timer.start();
     }//GEN-LAST:event_submitTrackButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                Block brokenRailBlockRed = trackTester.getBlock(51, "red");
-                Block brokenRailBlockGreen = trackTester.getBlock(51, "green");
-                System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
-		brokenRailBlockRed.toggleBroken();
-                System.out.println(brokenRailBlockRed.getSection() + brokenRailBlockRed.getBlockNumber() + " broken: " +brokenRailBlockRed.isBroken());
-                System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
-                brokenRailBlockGreen.toggleBroken();
-                System.out.println(brokenRailBlockGreen.getSection() + brokenRailBlockGreen.getBlockNumber() + " broken: " +brokenRailBlockGreen.isBroken());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    void refreshOccupiedBlocks() {
+        
+        DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
+        
+        int i=1;
+        int j=1;
+        
+            do{
+                 
+               if (trackTester.getBlock(i, "red").isBlockOccupied()){
+                   model.setValueAt(true, i-1, 13);
+               }
+               else{
+                   model.setValueAt(false, i-1, 13);
+  
+               }
+               i++;
+            } while (trackTester.getBlock(i,"red") != null);
+            
+            do{
+                 
+               if (trackTester.getBlock(j, "green").isBlockOccupied()){
+                   model.setValueAt(true, j, 13);
+               }
+               else{
+                   model.setValueAt(false, j, 13);
+  
+               }
+               j++;
+            } while (trackTester.getBlock(j,"green") != null);
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-                Block brokenCircuitBlockGreen = trackTester.getBlock(50, "green");
-                Block brokenCircuitBlockRed = trackTester.getBlock(50, "red");
-                System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
-		brokenCircuitBlockGreen.breakCircuit();
-                System.out.println(brokenCircuitBlockGreen.getSection() + brokenCircuitBlockGreen.getBlockNumber() + " is occupied: " +brokenCircuitBlockGreen.isBlockOccupied());
-                System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
-		brokenCircuitBlockRed.breakCircuit();
-                System.out.println(brokenCircuitBlockRed.getSection() + brokenCircuitBlockRed.getBlockNumber() + " is occupied: " +brokenCircuitBlockRed.isBlockOccupied());
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }
+    
+    private void inputTrackTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputTrackTextFieldActionPerformed
+        // TODO add your handling code here:
+
+        //Textfield for filename to parse and store
+    }//GEN-LAST:event_inputTrackTextFieldActionPerformed
+
+    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)blockOutputTable.getModel();
+
+            if (model.getRowCount() > 0) {
+                for (int j = model.getRowCount() - 1; j > -1; j--) {
+                    model.removeRow(j);
+                }
+            }
+        inputTrackTextField.setEditable(true);
+        submitTrackButton.setEnabled(true);
+    }//GEN-LAST:event_clearButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1051,6 +1118,7 @@ public class TrackModelPrototypeUI extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.JButton clearButton;
     private javax.swing.JTextField inputTrackTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
