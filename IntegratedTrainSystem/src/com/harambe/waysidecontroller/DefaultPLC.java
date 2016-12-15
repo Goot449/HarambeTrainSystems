@@ -39,12 +39,13 @@ public class DefaultPLC implements PLC {
     }
 
     //Check whether the switch operation is safe
+        //Train incoming and unswitched switch == unoccupied
     public boolean checkSwitch(Block unswitched, Block switched, Block switchBlock) {
         //Train incoming and unswitched switch == unoccupied
         boolean status = true;
 
         for (int i = 0; i < 3; i++) {
-            if(switchBlock.isBlockOccupied() && switchBlock.getSwitch().getunSwitchedBlockBlock().checkAuthority() != -1){
+            if(switchBlock.isBlockOccupied() && switchBlock.getSwitch().getunSwitchedBlockBlock().checkAuthority() != -1 && switchBlock.peek().equals(switchBlock.getSwitch().getswitchedBlockBlock())){
                 System.out.println("Idk why this didn't work");
             }
             else if (switchBlock.isBlockOccupied() && !switchBlock.getSwitch().getunSwitchedBlockBlock().isBlockOccupied() && switchBlock.getSwitch().getswitchedBlockBlock().isBlockOccupied()) {

@@ -405,8 +405,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (loggedIn == true) {
             manual = true;
-        }
-        else {
+        } else {
             jRadioButton2ActionPerformed(evt);
             jRadioButton2.setSelected(true);
         }
@@ -468,28 +467,29 @@ public class WaysideControlUI extends javax.swing.JFrame {
 
     private void loadPLCButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadPLCButtonActionPerformed
         // TODO add your handling code here:
-        JFileChooser jFileChooser = new JFileChooser();
-        jFileChooser.setCurrentDirectory(new File(""));
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("PLC", "class");
-        jFileChooser.setFileFilter(filter);
-        int result = jFileChooser.showOpenDialog(new JFrame());
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File selectedFile = jFileChooser.getSelectedFile();
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-            try {
+        if (loggedIn) {
+            JFileChooser jFileChooser = new JFileChooser();
+            jFileChooser.setCurrentDirectory(new File(""));
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("PLC", "class");
+            jFileChooser.setFileFilter(filter);
+            int result = jFileChooser.showOpenDialog(new JFrame());
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = jFileChooser.getSelectedFile();
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                try {
 
-                String pathToFile = selectedFile.getAbsolutePath().substring(0, selectedFile.getAbsolutePath().lastIndexOf("\\"));
-                System.out.println("Path to file: " + pathToFile);
-                String fileName = selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1);
-                System.out.println("File name: " + fileName);
+                    String pathToFile = selectedFile.getAbsolutePath().substring(0, selectedFile.getAbsolutePath().lastIndexOf("\\"));
+                    System.out.println("Path to file: " + pathToFile);
+                    String fileName = selectedFile.getAbsolutePath().substring(selectedFile.getAbsolutePath().lastIndexOf("\\") + 1);
+                    System.out.println("File name: " + fileName);
 
-                if (!fileName.equals("DefaultPLC.class") && !fileName.equals("AlternativePLC.class") && !fileName.equals("testPLC.class")) {
-                    JOptionPane.showMessageDialog(null, "Error: requested file is not a PLC");
-                } else {
-                    handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).setPLC(fileName);
-                }
+                    if (!fileName.equals("DefaultPLC.class") && !fileName.equals("AlternativePLC.class") && !fileName.equals("testPLC.class")) {
+                        JOptionPane.showMessageDialog(null, "Error: requested file is not a PLC");
+                    } else {
+                        handler.findSwitch(switchSelectComboBox.getSelectedItem().toString()).setPLC(fileName);
+                    }
 
-                /*URLClassLoader classLoader = new URLClassLoader(new URL[] {new File("").toURI().toURL()});
+                    /*URLClassLoader classLoader = new URLClassLoader(new URL[] {new File("").toURI().toURL()});
                 Class<?> loadClass = classLoader.loadClass(fileName);
                 PLC newPLC = (PLC) loadClass.newInstance();
                 System.out.println("Good");*/
@@ -500,9 +500,10 @@ public class WaysideControlUI extends javax.swing.JFrame {
                fileInputStream.read(rawBytes);
                
                Class<?> regeneratedClass = */
-            } catch (Exception e) {
-                System.out.println("Bad");
-                e.printStackTrace();
+                } catch (Exception e) {
+                    System.out.println("Bad");
+                    e.printStackTrace();
+                }
             }
         }
     }//GEN-LAST:event_loadPLCButtonActionPerformed
@@ -537,7 +538,7 @@ public class WaysideControlUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         loggedIn = handler.login(jTextField1.getText(), jTextField2.getText());
-        if(!loggedIn){
+        if (!loggedIn) {
             JOptionPane.showMessageDialog(null, "Error: wrong login credentials");
         }
     }//GEN-LAST:event_jButton1ActionPerformed

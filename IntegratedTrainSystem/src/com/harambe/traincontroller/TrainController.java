@@ -47,13 +47,18 @@ public class TrainController {
                 double power = calcOut[0];
                 double velocityError = calcOut[1];
                 double integration = calcOut[2];
-                if (power < 0 || authority == 0.0) {
+                if(authority == 0.0){
                     trainList.get(i).engageServiceBrakes(true);
                     trainList.get(i).engageEmergencyBrakes(true);
                     trainStateList.get(i).setGuiSetServiceBrake(false);
                     power = 0;
+                }
+                if (power < 0) {
+                    trainList.get(i).engageServiceBrakes(true);
+                    trainStateList.get(i).setGuiSetServiceBrake(false);
+                    power = 0;
                 } else if (serviceBrakesEnabled == 1.0 & (power > 0) & guiSetServiceBrake == 0.0) {
-                    trainList.get(i).engageEmergencyBrakes(true);
+                    trainList.get(i).engageEmergencyBrakes(false);
                     trainList.get(i).engageServiceBrakes(false);
                 }
                 if (guiSetServiceBrake == 1.0) {
@@ -92,6 +97,8 @@ public class TrainController {
         boolean currBlockIsEndBlock = false;
         try {
             int auth = train.getAuthority();
+            
+            //System.out.println(auth);
             
             if(auth == 0){
                 currBlockIsEndBlock = true;//false; 

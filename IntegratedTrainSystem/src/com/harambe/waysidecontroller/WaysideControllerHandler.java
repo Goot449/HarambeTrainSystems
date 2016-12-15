@@ -169,7 +169,7 @@ public class WaysideControllerHandler implements Runnable {
                         oldRedBlocks.put(b.getBlockNumber(), new Block(b));
 
                         //If status of switch changes, we must see if changing switch is necessary
-                        if (b.isSwitch()) {
+                        if (b.isSwitch() && b.isBlockOccupied()) {
                             temp.changeSwitch(b.getSwitch());
                         } else if (temp.isSwitchOption(b) != null) {
                             temp.changeSwitch(temp.isSwitchOption(b));
