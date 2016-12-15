@@ -151,6 +151,9 @@ public class WaysideControllerHandler implements Runnable {
                         if (!b.isBlockOccupied()) {
                             b.toggleOccupied();
                         }
+                        if(b.getTrainIDAuth() != -1){
+                            myTrack.getBlock(b.getTrainIDAuth()).setAuthority(0);
+                        }
                     }
 
                     //If a red block has changed, update within the wayside appropriate
@@ -158,6 +161,7 @@ public class WaysideControllerHandler implements Runnable {
                         //Must clear the authority from this block
                         if(!b.isBlockOccupied()){
                             b.setAuthority(-1);
+                            b.setTrainIDAuth(-1);
                         }
                         
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Red");
@@ -179,15 +183,20 @@ public class WaysideControllerHandler implements Runnable {
 
                 for (Block b : greenTempBlocks) {
                     
+                    
                     if (b.isBroken()) {
                         if (!b.isBlockOccupied()) {
                             b.toggleOccupied();
+                        }
+                        if(b.getTrainIDAuth() != -1){
+                            myTrack.getBlock(b.getTrainIDAuth()).setAuthority(0);
                         }
                     }
                     
                     if (b.isBlockOccupied() != (oldGreenBlocks.get(b.getBlockNumber())).isBlockOccupied()) {
                         if(!b.isBlockOccupied()){
                             b.setAuthority(-1);
+                            b.setTrainIDAuth(-1);
                         }
                         
                         WaysideController temp = findCorrectWayside(b.getBlockNumber(), "Green");

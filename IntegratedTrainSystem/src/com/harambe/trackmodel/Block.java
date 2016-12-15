@@ -350,6 +350,7 @@ public class Block implements BlockInterface {
     public void openBlock() {
         closedBlock = false;
         blockOccupied = false;
+        brokenBlock = false;
     }
 
     public void setBeaconOn() {

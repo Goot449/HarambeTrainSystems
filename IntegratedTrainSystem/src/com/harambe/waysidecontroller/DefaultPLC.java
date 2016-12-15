@@ -71,6 +71,9 @@ public class DefaultPLC implements PLC {
             if(maintenance.checkAuthority() != -1){
                 return false;
             }
+            else if(maintenance.isBlockOccupied() && !maintenance.isClosed()){
+                return false;
+            }
         }
         return true;
     }

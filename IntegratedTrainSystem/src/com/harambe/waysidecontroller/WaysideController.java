@@ -83,7 +83,6 @@ public class WaysideController {
     }
     
     public boolean checkAuthority(int srcNum, int destNum, Track myTrack, int trainID){
-        System.out.println(srcNum + " " + destNum);
         return plc.checkAuthority(myTrack.getBlock(srcNum, line), myTrack.getBlock(destNum, line), trainID);
     }
     
@@ -127,6 +126,7 @@ public class WaysideController {
             Crossing temp = crossing.getCrossing();
             //System.out.println(temp.toString());
             if(!temp.getCrossingState(crossing.getLine())){
+                System.out.println("Crossing was closed");
                 temp.toggleCrossing();
             }
         }
@@ -134,6 +134,7 @@ public class WaysideController {
         else{
             if(crossing.getCrossing().getCrossingState(crossing.getLine())){
                 Crossing temp = crossing.getCrossing();
+                System.out.println("Crossing was opened");
                 temp.toggleCrossing();
             }
         }
